@@ -17,7 +17,7 @@ const app = express();
 
 app.use(cors(
     {
-        origin:["http://localhost:5173","http://127.0.0.1:5173"],
+        origin:["http://localhost:5173","https://code-gyaan2.vercel.app"],
         methods:["POST","GET","PUT","DELETE"],
         credentials:true
     }
