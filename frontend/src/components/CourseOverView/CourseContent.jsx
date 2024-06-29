@@ -95,7 +95,7 @@ export default function AccordionBasicExample({content,author}) {
       </div>
       <h1 className="text-4xl font-bold text-white">Author</h1>
       <div className="flex justify-start items-center gap-2">
-        <img src={author?.image} alt="img" className="h-[60px] rounded-full" />
+        <img src={author?.image} alt="img" className="h-[60px] w-[60px] rounded-full" />
         <div className="text-white font-semibold text-3xl">{author?.firstName + " " + author?.lastName}</div>
       </div>
     </div>

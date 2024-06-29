@@ -201,7 +201,14 @@ export const courseDetails = async (req,res) => {
         const courseDetails = await course.findById(id)
         .populate("instructor")
         // .populate("category")
-        .populate("ratingAndReviews")
+        .populate({
+          path: "ratingAndReviews",
+          populate: {
+            path: "user", // Ensure this matches the user model name
+            model: "User",
+            select: "firstName lastName image",
+          },
+        })
         .populate({
           path: "courseContent",
           populate: {
