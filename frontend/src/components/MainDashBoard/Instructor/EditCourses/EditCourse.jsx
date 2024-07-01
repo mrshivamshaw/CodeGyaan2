@@ -19,7 +19,7 @@ import RenderSteps from "../AddCourse/RenderSteps.jsx"
     ;(async () => {
       setLoading(true)
       const result = await getFullDetailsOfCourse(id, token)
-      console.log("course",result);
+      // console.log("course",result);
       if (result) {
         dispatch(setEditCourse(true))
         dispatch(setCourse(result))

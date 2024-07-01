@@ -179,7 +179,7 @@ export const getAllCourses = async (req,res) => {
   console.log(req.body);
     try {
         const allCourses = await course.find({}).populate("instructor")
-        console.log(allCourses);
+        // console.log(allCourses);
         return res.status(200).json({
             success : true,
             message : "All courses fetched successfully",

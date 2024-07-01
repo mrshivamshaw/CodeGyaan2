@@ -64,7 +64,7 @@ export default function CourseBuilderForm() {
     if (result) {
       // console.log("section result", result)
       dispatch(setCourse(result));
-      //console.log("here it is->",result);
+      console.log("here it is->",course);
       setEditSectionName(null);
       setValue("sectionName", "");
     }
@@ -154,7 +154,7 @@ export default function CourseBuilderForm() {
           )}
         </div>
       </form>
-      {course.courseContent.length > 0 && (
+      {course?.courseContent?.length > 0 && (
         <NestedView handleChangeEditSectionName={handleChangeEditSectionName} />
       )}
       {/* Next Prev Button */}

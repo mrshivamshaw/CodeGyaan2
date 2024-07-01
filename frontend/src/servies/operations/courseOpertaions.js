@@ -34,7 +34,7 @@ export const fetchInstructorCourses = async (token) => {
   let result = null;
   try {
     const id = localStorage.getItem("id");
-    console.log(id);
+    // console.log(id);
     const response = await apiConneector(
       "post",
       courseEndpoints.getInstructorCourses,
@@ -188,7 +188,7 @@ export const editCourseDetails = async (data, token) => {
 export const createSection = async (data, token) => {
   let result = null;
   const toastId = toast.loading("Loading...");
-  console.log(data);
+  // console.log(data);
   try {
     const response = await apiConneector(
       "POST",
@@ -251,7 +251,7 @@ export const updateSection = async (data, token) => {
     const response = await apiConneector(
       "POST",
       courseEndpoints.updateSection,
-      ...data,
+      data,
       {
         Authorization: `Bearer ${token}`,
       }
@@ -262,6 +262,7 @@ export const updateSection = async (data, token) => {
     }
     toast.success("Course Section Updated");
     result = response?.data?.data;
+    console.log("bhai", result);
   } catch (error) {
     if(error?.response?.data?.message === "Token is invalid"){
       useNavigateHelper("/login");
@@ -275,6 +276,7 @@ export const updateSection = async (data, token) => {
 // update a subsection
 export const updateSubSection = async (data, token) => {
   let result = null;
+  // console.log(data);
   const toastId = toast.loading("Loading...");
   try {
     const response = await apiConneector(
@@ -285,8 +287,9 @@ export const updateSubSection = async (data, token) => {
         authorization: `Bearer ${token}`,
       }
     );
-    console.log("UPDATE SUB-SECTION API RESPONSE............", response);
+    // console.log("UPDATE SUB-SECTION API RESPONSE............", response);
     if (!response?.data?.success) {
+      console.log(response?.data);
       throw new Error("Could Not Update Lecture");
     }
     toast.success("Lecture Updated");
@@ -295,6 +298,10 @@ export const updateSubSection = async (data, token) => {
     if(error?.response?.data?.message === "Token is invalid"){
       useNavigateHelper("/login");
       // store.dispatch(logout());
+    }
+    else{
+      toast.error("Could Not Update Lecture");
+      console.log(error?.response?.data?.message);
     }
   }
   toast.dismiss(toastId);
@@ -372,6 +379,7 @@ export const deleteSubSection = async (data, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
+    console.log(data);
     console.log("DELETE SUB-SECTION API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Delete Lecture");

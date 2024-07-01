@@ -57,7 +57,7 @@ export const createSection = async (req, res) => {
 //updatesction
 export const updateSection = async (req, res) => {
   try {
-    const { sectionName, sectionId } = req.body;
+    const { sectionName, sectionId, courseId } = req.body;
 
     //validate the inputs
     if (!sectionName || !sectionId) {
@@ -74,9 +74,17 @@ export const updateSection = async (req, res) => {
       { new: true }
     );
 
+    //get the updated course
+    const updatedCourse = await course.findById(courseId)
+    .populate({
+        path: "courseContent",
+        populate: {
+            path: "subSection",
+        },
+    })
     return res.status(200).json({
       success: true,
-      data: updateSection,
+      data: updatedCourse,
       message: "Section updated successfully",
     });
   } catch (error) {
@@ -91,18 +99,24 @@ export const updateSection = async (req, res) => {
 //deleteSection
 export const deleteSection = async (req, res) => {
   try {
-    const { sectionId } = req.body;
+    const { sectionId,courseId } = req.body;
     const allSubsection = await section.findById(sectionId);
     for (let i = 0; i < allSubsection.subSection.length; i++) {
       const subsectionId = allSubsection.subSection[i];
       await SubSection.findByIdAndDelete(subsectionId);
     }
     const deleteSection = await section.findByIdAndDelete(sectionId);
-    deleteSection && console.log("deleted",deleteSection);
+    // deleteSection && console.log("deleted",deleteSection);
+    const updateCourse = await course.findById(courseId).populate({
+      path: "courseContent",
+      populate: {
+        path: "subSection",
+      },
+    })
     return res.status(200).json({
       success: true,
       message: "section deleted successfully",
-      data: deleteSection,
+      data: updateCourse,
     });
   } catch (error) {
     console.log(error.message);
