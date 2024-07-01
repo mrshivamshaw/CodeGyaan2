@@ -350,7 +350,7 @@ export const deleteSection = async (data, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("DELETE SECTION API RESPONSE............", response);
+    // console.log("DELETE SECTION API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Delete Section");
     }
@@ -361,7 +361,7 @@ export const deleteSection = async (data, token) => {
       useNavigateHelper("/login");
       // store.dispatch(logout());
     }
-    toast.error(error.message);
+    toast.error(error?.response?.data?.message);
   }
   toast.dismiss(toastId);
   return result;
@@ -372,26 +372,27 @@ export const deleteSubSection = async (data, token) => {
   const toastId = toast.loading("Loading...");
   try {
     const response = await apiConneector(
-      "POST",
+      "delete",
       courseEndpoints.deleteSubSection,
-      data,
+      {...data,id:localStorage.getItem("id")},
       {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log(data);
-    console.log("DELETE SUB-SECTION API RESPONSE............", response);
+    // console.log(data);
+    // console.log("DELETE SUB-SECTION API RESPONSE............", response);
     if (!response?.data?.success) {
+      console.log(response?.data?.message);
       throw new Error("Could Not Delete Lecture");
     }
     toast.success("Lecture Deleted");
     result = response?.data?.data;
   } catch (error) {
-    if(error?.response?.data?.message === "Token is invalid"){
-      useNavigateHelper("/login");
-      // store.dispatch(logout());
-    }
-    toast.error(error.message);
+    // if(error?.response?.data?.message === "Token is invalid"){
+    //   useNavigateHelper("/login");
+    //   // store.dispatch(logout());
+    // }
+    toast.error(error?.response?.data?.message);
   }
   toast.dismiss(toastId);
   return result;

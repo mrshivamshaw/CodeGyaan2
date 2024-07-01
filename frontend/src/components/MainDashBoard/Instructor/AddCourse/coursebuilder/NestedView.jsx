@@ -1,55 +1,56 @@
-import { useEffect, useState } from "react"
-import { AiFillCaretDown } from "react-icons/ai"
-import { FaPlus } from "react-icons/fa"
-import { MdEdit } from "react-icons/md"
-import { RiDeleteBin6Line } from "react-icons/ri"
-import { RxDropdownMenu } from "react-icons/rx"
-import { useDispatch, useSelector } from "react-redux"
+import { useEffect, useState } from "react";
+import { AiFillCaretDown } from "react-icons/ai";
+import { FaPlus } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { RxDropdownMenu } from "react-icons/rx";
+import { useDispatch, useSelector } from "react-redux";
 import { MdSlowMotionVideo } from "react-icons/md";
 
 import {
   deleteSection,
   deleteSubSection,
-} from "../../../../../servies/operations/courseOpertaions.js"
-import { setCourse } from "../../../../../slices/courseSlice.js"
-import ConfirmationModal from "../../../../common/ConfirmationModal"
-import SubSectionModal from "./SubSectionModal"
+} from "../../../../../servies/operations/courseOpertaions.js";
+import { setCourse } from "../../../../../slices/courseSlice.js";
+import ConfirmationModal from "../../../../common/ConfirmationModal";
+import SubSectionModal from "./SubSectionModal";
 
 export default function NestedView({ handleChangeEditSectionName }) {
-  const { course } = useSelector((state) => state.course)
-  const { token } = useSelector((state) => state.auth)
+  const { course } = useSelector((state) => state.course);
+  const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   // States to keep track of mode of modal [add, view, edit]
-  const [addSubSection, setAddSubsection] = useState(null)
-  const [viewSubSection, setViewSubSection] = useState(null)
-  const [editSubSection, setEditSubSection] = useState(null)
+  const [addSubSection, setAddSubsection] = useState(null);
+  const [viewSubSection, setViewSubSection] = useState(null);
+  const [editSubSection, setEditSubSection] = useState(null);
   // to keep track of confirmation modal
-  const [confirmationModal, setConfirmationModal] = useState(null)
+  const [confirmationModal, setConfirmationModal] = useState(null);
 
   const handleDeleleSection = async (sectionId) => {
     const result = await deleteSection({
       sectionId,
       courseId: course._id,
       token,
-    })
+    });
     if (result) {
-      dispatch(setCourse(result))
+      dispatch(setCourse(result));
     }
-    setConfirmationModal(null)
-  }
+    setConfirmationModal(null);
+  };
 
   const handleDeleteSubSection = async (subSectionId, sectionId) => {
-    const result = await deleteSubSection({ subSectionId, sectionId, token })
+    
+    const result = await deleteSubSection({ subSectionId, sectionId, token });
     if (result) {
       // update the structure of course
       const updatedCourseContent = course.courseContent.map((section) =>
         section._id === sectionId ? result : section
-      )
-      const updatedCourse = { ...course, courseContent: updatedCourseContent }
-      dispatch(setCourse(updatedCourse))
+      );
+      const updatedCourse = { ...course, courseContent: updatedCourseContent };
+      dispatch(setCourse(updatedCourse));
     }
-    setConfirmationModal(null)
-  }
+    setConfirmationModal(null);
+  };
 
   return (
     <>
@@ -107,9 +108,7 @@ export default function NestedView({ handleChangeEditSectionName }) {
                 >
                   <div className="flex items-center gap-x-3 py-2 ">
                     <MdSlowMotionVideo className="text-2xl text-white" />
-                    <p className="font-semibold text-white/80">
-                      {data.title}
-                    </p>
+                    <p className="font-semibold text-white/80">{data.title}</p>
                   </div>
                   <div
                     onClick={(e) => e.stopPropagation()}
@@ -181,5 +180,5 @@ export default function NestedView({ handleChangeEditSectionName }) {
         <></>
       )}
     </>
-  )
+  );
 }
