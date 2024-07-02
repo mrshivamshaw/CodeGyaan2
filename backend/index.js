@@ -8,6 +8,7 @@ import { cloudinaryset } from './config/cloudinary.js';
 import fileUpload from 'express-fileupload';
 import cors from 'cors';
 import studentRoute from './routes/student.js';
+import paymentRoute from './routes/payment.js';
 
 configDotenv();
 cloudinaryset();
@@ -34,6 +35,7 @@ app.use('/auth', authRoute);
 app.use('/user', userRoute);
 app.use('/instructor', instructorRoute);
 app.use('/student', studentRoute);
+app.use('/payment',paymentRoute);
 
 app.use('/', (req, res) => {
     res.send("server is running");
