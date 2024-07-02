@@ -53,3 +53,9 @@ export const categoryEndpoints = {
     showAllCategories : `${BASE_URL}/instructor/showAllCategories`,
     getCategoryPageDetails : `${BASE_URL}/instructor/getCategoryPageDetails`
 }
+
+export const paymentEndpoints = {
+    order : `${BASE_URL}/payment/order`,
+    verifypayment : `${BASE_URL}/payment/verifypayment`,
+    sendVerificationMail : `${BASE_URL}/payment/sendverificationmail`,
+}
