@@ -87,7 +87,7 @@ const CategoryCourse = () => {
             Related <span className="text-glod-color">Courses</span>.
           </div>
           <div className="w-full h-auto pb-10 pt-5 flex flex-wrap gap-10">
-            {relatedCourses.map((course, index) => (
+            {relatedCourses?.map((course, index) => (
               <CourseCard
                 key={index}
                 img={course.thumbnail}
@@ -106,7 +106,7 @@ const CategoryCourse = () => {
             Frequently <span className="text-glod-color">Viewed</span>.
           </div>
           <div className="w-full h-auto pb-10 pt-5 flex flex-wrap gap-10">
-            {frequentlyViewed.map((course, index) => (
+            {frequentlyViewed?.map((course, index) => (
               <CourseCard
                 key={index}
                 img={course.thumbnail}
