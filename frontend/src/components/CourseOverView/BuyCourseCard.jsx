@@ -57,9 +57,9 @@ const BuyCourseCard = ({thumbnail, price,id,sectionId,subSectionId}) => {
         <div className='flex flex-col justify-between items-center p-2 gap-5'>
             <h1 className='text-4xl font-semibold w-full text-start text-white'>Rs. {price}</h1>
             <button onClick={buyCourseHandler} className='bg-glod-color -mt-2 px-4 py-2 rounded w-full text-center font-semibold text-white/90 text-lg'>{
-              JSON.parse(localStorage.getItem("user")).enrolledCourses.includes(id) ? <span className='flex justify-center items-center'>View <FiArrowUpRight className='text-2xl font-bold'/></span> : "Buy Now"
+              JSON.parse(localStorage.getItem("user"))?.enrolledCourses.includes(id) ? <span className='flex justify-center items-center'>View <FiArrowUpRight className='text-2xl font-bold'/></span> : "Buy Now"
             }</button>
-            {!JSON.parse(localStorage.getItem("user")).enrolledCourses.includes(id) && <button onClick={addToCartHandler} className='bg-glod-color px-4 py-2 rounded w-full text-center font-semibold text-white/90 text-lg'>{
+            {!JSON.parse(localStorage.getItem("user"))?.enrolledCourses.includes(id) && <button onClick={addToCartHandler} className='bg-glod-color px-4 py-2 rounded w-full text-center font-semibold text-white/90 text-lg'>{
               cart.map((course) => course._id).includes(id) ? "View Cart" : "Add to Cart"
             }</button>}
             <p className='text-white/90 font-semibold'>30-Day Money-Back Guarantee</p>
