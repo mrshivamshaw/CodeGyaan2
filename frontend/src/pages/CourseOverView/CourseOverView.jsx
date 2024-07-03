@@ -21,7 +21,9 @@ const CourseOverView = () => {
       try {
         const resultData = await getFullDetailsOfCourse(id);
         setResult(resultData);
-        console.log(resultData);
+        // console.log(resultData);
+        // console.log("klk",resultData.courseContent[0].subSection[0]._id);
+        // console.log("ee",resultData.courseContent[0]._id);
       } catch (error) {
         console.error("Error fetching course details:", error);
         // Handle error, e.g., display error message or redirect
@@ -41,7 +43,7 @@ const CourseOverView = () => {
             <CourseContent content={result?.courseContent} author={result?.instructor}/>
             <ReviewSection reviews={result?.ratingAndReviews}/>
           </div>
-          <BuyCourseCard thumbnail={result?.thumbnail} id={result?._id} price={result?.price}/>
+          <BuyCourseCard thumbnail={result?.thumbnail} id={result?._id} price={result?.price} sectionId={result?.courseContent[0]?._id} subSectionId={result?.courseContent[0]?.subSection[0]?._id} />
         </div>
         <Footer/>
     </div>

@@ -18,7 +18,7 @@ export const order = async (req, res) => {
         success: false,
       });
     }
-
+    // console.log(courses);
     let totalAmount = 0;
 
     //check all the course is valid or not
@@ -41,7 +41,9 @@ export const order = async (req, res) => {
           });
         }
 
+        // console.log(course);
         totalAmount += course.price;
+        // console.log(totalAmount);
       } catch (error) {
         console.log(error);
         return res.status(500).json({
@@ -50,26 +52,26 @@ export const order = async (req, res) => {
         });
       }
 
-      const options = {
-        amount: totalAmount * 100,
-        currency: "INR",
-        receipt: Math.random(Date.now()).toString(),
-      };
+    }
+    const options = {
+      amount: totalAmount * 100,
+      currency: "INR",
+      receipt: Math.random(Date.now()).toString(),
+    };
 
-      try {
-        //initiate payment using razorpay
-        const paymentResponse = await instance.orders.create(options);
-        // console.log(paymentResponse);
-        return res
-          .status(200)
-          .json({ payment: paymentResponse, success: true });
-      } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-          message: error.message,
-          success: false,
-        });
-      }
+    try {
+      //initiate payment using razorpay
+      const paymentResponse = await instance.orders.create(options);
+      // console.log(paymentResponse);
+      return res
+        .status(200)
+        .json({ payment: paymentResponse, success: true });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: error.message,
+        success: false,
+      });
     }
   } catch (error) {
     console.log(error);
@@ -113,9 +115,38 @@ export const verifyPayment = async (req, res) => {
 
   if (expectedSignature === razorpay_signature) {
     await enrollStudent(courses, userid, res);
+    const user = await User.findById(userid);
+    let amount = 0;
+    let courseIds = [];
+    for(let i = 0; i < user.cart.courses.length; i++) {
+      if (!courses.includes(user.cart.courses[i].toString())) {
+        // Add the course ID to the new array
+        courseIds.push(user.cart.courses[i]);
+    
+        // Find the course by ID and add its price to the amount
+        const course = await Course.findById(user.cart.courses[i]);
+        if (course) {
+          amount += course.price;
+        }
+      }
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userid,
+      {
+        $set: {
+          "cart.courses": courseIds,
+          "cart.totalPrice": amount
+        },
+      },
+      { new: true }
+    );
+    console.log(courseIds,amount);
+    console.log("main bhai",updatedUser);
     return res.status(200).json({
       message: "Payment verified successfully",
       success: true,
+      user : updatedUser
     });
   }
 
@@ -175,9 +206,13 @@ export const enrollStudent = async (courses, userid, res) => {
     }
     for (const course_id of courses) {
       try {
-        const course = await Course.findById(course_id);
-        course.studentsEnrolled.push(userid);
-        await course.save();
+        const course = await Course.findByIdAndUpdate(course_id, {
+          $push: { studentsEnrolled: userid },
+        }, {
+          new: true,
+        });
+        // course.studentsEnrolled.push(userid);
+        // await course.save();
 
         if (!course) {
           return res.status(400).json({
@@ -185,7 +220,7 @@ export const enrollStudent = async (courses, userid, res) => {
             success: false,
           });
         }
-
+        // console.log(course);
         //create the courseProgess
         const courseProgress = await courseProgess.create({
           courseID: course_id,

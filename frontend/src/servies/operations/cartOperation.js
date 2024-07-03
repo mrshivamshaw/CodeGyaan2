@@ -2,6 +2,7 @@ import { apiConneector } from "../apiConnector";
 import { cartEndPoints } from "../api";
 import toast from "react-hot-toast";
 import { addToCart } from "../../slices/cartSlice";
+import { setUser } from "../../slices/profileSlice";
 
 export const addToCartt = async(dispatch, setLoading, id, toast) => {
     try {
@@ -19,6 +20,8 @@ export const addToCartt = async(dispatch, setLoading, id, toast) => {
             setLoading(false);
             console.log(res);
             dispatch(addToCart(res?.data?.cart));
+            localStorage.setItem("user", JSON.stringify(res?.data?.user));
+            dispatch(setUser(res?.data?.user));
         }
         else {
             toast.error(res?.data?.message);
@@ -47,6 +50,8 @@ export const removeFromCart = async(dispatch, setLoading, id, toast) => {
         setLoading(false);
         console.log(res);
         dispatch(addToCart(res?.data?.cart));
+        localStorage.setItem("user", JSON.stringify(res?.data?.user));
+        dispatch(setUser(res?.data?.user));
     }
     else {
         toast.error(res?.data?.message);

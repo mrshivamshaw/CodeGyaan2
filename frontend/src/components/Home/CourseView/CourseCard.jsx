@@ -22,7 +22,7 @@ const CourseCard = ({
 
   const check = async() =>{
     const courseDetail = await getFullDetailsOfCourse(id);
-    console.log(courseDetail);
+    // console.log(courseDetail);
   }
 
   
@@ -36,6 +36,8 @@ const CourseCard = ({
     })
     .catch(err => console.error("Could not copy text: ", err));
   }
+
+  const enrollHandler = () => {}
 
   return (
     <div className="realative min-w-full max-w-[220px] md:min-w-[350px] lg:min-w-[350px] xl:min-w-[350px] flex flex-col justify-start items-start bg-black-bg rounded-2xl border-[1px] border-blue-bg shadow-md shadow-black gap-3">
@@ -87,11 +89,11 @@ const CourseCard = ({
       </div>
       <div className="flex justify-between items-center w-full">
         <Link to={'/course/'+title+'/'+id} className="w-[50%]">
-          <button className="py-3 bg-glod-color w-full rounded-es-lg text-white hover:bg-[#b99b55]" style={{ WebkitTextStroke: ".2px #000" }}>
+          <button className="py-3 font-bold bg-glod-color w-full rounded-es-lg text-white hover:bg-[#b99b55]" style={{ WebkitTextStroke: ".2px #000" }}>
             Explore
           </button>
         </Link>
-        <button className="py-3 text-[#cbab61] w-[50%]">Enroll Now</button>
+        <button onClick={enrollHandler} className="py-3 text-[#cbab61] w-[50%]">{JSON.parse(localStorage.getItem('user')).enrolledCourses.includes(id) ? "View" : "Enroll Now"}</button>
       </div>
     </div>
   );

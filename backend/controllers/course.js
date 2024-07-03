@@ -176,7 +176,7 @@ export const fetchInstructorCourses = async (req,res) => {
 }
 
 export const getAllCourses = async (req,res) => {
-  console.log(req.body);
+  // console.log(req.body);
     try {
         const allCourses = await course.find({}).populate("instructor")
         // console.log(allCourses);

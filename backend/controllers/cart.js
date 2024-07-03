@@ -23,10 +23,10 @@ export const addToCart = async(req,res) => {
         userToAdd.cart.totalPrice = userToAdd.cart.totalPrice + courseToAdd.price
         
         userToAdd.cart.courses.push(courseId);    
-        
+         
         await userToAdd.save();
         userToAdd = await user.findById(id).populate("cart.courses");
-        return res.status(200).json({message: "Course added to cart",success:true,cart : userToAdd.cart})
+        return res.status(200).json({message: "Course added to cart",success:true,cart : userToAdd.cart, user : userToAdd})
     } catch (error) {
         console.log(error);
         return res.status(500).json({success: false, message: error.message})
@@ -57,7 +57,7 @@ export const removeFromCart = async(req,res) => {
         userToAdd.cart.totalPrice = userToAdd.cart.totalPrice - courseToAdd.price
         await userToAdd.save();
         userToAdd = await user.findById(id).populate("cart.courses");
-        return res.status(200).json({message: "Course removed from cart",success:true, cart: userToAdd.cart})
+        return res.status(200).json({message: "Course removed from cart",success:true, cart: userToAdd.cart, user : userToAdd})
     } catch (error) {
         return res.status(500).json({success: false, message: error.message})
     }

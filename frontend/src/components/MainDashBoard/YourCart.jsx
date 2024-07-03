@@ -1,10 +1,38 @@
 import React from "react";
 import { MdShoppingCartCheckout } from "react-icons/md";
 import CourseCardd from "./CourseCardd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { order } from "../../servies/operations/paymentOperation";
+import { useNavigate } from "react-router-dom";
+import { resetCart } from "../../slices/cartSlice";
 
 const YourCart = () => {
   const { cart, totalPrice, totalItem } = useSelector((state) => state.cart);
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const checkOutHandler = async() => {
+    const toastId = toast.loading("Please wait...");
+
+    let coursesId = [];
+
+    for(let i = 0; i < cart.length; i++) {
+      coursesId.push(cart[i]._id)
+    } 
+
+    if(coursesId.length > 0) {
+      await order(coursesId, JSON.parse(localStorage.getItem("user")), navigate);
+      dispatch(resetCart());
+      localStorage.setItem("cart", JSON.stringify([]));
+      localStorage.setItem("totalPrice", 0);
+      localStorage.setItem("totalItem", 0);
+      toast.success("Order Placed");
+    }
+    else{
+      toast.error("Cart is empty");
+    }
+    toast.dismiss(toastId);
+  };
 
   return (
     <div className="flex w-[80%] h-[81vh] overflow-hidden hover:overflow-y-scroll profile pb-[10vh] pt-[5vh] mt-1">
@@ -14,8 +42,8 @@ const YourCart = () => {
         </h1>
         <div className="flex justify-between items-start w-[100%] gap-16">
           <div className="grid grid-cols-2 gap-6 w-[70%] items-start justify-start">
-            {cart.map((item, index) => (
-              <CourseCardd
+            {cart.length ? cart.map((item, index) => (
+            <CourseCardd
                 key={index}
 
                 image={item.thumbnail}
@@ -23,7 +51,7 @@ const YourCart = () => {
                 price={item.price}
                 id={item._id}
               />
-            ))}
+            )) : <h2 className="text-3xl text-white/80 font-normal w-full  mt-10"> Your cart is empty</h2>}
           </div>
           <div className="bg-black-bg text-white py-7 px-9 w-[30%] rounded-md flex flex-col gap-4 shadow-2xl border-1 border-black">
             <h1 className="text-3xl font-bold">My <span className="text-glod-color">cart</span>.</h1>
@@ -42,7 +70,7 @@ const YourCart = () => {
                     <h2 className="text-md"><span className="text-glod-color text-lg font-bold">Rs. </span>{totalPrice}</h2>
                 </div>
             </div>
-            <button className="w-full bg-glod-color hover:bg-[#b99b55] text-[#2c2d30] font-semibold py-2 rounded flex justify-center items-center gap-1">Checkout <MdShoppingCartCheckout className="text-2xl"/></button>
+            <button onClick={checkOutHandler} className="w-full bg-glod-color hover:bg-[#b99b55] text-[#2c2d30] font-semibold py-2 rounded flex justify-center items-center gap-1">Checkout <MdShoppingCartCheckout className="text-2xl"/></button>
           </div>
         </div>
       </div>

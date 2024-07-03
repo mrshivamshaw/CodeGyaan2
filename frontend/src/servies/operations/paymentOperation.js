@@ -22,11 +22,11 @@ export const order = async (courses,userDetails, navigate) => {
             toast.error(orderResponse?.data?.message);
             throw new Error(orderResponse?.data?.message);
         }
-        console.log(orderResponse);
+        // console.log(orderResponse);
 
         const options = {
             key : import.meta.env.VITE_RAZORPAY_KEY_ID,
-            amount: orderResponse?.data?.payment.amount,
+            amount: orderResponse?.data?.payment?.amount,
             currency: "INR",
             order_id: orderResponse.data.payment.id,
             name:"CodeGyaan",
@@ -77,7 +77,7 @@ async function sendPaymentSuccessEmail(response, amount, token) {
 
 //verify payment
 async function verifyPayment(bodyData, token, navigate) {
-    console.log("bhqi", bodyData);
+    // console.log("bhqi", bodyData);
     const toastId = toast.loading("Verifying Payment....");
     try{
         const response  = await apiConneector("POST", paymentEndpoints.verifypayment, bodyData, {
@@ -87,8 +87,12 @@ async function verifyPayment(bodyData, token, navigate) {
         if(!response.data.success) {
             throw new Error(response?.data?.message);
         }
-        toast.success("payment Successful, ypou are addded to the course");
+        toast.success("payment Successful, you are addded to the course");
+        localStorage.setItem("user", JSON.stringify(response?.data?.user));
+        console.log("res wala user",response?.data?.user);
+        console.log("local wala user",response?.data?.user);
         navigate("/dashboard/enrolled-courses");
+
         // dispatch(resetCart());
     }   
     catch(error) {
