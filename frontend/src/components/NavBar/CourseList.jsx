@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { fetchCourseCategories } from '../../servies/operations/courseOpertaions'
+import { useNavigate } from 'react-router-dom';
 
 const CourseList = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     const getCategories = async () => {
@@ -25,7 +27,7 @@ const CourseList = () => {
         <div className='flex flex-col justify-start items-start '>
           {
             categories.map((category,id) => (
-              <div key={id} className='hover:bg-gray-700 w-full px-6 py-2'>{category.name}</div>
+              <div key={id} onClick={() => navigate(`/courses/category/${category._id}`)} className='hover:bg-gray-700 w-full px-6 py-2'>{category.name}</div>
             ))
           }
         </div>

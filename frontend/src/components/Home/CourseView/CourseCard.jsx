@@ -93,7 +93,7 @@ const CourseCard = ({
             Explore
           </button>
         </Link>
-        <button onClick={enrollHandler} className="py-3 text-[#cbab61] w-[50%]">{JSON.parse(localStorage.getItem('user')).enrolledCourses.includes(id) ? "View" : "Enroll Now"}</button>
+        <button onClick={enrollHandler} className="py-3 text-[#cbab61] w-[50%]">{JSON.parse(localStorage.getItem('user'))?.enrolledCourses.includes(id) ? "View" : "Enroll Now"}</button>
       </div>
     </div>
   );

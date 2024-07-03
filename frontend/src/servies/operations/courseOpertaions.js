@@ -458,3 +458,20 @@ export const createRating = async (data, token) => {
   toast.dismiss(toastId)
   return success
 }
+
+
+//get course category wise
+export const fetchCourseByCategory = async(category) => {
+  try {
+    const categoryByCourse = await apiConneector(
+      "get",
+      `${courseEndpoints.getCourseByCategory}/${category}`
+    );  
+    if(!categoryByCourse?.data?.success){
+      toast.error(categoryByCourse?.data?.message);
+    }
+    return categoryByCourse?.data?.data
+  } catch (error) {
+    toast.error(error?.response?.data?.message || error.message)
+  }
+}

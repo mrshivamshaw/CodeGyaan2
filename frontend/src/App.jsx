@@ -26,6 +26,7 @@ import VideoDetails from "./components/ViewCourse/VideoDetails";
 import { ACCOUNT_TYPE } from "./utils/constant";
 import { useEffect, useState } from "react";
 import { checkToken, logout } from "./servies/operations/authOpertaion";
+import CategoryCourse from "./components/CategoryCourse/CategoryCourse";
 
 function App() {
   const { loading } = useSelector((state) => state.ui);
@@ -48,7 +49,7 @@ function App() {
   //   verifyToken();
   // }, [dispatch, token]);
   return (
-    <div className="max-w-[100vw] h-auto overflow-x-hidden box-border relative z-10 bg-blue-bg">
+    <div className="max-w-[100vw] min-h-[100vh] overflow-x-hidden box-border relative z-10 bg-blue-bg">
       {loading && <Loader />}
       <Routes>
         <Route index path="/" element={<Home />} />
@@ -78,7 +79,7 @@ function App() {
           }
         />
         <Route path="/aboutus" element={<Abouts />} />
-
+        <Route path="/courses/category/:category" element={<CategoryCourse />} />
         <Route path="/contact-us" element={<Contacts />} />
 
         <Route path="/course/:courseName/:id" element={<CourseOverView />} />

@@ -11,6 +11,7 @@ const CourseView = () => {
     if(sessionStorage.getItem("getAllCourses")) setCoursesList(JSON.parse(sessionStorage.getItem("getAllCourses")))
     else {getAllCourses().then((data) => {
           setCoursesList(data);
+          sessionStorage.setItem("getAllCourses", JSON.stringify(data))
         });}
   }, [courseType]);
 

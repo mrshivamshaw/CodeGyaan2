@@ -45,6 +45,7 @@ export const courseEndpoints = {
     enrolledCourses : `${BASE_URL}/student/enrolledCourses`,
     markLectureAsComplete : `${BASE_URL}/student/updateCourseProgress`,
     createRating : `${BASE_URL}/student/createRating`,
+    getCourseByCategory : `${BASE_URL}/instructor/getCourseByCategory`
 }
 
 //category endpoints
