@@ -239,8 +239,7 @@ export const courseDetails = async (req,res) => {
 export const getFullCompleteCourse = async (req, res) => {
   try {
     
-    const { courseId } = req.body
-    const userId = req.body.id
+    const { courseId, userId } = req.body
     const courseDetails = await course.findOne({
       _id: courseId,
     })
@@ -261,11 +260,16 @@ export const getFullCompleteCourse = async (req, res) => {
       .exec()
 
     let courseProgressCount = await courseProgess.findOne({
-      courseID: courseId,
+      courseId: courseId,
       userId: userId,
     })
 
-
+    if (!courseProgressCount) {
+      return res.status(404).json({
+        success: false,
+        message: `No course progress found for user ${userId} and course ${courseId}`,
+      })
+    }
     if (!courseDetails) {
       return res.status(400).json({
         success: false,

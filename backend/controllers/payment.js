@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import Course from "../models/course.js";
 import User from "../models/user.js";
+import courseProgess from "../models/courseProgess.js";
 import { instance } from "../config/razorpay.js";
 import crypto from "crypto";
-import courseProgess from "../models/courseProgess.js";
 import mailSender from "../utils/mailSender.js";
 
 export const order = async (req, res) => {
@@ -223,11 +223,20 @@ export const enrollStudent = async (courses, userid, res) => {
         // console.log(course);
         //create the courseProgess
         const courseProgress = await courseProgess.create({
-          courseID: course_id,
+          courseId: course_id,
           userId: userid,
           completedVideos: [],
         });
 
+        if (!courseProgress) {  
+          return res.status(400).json({
+            message: "Course progress not created",
+            success: false,
+          })
+        }
+          else{
+            console.log("Course progress created : ", courseProgress);
+          }
         //find the user and updated their enrolled courses
         const user = await User.findByIdAndUpdate(
           {
@@ -236,7 +245,7 @@ export const enrollStudent = async (courses, userid, res) => {
           {
             $push: {
               enrolledCourses: course_id,
-              courseProgess: courseProgress._id,
+              courseProgress: courseProgress._id,
             },
           },
           {

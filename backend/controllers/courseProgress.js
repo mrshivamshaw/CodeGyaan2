@@ -5,19 +5,23 @@ import courseProgess from "../models/courseProgess.js"
 import Course from "../models/course.js"
 
 export const updateCourseProgress = async (req, res) => {
-  const { courseId, subsectionId } = req.body
-  const userId = req.user.id
+  const { courseId, subSectionId, id } = req.body
+  const userId = id
 
+  if (!courseId || !subSectionId || !userId) {
+    console.log("Missing required fields");
+    return res.status(400).json({ message: "Missing required fields", success: false })
+  } 
   try {
     // Check if the subsection is valid
-    const subsection = await SubSection.findById(subsectionId)
+    const subsection = await SubSection.findById(subSectionId)
     if (!subsection) {
       return res.status(404).json({ error: "Invalid subsection" })
     }
-
+    // console.log(userId,courseId,subSectionId);
     // Find the course progress document for the user and course
     let courseProgress = await courseProgess.findOne({  
-      courseID: courseId,
+      courseId: courseId,
       userId: userId,
     })
 
@@ -29,21 +33,21 @@ export const updateCourseProgress = async (req, res) => {
       })
     } else {
       // If course progress exists, check if the subsection is already completed
-      if (courseProgress.completedVideos.includes(subsectionId)) {
-        return res.status(400).json({ error: "Subsection already completed" })
+      if (courseProgress.completedVideos.includes(subSectionId)) {
+        return res.status(400).json({ message: "Video already completed" , success : false})
       }
 
       // Push the subsection into the completedVideos array
-      courseProgress.completedVideos.push(subsectionId)
+      courseProgress.completedVideos.push(subSectionId)
     }
 
     // Save the updated course progress
     await courseProgress.save()
 
-    return res.status(200).json({ message: "Course progress updated" })
+    return res.status(200).json({ message: "Course progress updated", success : true})
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: "Internal server error" })
+    return res.status(500).json({ message: error.message , success : false})
   }
 }
 

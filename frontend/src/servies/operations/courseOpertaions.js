@@ -96,9 +96,9 @@ export const getFullCompleteCourse = async (courseId, token) => {
     }
     result = response?.data?.data
   } catch (error) {
-    console.log("COURSE_FULL_DETAILS_API API ERROR............", error)
+    console.log("COURSE_FULL_DETAILS_API API ERROR............", error.response.data.message)
     result = error.response.data
-    // toast.error(error.response.data.message);
+    toast.error(error.response.data.message);
   }
   toast.dismiss(toastId)
   //   dispatch(setLoading(false));
@@ -400,30 +400,31 @@ export const deleteSubSection = async (data, token) => {
 
 
 // mark a lecture as complete
-export const markLectureAsComplete = async (data, token) => {
+export const markLectureAsComplete = async (data) => {
   let result = null
   console.log("mark complete data", data)
   const toastId = toast.loading("Loading...")
   try {
     const response = await apiConneector("POST", courseEndpoints.markLectureAsComplete, data, {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     })
     console.log(
       "MARK_LECTURE_AS_COMPLETE_API API RESPONSE............",
       response
     )
 
-    if (!response.data.message) {
-      throw new Error(response.data.error)
+    if (!response?.data?.success) {
+      toast.error(response?.data?.message)
+      console.log(response?.data?.message)
     }
     toast.success("Lecture Completed")
     result = true
   } catch (error) {
-    if(error?.response?.data?.message === "Token is invalid"){
-      useNavigateHelper("/login");
-      // store.dispatch(logout());
-    }
-    toast.error(error.message)
+    // if(error?.response?.data?.message === "Token is invalid"){
+    //   useNavigateHelper("/login");
+    //   // store.dispatch(logout());
+    // }
+    toast.error(error?.response?.data?.message || error.message)
     result = false
   }
   toast.dismiss(toastId)

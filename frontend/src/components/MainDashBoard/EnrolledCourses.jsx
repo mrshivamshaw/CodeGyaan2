@@ -22,7 +22,7 @@ export default function EnrolledCourses() {
   }, [])
 
   return (
-    <div className="w-[80%] h-[81vh]  profile pb-[10vh] pt-[5vh] mt-1 p-8">
+    <div className="w-[80%] h-[81vh]  profile pb-[10vh] pt-[5vh] mt-1 p-8 overflow-y-scroll">
       <div className="text-4xl text-white font-bold">Enrolled <span className="text-glod-color">Courses</span>.</div>
       {!enrolledCourses ? (
         <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
@@ -61,7 +61,7 @@ export default function EnrolledCourses() {
                 <img
                   src={course.thumbnail}
                   alt="course_img"
-                  className="h-22 max-w-[180px] min-w-[180px] rounded-lg object-cover"
+                  className=" min-w-[180px] w-[300px] min-h-[100px] h-[140px] rounded-lg object-cover"
                 />
                 <div className="flex max-w-xs flex-col gap-2">
                   <p className="font-semibold text-xl text-white">{course.courseName}</p>

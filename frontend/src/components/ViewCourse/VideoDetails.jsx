@@ -18,6 +18,7 @@ const VideoDetails = () => {
   const { token } = useSelector((state) => state.auth);
   const { courseSectionData, courseEntireData, completedLectures } =
     useSelector((state) => state.viewCourse);
+    // console.log(courseSectionData, courseEntireData, completedLectures);
 
   const [videoData, setVideoData] = useState([]);
   const [previewSource, setPreviewSource] = useState("");
@@ -162,7 +163,7 @@ const VideoDetails = () => {
   const handleLectureCompletion = async () => {
     setLoading(true);
     const res = await markLectureAsComplete(
-      { courseId: courseId, subsectionId: subSectionId },
+      { courseId: courseId, subsectionId: subSectionId, id : localStorage.getItem("id") },
       token
     );
     if (res) {
@@ -208,7 +209,7 @@ const VideoDetails = () => {
 
               {!completedLectures.includes(subSectionId) && (
                 <button
-                  className="mx-auto bg-yellow-100 text-richblack-900 px-3 py-2 rounded-md text-xl mb-6"
+                  className="mx-auto bg-glod-color text-white/80 px-3 py-2 rounded-md text-xl mb-6"
                   onClick={() => handleLectureCompletion()}
                 >
                   {!loading ? "Mark As Completed" : "Loading..."}
@@ -235,7 +236,7 @@ const VideoDetails = () => {
                     setVideoEnded(false);
                   }
                 }}
-                className="text-xl rounded-md text-richblack-900 mx-auto w-fit px-3 py-2 bg-yellow-100"
+                className="text-xl rounded-md text-white/80 mx-auto w-fit px-3 py-2 bg-glod-color"
               >
                 Rewatch
               </button>
@@ -244,7 +245,7 @@ const VideoDetails = () => {
                   <button
                     disabled={loading}
                     onClick={goToPrevVideo}
-                    className="blackButton bg-yellow-100 px-2 py-0 rounded-md text-richblack-900"
+                    className="blackButton bg-glod-color px-2 py-0 rounded-md text-white/80"
                   >
                     Prev
                   </button>
@@ -253,7 +254,7 @@ const VideoDetails = () => {
                   <button
                     disabled={loading}
                     onClick={goToNextVideo}
-                    className="blackButton bg-yellow-100 px-3 py-2 rounded-md text-richblack-900"
+                    className="blackButton bg-glod-color px-3 py-2 rounded-md text-white/80"
                   >
                     Next
                   </button>

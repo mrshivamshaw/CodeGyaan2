@@ -1,25 +1,30 @@
 import { useEffect, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import IconBtn from "../common/IconBtn";
+import { updateCompletedLectures } from "../../slices/viewCourseSlice";
+import { markLectureAsComplete } from "../../servies/operations/courseOpertaions";
+import toast from "react-hot-toast";
 
 export default function VideoDetailsSidebar({ setReviewModal }) {
   const [activeStatus, setActiveStatus] = useState("");
   const [videoBarActive, setVideoBarActive] = useState("");
-  const [open,setOpen] = useState(true);
+  const [open, setOpen] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-  const { sectionId, subSectionId } = useParams();
+  const dispatch = useDispatch();
+  const { sectionId, subSectionId, courseId } = useParams();
+  // console.log("bhai apna", sectionId, subSectionId, courseId);
   const {
     courseSectionData,
     courseEntireData,
     totalNoOfLectures,
     completedLectures,
   } = useSelector((state) => state.viewCourse);
- 
+
   useEffect(() => {
     (() => {
       if (!courseSectionData.length) return;
@@ -39,19 +44,30 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseSectionData, courseEntireData, location.pathname]);
 
+  const handleLectureCompletion = async (courseId, subSectionId) => {
+    const res = await markLectureAsComplete(
+      { courseId: courseId, subSectionId: subSectionId, id : localStorage.getItem("id") }
+    );
+    if (res) {
+      dispatch(updateCompletedLectures(subSectionId));
+      // console.log(completedLectures, subSectionId);
+    }
+
+  };
+
   return (
     <>
       <div className="h-full w-auto bg-black-bg overflow-hidden overflow-y-scroll profile">
-        {
-            open ? (<div className="flex w-[320px] max-w-[350px] flex-col">
+        {open ? (
+          <div className="flex w-[320px] max-w-[350px] flex-col">
             <div className="px-2 flex flex-col items-start justify-between gap-2 gap-y-4 py-5 text-lg font-bold text-richblack-25">
               <div className="flex w-full items-center justify-between ">
                 <div
-                 onClick={() => setOpen(!open)}
+                  onClick={() => setOpen(!open)}
                   className="flex h-[35px] w-[35px] items-center justify-center rounded-full bg-richblack-100 p-1 text-richblack-700 hover:scale-90"
                   title="back"
                 >
-                  <IoIosArrowBack size={30} className="text-white/85"/>
+                  <IoIosArrowBack size={30} className="text-white/85" />
                 </div>
                 <IconBtn
                   text="Add Review"
@@ -60,14 +76,16 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
                 />
               </div>
               <div className="flex flex-col">
-                <p className="text-white text-medium">{courseEntireData?.courseDetails?.courseName}</p>
-                <p className="text-sm font-semibold text-white/80">
+                <p className="text-white text-medium">
+                  {courseEntireData?.courseDetails?.courseName}
+                </p>
+                <p className="text-sm font-semibold text-white/80  ">
                   {completedLectures?.length} / {totalNoOfLectures}
                 </p>
               </div>
             </div>
-    
-            <div className="h-[calc(100vh - 5rem)] overflow-y-auto">
+
+            <div className="h-[calc(100vh - 5rem)] overflow-y-scroll profile">
               {courseSectionData.map((course, index) => (
                 <div
                   className="mt-2 cursor-pointer text-sm text-richblack-50 bg-blue-bg"
@@ -83,16 +101,16 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
                       {/* <span className="text-[12px] font-medium">
                         Lession {course?.subSection.length}
                       </span> */}
-                      <span
-                        className={`transition-all duration-500`}
-                      >
-                        {
-                            activeStatus === course?.sectionName ? (<BsChevronDown />) : (<BsChevronUp />)
-                        }
+                      <span className={`transition-all duration-500`}>
+                        {activeStatus === course?._id ? (
+                          <BsChevronDown />
+                        ) : (
+                          <BsChevronUp />
+                        )}
                       </span>
                     </div>
                   </div>
-    
+
                   {/* Sub Sections */}
                   {activeStatus === course?._id && (
                     <div className="transition-[height] duration-500 ease-in-out">
@@ -111,11 +129,12 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
                             setVideoBarActive(topic._id);
                           }}
                         >
+                          {/* //checkbox tick color change */}
                           <input
                             type="checkbox"
-                            checked={completedLectures.includes(topic?._id)}
-                            onChange={() => {}}
-                            className="w-4 h-4 bg-slate-400"
+                            className="custom-checkbox"
+                            checked={completedLectures.includes(topic._id)}
+                            onChange={() => handleLectureCompletion(courseId,topic._id)}
                           />
                           {topic.title}
                         </div>
@@ -125,10 +144,15 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
                 </div>
               ))}
             </div>
-          </div>) 
-          : 
-          (<div onClick={() => setOpen(!open)} className="flex h-[35px] my-2 mx-2 w-[35px] items-center justify-center rounded-full bg-richblack-100 p-1 text-richblack-700 hover:scale-90"><IoIosArrowForward size={30} /></div>)
-        }
+          </div>
+        ) : (
+          <div
+            onClick={() => setOpen(!open)}
+            className="flex h-[35px] my-2 mx-2 w-[35px] items-center justify-center rounded-full bg-richblack-100 p-1 text-richblack-700 hover:scale-90"
+          >
+            <IoIosArrowForward size={30} />
+          </div>
+        )}
       </div>
     </>
   );
