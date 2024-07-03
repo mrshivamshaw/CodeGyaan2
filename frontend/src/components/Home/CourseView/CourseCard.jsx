@@ -40,7 +40,7 @@ const CourseCard = ({
   const enrollHandler = () => {}
 
   return (
-    <div className="realative min-w-full max-w-[220px] md:min-w-[350px] lg:min-w-[350px] xl:min-w-[350px] flex flex-col justify-start items-start bg-black-bg rounded-2xl border-[1px] border-blue-bg shadow-md shadow-black gap-3">
+    <div className="realative min-w-full max-w-[220px] md:min-w-[350px] lg:min-w-[350px] xl:min-w-[350px] hover:scale-105 transition-all duration-200 flex flex-col justify-start items-start bg-black-bg rounded-2xl border-[1px] border-blue-bg shadow-md shadow-black gap-3">
       <img
         src={img}
         alt={img}

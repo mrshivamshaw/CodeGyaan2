@@ -39,7 +39,7 @@ const CourseView = () => {
   };
   return (
     <div className="w-full py-10">
-      <div className="w-[95%] md:w-[85%] lg:w-[85%] xl:w-[85%]  mx-auto flex flex-col justify-start items-start gap-4 pb-8">
+      <div className="w-[95%] md:w-[85%] lg:w-[85%] xl:w-[85%]  mx-auto flex flex-col justify-start items-start gap-4 pb-2">
         <h1 className="text-4xl w-full text-center md:text-start lg:text-start xl:text-start font-semibold text-white">
           Our <span className="text-glod-color">Courses.</span>
         </h1>
@@ -83,7 +83,7 @@ const CourseView = () => {
         </div>
       </div>
       <div
-        className="profile max-w-[95%] md:max-w-[85%] lg:max-w-[85%] xl:max-w-[85%] mx-auto flex justify-start items-start overflow-x-scroll gap-12 px-2"
+        className="profile max-w-[95%] md:max-w-[85%] lg:max-w-[85%] xl:max-w-[85%] mx-auto flex justify-start items-start overflow-x-scroll gap-12 px-2 py-10"
         ref={myCardRef}
       >
         {coursesList?.map((card, index) => {
