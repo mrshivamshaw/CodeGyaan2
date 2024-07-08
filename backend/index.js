@@ -31,11 +31,11 @@ app.use(fileUpload({
     tempFileDir: '/tmp/'
 }));
 
-app.use('/auth', authRoute);
-app.use('/user', userRoute);
-app.use('/instructor', instructorRoute);
-app.use('/student', studentRoute);
-app.use('/payment',paymentRoute);
+app.use('/api/v1/auth', authRoute);
+app.use('/api/v1/user', userRoute);
+app.use('/api/v1/instructor', instructorRoute);
+app.use('/api/v1/student', studentRoute);
+app.use('/api/v1/payment',paymentRoute);
 
 app.use('/', (req, res) => {
     res.send("server is running");
