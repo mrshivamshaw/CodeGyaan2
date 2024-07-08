@@ -37,7 +37,7 @@ app.use('/api/v1/instructor', instructorRoute);
 app.use('/api/v1/student', studentRoute);
 app.use('/api/v1/payment',paymentRoute);
 
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
     res.send("server is running");
 });
 
