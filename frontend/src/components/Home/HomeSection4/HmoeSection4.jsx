@@ -9,11 +9,11 @@ import rightGif from '../../../assets/output-onlinegiftools.gif'
 const HomeSection4 = () => {
   return (
     <div className='w-full py-10'>
-        <div className='w-[95%] md:w-[85%] lg:w-[85%] xl:w-[85%] mx-auto '>
+        <div className='w-[95%] md:w-[95%] lg:w-[85%] xl:w-[85%] mx-auto '>
             <h1 className='text-3xl md:text-4xl lg:text-4xl xl:text-4xl w-full text-center md:text-start lg:text-start xl:text-start font-semibold text-white'>Explore Our <span className='text-[#cbab61]'>Ecosystem.</span></h1>
             <p className='font-extralight text-center md:text-start lg:text-start xl:text-start  mt-1 text-white'>A one-stop destination for all your learning to placement needs</p>
         </div>
-        <div className='w-[95%] md:w-[85%] lg:w-[85%] xl:w-[85%] mx-auto flex justify-between items-center gap-10 mt-5 md:mt-0 lg:mt-0 xl:mt-0'>
+        <div className='w-[95%] md:w-[95%] lg:w-[85%] xl:w-[85%] mx-auto flex justify-between items-center gap-10 mt-5 md:mt-0 lg:mt-0 xl:mt-0'>
           <div className='w-auto flex flex-col flex-wrap justify-center items-center gap-5 h-auto md:h-auto lg:h-[140vh] xl:h-[140vh]'>
               <div className='w-full md:w-[340px] lg:w-[340px] xl:w-[340px] h-[260px] bg-black-bg flex flex-col justify-between items-start p-6 text-white group shadow-md shadow-black hover:bg-[#1c1b1b] transition-all duration-500'>
                   <IoCodeSlashSharp className='bg-gradient-to-r from-cyan-500 to-blue-500 p-3 text-white text-5xl rounded-full'/>
@@ -46,7 +46,7 @@ const HomeSection4 = () => {
                   <button className=' bg-glod-color px-4 py-2 rounded hover:bg-[#b99b55] invisible group-hover:visible transition-all duration-200'><span className='mr-1'>Explore</span><span><FaArrowRight className='inline'/></span></button>
               </div>
           </div>
-          <div className='hidden md:block lg:block xl:block '>
+          <div className='hidden md:hidden lg:block xl:block '>
               <img src={rightGif} alt="img" />
           </div>
         </div>

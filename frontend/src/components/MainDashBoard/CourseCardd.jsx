@@ -12,7 +12,7 @@ const CourseCardd = ({image,title,price,id}) => {
 
   }
   return (
-    <div className='flex flex-col justify-between items-start rounded-md relative bg-black-bg pb-3 w-full border-1 border-black shadow-2xl'>
+    <div className='flex flex-col justify-between items-start rounded-md relative bg-black-bg pb-3 w-[100%] md:w-full lg:w-[300px] xl:w-[300px] border-1 border-black shadow-2xl'>
         <img src={image} alt="image" className='w-full h-[160px] rounded-md'/>
         <div className='flex justify-between items-center w-full px-2'>
         <Link to={'/course/'+title+'/'+id} >

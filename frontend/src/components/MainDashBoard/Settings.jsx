@@ -35,13 +35,13 @@ const Settings = () => {
     dispatch(updateProfile(uploading))
   }
   return (
-    <div className="w-[80%] h-[81vh] overflow-hidden hover:overflow-y-scroll profile pb-[10vh] pt-[5vh] mt-1">
-      <div className="w-[90%] mx-auto flex flex-col gap-[5vh]">
+    <div className="w-[95%] md:w-[95%] lg:w-[80%] xl:w-[80%] h-[81vh] mx-auto overflow-hidden hover:overflow-y-scroll profile pb-[10vh] pt-[5vh] mt-1">
+      <div className="w-[100%] md:w-[100%] lg:w-[90%] xl:w-[90%] mx-auto flex flex-col gap-[5vh]">
         <h1 className="text-4xl text-white font-bold">
           Edit <span className="text-glod-color">Profile</span>.
         </h1>
-        <div className="flex w-full justify-between items-center bg-black-bg px-[3rem] py-[2rem] rounded-lg shadow border border-[#898989]">
-          <div className="flex justify-start items-center gap-2 text-white">
+        <div className="flex w-full justify-between items-center bg-black-bg px-1 py-[1rem] md:py-[1rem] lg:py-[2rem] xl:py-[2rem] rounded-lg shadow border border-[#898989]">
+          <div className="flex flex-col md:flex-col lg:flex-row xl:flex-row justify-start items-start gap-2 text-white">
             {/* <div className="bg-red-600  rounded-full w-[76px] py-[22px] text-center font-semibold text-2xl">
               SS
             </div> */}
@@ -74,12 +74,12 @@ const Settings = () => {
           </div>
         </div>
         <form onSubmit={formSubmitHandler}>
-          <div className="flex flex-col w-full justify-start items-start bg-black-bg px-[3rem] py-[2rem] gap-[2vh] rounded-lg shadow border border-[#898989]">
+          <div className="flex flex-col w-full justify-start items-start bg-black-bg px-[1rem] md:px-[1rem] lg:px-[3rem] xl:px-[3rem] py-[2rem] gap-[2vh] rounded-lg shadow border border-[#898989]">
             <h1 className="text-white font-semibold text-lg">
               Profile Information
             </h1>
-            <div className="w-full flex justify-between items-center gap-4 ">
-              <div className="w-[45%] flex flex-col gap-4">
+            <div className="w-full flex flex-col md:flex-col lg:flex-row xl:flex-row justify-between items-center gap-4 ">
+              <div className="w-[100%] md:w-full lg:w-[45%] xl:w-[45%] flex flex-col gap-4">
                 <div className="flex flex-col text-white ">
                   <label htmlFor="first">First name</label>
                   <input
@@ -114,7 +114,7 @@ const Settings = () => {
                   />
                 </div>
               </div>
-              <div className="w-[45%] flex flex-col gap-4">
+              <div className="w-[100%] md:w-full lg:w-[45%] xl:w-[45%] flex flex-col gap-4">
                 <div className="flex flex-col text-white ">
                   <label htmlFor="first">Last name</label>
                   <input

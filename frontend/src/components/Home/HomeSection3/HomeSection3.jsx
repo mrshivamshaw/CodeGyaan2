@@ -22,7 +22,7 @@ const HomeSection3 = () => {
             </button>
           </div>
         </div>
-        <div className="w-full flex justify-around items-start py-16 gap-8">
+        <div className="w-full flex flex-col md:flex-col lg:flex-row xl:flex-row justify-center items-center py-16 gap-8">
           <div className="flex flex-col justify-start items-start gap-4">
             <div className="flex justify-center items-center gap-7">
               <GiPodiumWinner className="text-6xl text-[#939ad8] bg-[#2c2d30] rounded-full p-4" />
@@ -70,9 +70,9 @@ const HomeSection3 = () => {
               </div>
             </div>
           </div>
-          <div className="relative ">
-            <div className=" h-auto z-10 shadow-2xl shadow-black/100">
-              <img src={girlStudy} alt="timeline" className="w-[100%] md:h-[40vh] lg:h-[40vh] xl:h-[40vh] h-auto" />
+          <div className="relative w-full">
+            <div className=" h-auto z-10 shadow-2xl shadow-black/10 w-full">
+              <img src={girlStudy} alt="timeline" className="w-[100%] md:h-[40vh] lg:h-[40vh] xl:h-[40vh] min-h-[55vh]" />
             </div>
             <div className="bg-[#cbab61] absolute -bottom-14 left-5 z-20 w-[92%] flex justify-center items-center py-7 px-3">
               <div className="flex justify-center items-center w-[50%] border-r gap-6">

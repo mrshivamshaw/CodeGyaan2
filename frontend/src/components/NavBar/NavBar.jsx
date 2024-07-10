@@ -4,10 +4,10 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { LiaFreeCodeCamp } from "react-icons/lia";
 import { BsCart4, BsSearch } from "react-icons/bs";
 import { IoSearch } from "react-icons/io5";
-import { FaAngleDown, FaIdCardAlt } from "react-icons/fa";
+import { FaAngleDown, FaGraduationCap, FaIdCardAlt, FaPlus } from "react-icons/fa";
 import CourseList from "./CourseList";
 import { TiArrowSortedDown } from "react-icons/ti";
-import { RiDashboard2Line } from "react-icons/ri";
+import { RiArrowRightSLine, RiDashboard2Line } from "react-icons/ri";
 import { IoMdLogOut } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -18,6 +18,9 @@ import { getCart } from "../../servies/operations/cartOperation";
 import toast from "react-hot-toast";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
+import { CgProfile } from "react-icons/cg";
+import { MdSettings } from "react-icons/md";
+import { HiArrowSmLeft } from "react-icons/hi";
 
 const NavBar = () => {
   const [dashboardActive, setDashboardActive] = useState(false);
@@ -30,6 +33,7 @@ const NavBar = () => {
 
   const [searchActive, setSearchActive] = useState(false);
   const [phnExt, setPhnExt] = useState(false);
+  const [phnDashboard, setPhnDashboard] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -49,6 +53,7 @@ const NavBar = () => {
     console.log(cart);
     navigate("/dashboard/your-cart");
   };
+
   return (
     <div className="h-auto max-w-[100vw] overflow-x-hidden py-4 flex flex-col gap-4 shadow-md shadow-black">
       <div className="flex justify-between items-center w-[95%] md:w-[90%] lg:w-[85%] xl:w-[85%] mx-auto ">
@@ -85,32 +90,33 @@ const NavBar = () => {
             </div>
           </div>
         )}
-      <div className="block md:block lg:hidden xl:hidden">
-  <div className="flex justify-end items-center gap-2">
-    <BsSearch
-      className="text-white/80 text-xl font-bold"
-      onClick={() => setSearchActive(!searchActive)}
-    />
-    {searchActive || phnExt ? (
-      <RxCross2
-        className="text-white/80 text-2xl font-bold"
-        onClick={() => {
-          setSearchActive(false);
-          setPhnExt(false);
-        }}
-      />
-    ) : (
-      <FaBarsStaggered
-        className="text-white/80 text-xl font-bold"
-        onClick={() => setPhnExt(!phnExt)}
-      />
-    )}
-  </div>
-</div>
-
+        <div className="block md:block lg:hidden xl:hidden">
+          <div className="flex justify-end items-center gap-2">
+            <BsSearch
+              className="text-white/80 text-xl font-bold"
+              onClick={() => setSearchActive(!searchActive)}
+            />
+            {searchActive || phnExt ? (
+              <RxCross2
+                className="text-white/80 text-2xl font-bold"
+                onClick={() => {
+                  setSearchActive(false);
+                  setPhnExt(false);
+                  setPhnDashboard(false);
+                }}
+              />
+            ) : (
+              <FaBarsStaggered
+                className="text-white/80 text-xl font-bold"
+                onClick={() => setPhnExt(!phnExt)}
+              />
+            )}
+          </div>
+        </div>
 
         {token && (
-          <div className="flex justify-center items-center gap-1 text-white py-1">
+          <div className="hidden md:hidden lg:block xl:block">
+            <div className="flex justify-center items-center gap-1 text-white py-1 ">
             {user?.accountType === "Student" && (
               <div
                 onClick={getCartHandler}
@@ -160,6 +166,7 @@ const NavBar = () => {
               </div>
             </div>
           </div>
+          </div>
         )}
       </div>
       <div className="w-[85%] mx-auto hidden md:hidden lg:block xl:block mt-3">
@@ -192,46 +199,142 @@ const NavBar = () => {
           </div>
         </div>
       )}
-      {phnExt && <div className="w-[85%] mx-auto block md:block lg:hidden xl:hidden mt-3">
-        <div className="flex flex-col items-start justify-start gap-8 text-white font-normal text-base ">
-          {!token && (
-            <div className="w-auto mx-auto">
-              <div className="flex bg-[#cbab61] px-5 py-3 rounded hover:bg-[#b99b55] text-white">
-                <Link to={"/login"}>
-                  <div className="text-base hover:cursor-pointer font-medium">
-                    Login /
+      {phnExt && (
+        <div className="w-[85%] mx-auto block md:block lg:hidden xl:hidden mt-3 ">
+          <div className="flex flex-col items-start justify-start gap-8 text-white font-normal text-base ">
+            {!token ? (
+              <div className="w-auto mx-auto">
+                <div className="flex bg-[#cbab61] px-5 py-3 rounded hover:bg-[#b99b55] text-white">
+                  <Link to={"/login"}>
+                    <div className="text-base hover:cursor-pointer font-medium">
+                      Login /
+                    </div>
+                  </Link>
+                  <Link to={"/signin"}>
+                    <div className="text-base hover:cursor-pointer font-medium">
+                      &nbsp;Signin
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            ) : 
+              !phnDashboard ? <div
+                onClick={() => setPhnDashboard(!phnDashboard)}
+                className="w-full"
+              >
+                <div className="flex justify-between items-center">
+                  <div className="flex justify-center items-center gap-2">
+                    <img
+                      src={user?.image}
+                      alt="profile"
+                      className="w-[65px] h-[65px] rounded-full"
+                    />
+                    <div className="">
+                      <h2 className="text-glod-color font-semibold text-lg italic">
+                        Hey
+                      </h2>
+                      <h3 className="text-white/80">
+                        {user?.firstName + " " + user?.lastName}
+                      </h3>
+                    </div>
+                  </div>
+                  <div>
+                    <RiArrowRightSLine className="text-white/90 text-2xl" />
+                  </div>
+                </div>
+              </div> :
+              <div className="flex justify-start items-center gap-1 text-white/80" onClick={() => setPhnDashboard(!phnDashboard)}>
+                <HiArrowSmLeft className="text-lg" /> <span>Back</span>
+              </div>
+            }
+            {!phnDashboard ? (
+              <div className="flex flex-col justify-start items-start gap-8">
+                <Link to={"/"}>
+                  <div className="flex justify-center items-center text-xl">
+                    Home
                   </div>
                 </Link>
-                <Link to={"/signin"}>
-                  <div className="text-base hover:cursor-pointer font-medium">
-                    &nbsp;Signin
+                <div className="flex justify-center items-center text-xl group cursor-pointer">
+                  <span>Courses </span>
+                  <CourseList /> <FaAngleDown className="ml-1" />{" "}
+                </div>
+                <div className="flex justify-center items-center text-xl">
+                  Job Portal
+                </div>
+                <Link to={"/aboutus"}>
+                  <div className="flex justify-center items-center text-xl">
+                    About Us
+                  </div>
+                </Link>
+                <Link to={"/contact-us"}>
+                  <div className="flex justify-center items-center text-xl">
+                    Contact Us
                   </div>
                 </Link>
               </div>
+            ) : (
+              <div className="flex flex-col justify-start items-start gap-8">
+                <NavLink to={"/dashboard/profile"}>
+                  <div className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
+                    <CgProfile />
+                    <div>Profile</div>
+                  </div>
+                </NavLink>
+                {user?.accountType === "Student" && (
+                  <NavLink to={"/dashboard/enrolled-courses"}>
+                    <div className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
+                      <FaGraduationCap />
+                      <div>Enrolled Courses</div>
+                    </div>
+                  </NavLink>
+                )}
+                {user?.accountType === "Student" && (
+                  <NavLink to={"/dashboard/your-cart"}>
+                    <div className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
+                      <BsCart4 />
+                      <div>Your Collections</div>
+                    </div>
+                  </NavLink>
+                )}
+                {user?.accountType === "Instructor" && (
+                  <NavLink to={"/dashboard/dashboard"}>
+                    <div className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
+                      <FaGraduationCap />
+                      <div>Dashboard</div>
+                    </div>
+                  </NavLink>
+                )}
+                {user?.accountType === "Instructor" && (
+                  <NavLink to={"/dashboard/my-courses"}>
+                    <div className=" w-full flex justify-start items-center gap-1 text rounded-l-3xl">
+                      <BsCart4 />
+                      <div>My Courses</div>
+                    </div>
+                  </NavLink>
+                )}
+                {user?.accountType === "Instructor" && (
+                  <NavLink to={"/dashboard/add-courses"}>
+                    <div className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
+                      <FaPlus />
+                      <div>Add Courses</div>
+                    </div>
+                  </NavLink>
+                )}
+                <NavLink to={'/dashboard/setting'}>
+                <div className='w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl'>
+                    <MdSettings/>
+                    <div>Settings</div>
+                </div>
+            </NavLink>
+            <div onClick={logoutHandler} className='w-full flex justify-start cursor-pointer items-center gap-1 text-xl rounded-l-3xl'>
+                <IoMdLogOut/>
+                <div>Logout</div>
             </div>
-          )}
-          <Link to={"/"}>
-            <div className="flex justify-center items-center text-xl">Home</div>
-          </Link>
-          <div className="flex justify-center items-center text-xl group cursor-pointer">
-            <span>Courses </span>
-            <CourseList /> <FaAngleDown className="ml-1" />{" "}
+              </div>
+            )}
           </div>
-          <div className="flex justify-center items-center text-xl">
-            Job Portal
-          </div>
-          <Link to={"/aboutus"}>
-            <div className="flex justify-center items-center text-xl">
-              About Us
-            </div>
-          </Link>
-          <Link to={"/contact-us"}>
-            <div className="flex justify-center items-center text-xl">
-              Contact Us
-            </div>
-          </Link>
         </div>
-      </div>}
+      )}
     </div>
   );
 };

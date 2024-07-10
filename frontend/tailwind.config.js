@@ -11,6 +11,9 @@ export default {
         'black-bg' : '#2c2d30',
         'glod-color' : '#f9cb5e'
         //0078ae
+      },
+      fontFamily: {
+        cursive: ['"Great Vibes"', 'cursive'],
       }
     },
   },

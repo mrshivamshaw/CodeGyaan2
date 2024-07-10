@@ -3,9 +3,9 @@ import founding from "../../assets/aboutus/FoundingStory.84f2828a5f4a9c08a802.pn
 
 const FoundingStory = () => {
   return (
-    <div className="max-w-[100vw]  h-auto py-[10vh] border-y\t-[1px] border-white">
-      <div className="w-[85vw] mx-auto ">
-        <div className="flex justify-between items-center gap-[5vw]">
+    <div className="max-w-[95vw] md:max-w-[95vw] lg:max-w-[85vw] xl:max-w-[85vw] m-auto h-auto py-10 md:py-10 lg:py-[10vh] xl:py-[10vh]">
+      <div className="max-w-[95vw] md:max-w-[95vw] lg:max-w-[85vw] xl:max-w-[85vw]  mx-auto ">
+        <div className="flex flex-col md:flex-col lg:flex-row xl:flex-row justify-between items-center gap-[5vw]">
           <div className="flex flex-col justify-start items-start gap-4">
             <h1 className="text-4xl text-white font-semibold">
               Our Founding <span className="text-glod-color">Story</span>.
@@ -26,9 +26,9 @@ const FoundingStory = () => {
               from all walks of life to unlock their full potential.
             </p>
           </div>
-          <img src={founding} alt="founding" className="shadow-xl shadow-black"/>
+          <img src={founding} alt="founding" className="shadow-xl shadow-black w-full md:w-full lg:w-auto xl:w-auto"/>
         </div>
-        <div className=" flex justify-between items-start gap-[5vw] pt-[15vh]">
+        <div className=" flex  flex-col md:flex-col lg:flex-row xl:flex-row justify-between items-start gap-[5vw] pt-[15vh]">
             <div>
                 <h1 className="text-4xl text-white font-semibold">Our <span className="text-glod-color">Vision</span>.</h1>
                 <p className="text-white/80 font-light mt-[4vh]">With this vision in mind, we set out on a journey to create an e-learning platform that would revolutionize the way people learn. Our team of dedicated experts worked tirelessly to develop a robust and intuitive platform that combines cutting-edge technology with engaging content, fostering a dynamic and interactive learning experience.</p>
