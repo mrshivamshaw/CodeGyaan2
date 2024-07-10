@@ -22,7 +22,7 @@ const Login = () => {
 
   return (
     <div className="w-screen h-screen flex justify-center items-start">
-      <img src={authImage} alt="signin" className="h-full w-auto" />
+      <img src={authImage} alt="signin" className="h-full w-auto hidden md:hidden lg:block xl:block" />
       <div className="flex flex-col gap-[6vh] shadow-2xl h-full w-full pt-[10vh] px-[5vw]">
       <Link to={'/'}>
         <h1 className="text-4xl font-bold text-white flex justify-start items-center">

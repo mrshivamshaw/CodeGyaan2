@@ -51,7 +51,7 @@ const SignInSite = () => {
 
   return (
     <div className="w-screen h-screen flex justify-center items-start">
-      <img src={authImage} alt="signin" className="h-full w-auto" />
+      <img src={authImage} alt="signin" className="h-full w-auto hidden md:hidden lg:block xl:block" />
       <div className="flex flex-col gap-[6vh] shadow-2xl h-full w-full pt-[3vh] px-[3vw]">
         <Link to={"/"}>
           <h1 className="text-4xl font-bold text-white flex justify-start items-center">
@@ -189,7 +189,7 @@ const SignInSite = () => {
                   />
                 </div> */}
               </div>
-              <div className="flex gap-[1.45vw] ">
+              <div className="flex gap-[1.45vw]  ">
                 <div className="flex flex-col h-[7vh] justify-end items-start">
                   <label
                     htmlFor="pass"
@@ -257,12 +257,12 @@ const SignInSite = () => {
                   </Link>
                 </div>
               </div>{" "}
-              <div className="w-full text-white text-lg font-light text-center">
+              {/* <div className="w-full text-white text-lg font-light text-center">
                 OR
               </div>
               <button className="bg-white w-full text-center py-2 font-semibold rounded-md text-black">
                 Signin with Google
-              </button>
+              </button> */}
             </form>
           </div>
         </div>

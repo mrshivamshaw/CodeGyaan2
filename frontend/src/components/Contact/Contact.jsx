@@ -11,10 +11,10 @@ const Contact = () => {
   const [numActive, setNumActive] = useState(false);
   const [messageActive, setMessageActive] = useState(false);
   return (
-    <div className="w-full h-[100vh]">
+    <div className="w-full h-auto">
       <NavBar />
-      <div className="w-[85vw] mx-auto flex justify-between items-start py-[10vh] gap-[8vw] h-full">
-        <div className="flex flex-col justify-start items-start gap-2 w-[50%]">
+      <div className="w-[95vw] md:w-[95vw] lg:w-[85vw] xl:w-[85vw] mx-auto flex flex-col md:flex-col lg:flex-row xl:flex-row justify-between items-start py-[5vh] md:py-[5vh] lg:py-[10vh] xl:py-[10vh] gap-[8vw] h-full">
+        <div className="flex flex-col justify-start items-start gap-2 w-[100%] md:w-[100%] lg:w-[50%] xl:w-[50%] ">
           <h1 className="text-white text-4xl font-bold">Contact <span className="text-glod-color">Us</span>.</h1>
           <p className="text-white text-lg font-light">
             For any queries, Please reach out to us. Our Support team will get
@@ -27,13 +27,13 @@ const Contact = () => {
             <MdCall />
             <span>+91 8867917516</span>
           </p>
-          <div className="w-[65%] flex justify-center items-start ">
+          <div className="w-[100%] md:w-[100%] lg:w-[65%] xl:w-[65%]  flex justify-center items-start ">
             <img src={contactus} alt="contactus" className="w-full" />
           </div>
         </div>
-        <div className="w-[50%] shadow-black shadow-lg p-10 h-full">
+        <div className="w-[100%] md:w-[100%] lg:w-[50%] xl:w-[50%]  shadow-black shadow-lg p-5 md:p-5 lg:p-10 xl:p-10 h-full">
           <form className="w-full flex flex-col gap-4 justify-start  h-full">
-            <h1 className="text-4xl text-white font-semibold">
+            <h1 className="text-2xl md:text-4xl lg:text-4xl xl:text-4xl text-white font-semibold">
               Got an <span className="text-glod-color">Idea</span>? We've got the skills. Let's team up
             </h1>
             <p className="text-white/80">

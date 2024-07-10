@@ -4,10 +4,10 @@ import { courseReviwe } from "../../data/courseReviwe";
 const Review = () => {
   return (
     <div className="max-w-[100vw] flex flex-col justify-center items-center gap-5 my-[10vh]">
-        <h1 className="text-4xl font-bold text-white">Reviews from other <span className="text-glod-color">Learners</span>.</h1>
+        <h1 className="text-4xl font-bold text-white pl-4 md:pl-4 lg:p-0 xl:pl-0">Reviews from other <span className="text-glod-color">Learners</span>.</h1>
         <div className="w-[85vw] mx-auto overflow-x-scroll flex gap-6">
         {courseReviwe.map((item, index) => (
-            <div key={index} className="p-5 flex justify-start flex-col gap-3 bg-black-bg min-w-[20vw] text-white">
+            <div key={index} className="p-5 flex justify-start flex-col gap-3 bg-black-bg min-w-[60vw] md:min-w-[30vw] lg:min-w-[20vw] xl:min-w-[20vw] text-white">
             <div className="flex justify-start items-center gap-3">
                     <div className="w-[40px] h-[40px] text-center text-lg font-bold pt-[4px] bg-cyan-300 text-black rounded-full">{item.short}</div>
                     <div>
