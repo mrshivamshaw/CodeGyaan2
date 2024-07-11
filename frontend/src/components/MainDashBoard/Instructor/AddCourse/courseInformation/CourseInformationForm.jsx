@@ -182,7 +182,7 @@ const CourseInformationForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="rounded-xl border-richblack-700 bg-richblack-800 p-6 space-y-8 w-full shadow-2xl"
+      className="rounded-xl border-richblack-700 bg-richblack-800 p-6 space-y-8 w-full shadow-2xl "
     >
       <div className="text-white/90 flex flex-col">
         <label htmlFor="courseTitle">
