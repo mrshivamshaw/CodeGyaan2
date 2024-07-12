@@ -70,7 +70,7 @@ const HomeSection3 = () => {
               </div>
             </div>
           </div>
-          <div className="relative w-full">
+          <div className="relative w-[100%] md:w-full lg:w-[55%] xl:w-[55%]">
             <div className=" h-auto z-10 shadow-2xl shadow-black/10 w-full">
               <img src={girlStudy} alt="timeline" className="w-[100%] md:h-[40vh] lg:h-[40vh] xl:h-[40vh] min-h-[55vh]" />
             </div>
