@@ -50,7 +50,7 @@ const NavBar = () => {
     dispatch(setLoading(true));
     await getCart(dispatch, setLoading, toast);
     dispatch(setLoading(false));
-    console.log(cart);
+    // console.log(cart);
     navigate("/dashboard/your-cart");
   };
 
@@ -92,6 +92,19 @@ const NavBar = () => {
         )}
         <div className="block md:block lg:hidden xl:hidden">
           <div className="flex justify-end items-center gap-2">
+          {user?.accountType === "Student" && (
+              <div
+                onClick={getCartHandler}
+                className={
+                  "flex justify-center items-center cursor-pointer group relative text-white/80"
+                }
+              >
+                <BsCart4 style={{ fontSize: "20px" }} />
+                <div className="absolute bg-yellow-300 w-[14px] h-[14px] text-[10px] text-center -top-1 -right-1 text-black/50 font-bold rounded-full">
+                  {totalItem}
+                </div>
+              </div>
+            )}
             <BsSearch
               className="text-white/80 text-xl font-bold"
               onClick={() => setSearchActive(!searchActive)}
@@ -111,6 +124,7 @@ const NavBar = () => {
                 onClick={() => setPhnExt(!phnExt)}
               />
             )}
+            
           </div>
         </div>
 
@@ -178,7 +192,9 @@ const NavBar = () => {
             <span>Courses </span>
             <CourseList /> <FaAngleDown className="ml-1" />{" "}
           </div>
+          <Link to='/job' >
           <div className="flex justify-center items-center">Job Portal</div>
+          </Link>
           <Link to={"/aboutus"}>
             <div className="flex justify-center items-center">About Us</div>
           </Link>
@@ -258,9 +274,11 @@ const NavBar = () => {
                   <span>Courses </span>
                   <CourseList /> <FaAngleDown className="ml-1" />{" "}
                 </div>
+                <Link to='/job'>
                 <div className="flex justify-center items-center text-xl">
                   Job Portal
                 </div>
+                </Link>
                 <Link to={"/aboutus"}>
                   <div className="flex justify-center items-center text-xl">
                     About Us

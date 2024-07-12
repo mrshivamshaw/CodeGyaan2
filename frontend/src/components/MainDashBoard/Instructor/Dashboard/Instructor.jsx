@@ -37,7 +37,7 @@ export default function Instructor() {
   );
 
   return (
-    <div className="p-8 ">
+    <div className="w-[100%] md:w-[100%] lg:w-[80%] xl:w-[80%] h-[81vh]  profile pb-[10vh] pt-[5vh] mt-1 p-0 md:p-0 lg:p-0 mx-auto xl:p-8 overflow-y-scroll">
       <div className="space-y-2">
         <h1 className="text-4xl font-bold text-white">
           Hi <span className="text-glod-color">{user?.firstName}</span>👋
@@ -50,7 +50,7 @@ export default function Instructor() {
         <div className="spinner"></div>
       ) : courses.length > 0 ? (
         <div>
-          <div className="my-4 flex h-[450px] space-x-4 text-white">
+          <div className="my-4 flex flex-col h-[450px] space-x-4 text-white">
             {/* Render chart / graph */}
             {totalAmount > 0 || totalStudents > 0 ? (
               <InstructorChart courses={instructorData} />
@@ -87,34 +87,34 @@ export default function Instructor() {
               </div>
             </div>
           </div>
-          <div className="rounded-md bg-richblack-800 p-6">
+          <div className="rounded-md w-full p-6">
             {/* Render 3 courses */}
             <div className="flex items-center justify-between">
-              <p className="text-lg font-bold text-richblack-5">Your Courses</p>
+              <p className="text-lg font-bold text-white">Your Courses</p>
               <Link to="/dashboard/my-courses">
                 <p className="text-xs font-semibold text-yellow-50">View All</p>
               </Link>
             </div>
-            <div className="my-4 flex items-start space-x-6">
+            <div className="my-4 flex flex-col md:flex-col lg:flex-row xl:flex-row w-full items-start gap-6">
               {courses.slice(0, 3).map((course) => (
-                <div key={course._id} className="w-1/3">
+                <div key={course._id} className="w-full md:w-full lg:w-1/3 xl:w-1/3">
                   <img
                     src={course.thumbnail}
                     alt={course.courseName}
-                    className="h-[201px] w-full rounded-md object-cover"
+                    className="h-[161px] md:h-[301px] lg:h-[208px] xl:h-[208px] min-w-full rounded-md object-cover"
                   />
                   <div className="mt-3 w-full">
-                    <p className="text-sm font-medium text-richblack-50">
+                    <p className="text-sm font-medium text-white/90">
                       {course.courseName}
                     </p>
                     <div className="mt-1 flex items-center space-x-2">
-                      <p className="text-xs font-medium text-richblack-300">
+                      <p className="text-xs font-medium text-white/80">
                         {course.studentsEnrolled.length} students
                       </p>
-                      <p className="text-xs font-medium text-richblack-300">
+                      <p className="text-xs font-medium text-white/80">
                         |
                       </p>
-                      <p className="text-xs font-medium text-richblack-300">
+                      <p className="text-xs font-medium text-white/80">
                         Rs. {course.price}
                       </p>
                     </div>

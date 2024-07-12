@@ -27,6 +27,7 @@ import { ACCOUNT_TYPE } from "./utils/constant";
 import { useEffect, useState } from "react";
 import { checkToken, logout } from "./servies/operations/authOpertaion";
 import CategoryCourse from "./components/CategoryCourse/CategoryCourse";
+import JobPost from "./pages/JobPost/JobPortal";
 
 function App() {
   const { loading } = useSelector((state) => state.ui);
@@ -133,6 +134,7 @@ function App() {
             </>
           )}
         </Route>
+        <Route path="/job" element={<JobPost />} />
       </Routes>
       <Toaster />
     </div>
