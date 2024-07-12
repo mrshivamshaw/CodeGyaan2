@@ -37,8 +37,8 @@ const CourseOverView = () => {
   return (
     <div className='min-w-[100vw] min-h-[100vh] overflow-hidden'>
         <NavBar/>
-        <div className='w-[85%] mx-auto flex justify-between items-start gap-9 py-12'>
-          <div className='w-[80%]'>
+        <div className='w-[95%] md:w-[95%] lg:w-[85%] xl:w-[85%] mx-auto flex flex-col-reverse md:flex-col-reverse lg:flex-row xl:flex-row justify-between items-start gap-9 py-12'>
+          <div className='w-[95%] md:w-[95%] lg:w-[80%] xl:w-[80%] mx-auto'>
             <HeroSection course={result}/>
             <CourseContent content={result?.courseContent} author={result?.instructor}/>
             <ReviewSection reviews={result?.ratingAndReviews}/>

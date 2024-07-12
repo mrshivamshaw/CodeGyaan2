@@ -71,7 +71,7 @@ const SignInSite = () => {
               onSubmit={formSubmitHandler}
               className="flex flex-col gap-[3vh] w-full"
             >
-              <div className="flex gap-[1vw] bg-black-bg items-center justify-start w-[49%] p-2 rounded-3xl">
+              <div className="flex gap-[1vw] bg-black-bg items-center justify-start w-[57%] md:w-[27%] lg:w-[49%] xl:w-[49%] p-2 rounded-3xl">
                 <div
                   onClick={() => setChangeFiled({ ...changeFiled, accountType: "Student" })}
                   className={
@@ -93,7 +93,7 @@ const SignInSite = () => {
                   Instructor
                 </div>
               </div>
-              <div className="flex gap-[1.45vw]">
+              <div className="flex flex-col md:flex-col lg:flex-row xl:flex-row gap-[1.45vw]">
                 <div className="flex flex-col h-[7vh] justify-end ">
                   <label
                     htmlFor="first"
@@ -189,14 +189,14 @@ const SignInSite = () => {
                   />
                 </div> */}
               </div>
-              <div className="flex gap-[1.45vw]  ">
-                <div className="flex flex-col h-[7vh] justify-end items-start">
+              <div className="flex flex-col md:flex-col lg:flex-row xl:flex-row w-full  gap-[1.45vw]  ">
+                <div className="flex flex-col h-[7vh] justify-end items-start w-full bgb">
                   <label
                     htmlFor="pass"
                     className={
                       pass
-                        ? "text-white font-medium text-sm block"
-                        : "text-white font-medium text-sm hidden"
+                        ? "text-white font-medium text-sm block w-full"
+                        : "text-white font-medium text-sm hidden w-full"
                     }
                   >
                     Password
@@ -207,7 +207,7 @@ const SignInSite = () => {
                     name="password"
                     value={changeFiled.password}
                     onChange={(e) => changeHandler(e)}
-                    className="text-white rounded-lg px-4 py-1"
+                    className="text-white rounded-lg px-4 py-1 w-[90%]"
                     style={{
                       borderBottom: "1px solid white",
                     }}
@@ -216,7 +216,7 @@ const SignInSite = () => {
                     onBlur={() => setPass(false)}
                   />
                 </div>
-                <div className="flex flex-col h-[7vh] justify-end items-start ">
+                <div className="flex flex-col h-[7vh] justify-end items-start w-full">
                   <label
                     htmlFor="conpass"
                     className={
@@ -233,7 +233,7 @@ const SignInSite = () => {
                     name="confirmPassword"
                     value={changeFiled.confirmPassword}
                     onChange={(e) => changeHandler(e)}
-                    className="text-white rounded-lg px-4 py-1 "
+                    className="text-white rounded-lg px-4 py-1 w-[90%] "
                     style={{
                       borderBottom: "1px solid white",
                     }}

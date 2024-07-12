@@ -50,7 +50,7 @@ const BuyCourseCard = ({thumbnail, price,id,sectionId,subSectionId}) => {
   }
 
   return (
-    <div className='w-[490px] h-[530px] bg-black-bg rounded-xl shadow-md shadow-black mr-9 p-4'>
+    <div className='w-full md:w-full lg:w-[490px] xl:w-[490px] h-[530px] bg-black-bg rounded-xl shadow-md shadow-black mr-9 p-4'>
         <div className='w-full h-[220px] bg-glod-color rounded-t-xl flex justify-center items-center'>
             <img src={thumbnail} alt="img" className='w-full h-[220px]'/>
         </div>
