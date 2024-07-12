@@ -1,7 +1,13 @@
 import React from "react";
 import { formatDistanceToNow } from "date-fns";
 
-const JobCard = ({ job,seletedCompany , selectedLocation, setJobDetails, setJobDetailsPage}) => {
+const JobCard = ({
+  job,
+  seletedCompany,
+  selectedLocation,
+  setJobDetails,
+  setJobDetailsPage,
+}) => {
   const postedDate = formatDistanceToNow(new Date(job.posted_date), {
     addSuffix: true,
   });
@@ -9,7 +15,7 @@ const JobCard = ({ job,seletedCompany , selectedLocation, setJobDetails, setJobD
   if (job.company !== seletedCompany && seletedCompany) {
     return null;
   }
-  if(job.location !== selectedLocation && selectedLocation){  
+  if (job.location !== selectedLocation && selectedLocation) {
     return null;
   }
 
@@ -31,11 +37,20 @@ const JobCard = ({ job,seletedCompany , selectedLocation, setJobDetails, setJobD
         <p className="text-white/80">{job.job_description}</p>
       </div>
 
-      <div className="flex justify-between items-center gap-1 mt-2 w-full"> <a href={job.apply_link} className="w-[50%]" target="_blank">
-        <button className="inline-block w-[100%] bg-blue-bg hover:bg-slate-500 text-white text-lg font-semibold py-2 px-6 rounded-3xl  focus:outline-none focus:ring-2 focus:ring-blue-bg transition">
-          Apply
-        </button></a>
-        <button onClick={() =>{ setJobDetails(job); setJobDetailsPage(true)}} className="inline-block w-[50%] bg-glod-color text-white text-lg font-semibold py-2 px-6 rounded-3xl hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+      <div className="flex justify-between items-center text-base md:text-base lg:text-lg xl:text-lg gap-1 mt-2 w-full">
+        {" "}
+        <a href={job.apply_link} className="w-[50%]" target="_blank">
+          <button className="inline-block w-[100%] bg-blue-bg hover:bg-slate-500 text-white font-semibold py-2 px-6 rounded-3xl  focus:outline-none focus:ring-2 focus:ring-blue-bg transition">
+            Apply
+          </button>
+        </a>
+        <button
+          onClick={() => {
+            setJobDetails(job);
+            setJobDetailsPage(true);
+          }}
+          className="inline-block w-[50%] bg-glod-color text-white font-semibold py-2 px-6 rounded-3xl hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        >
           View details
         </button>
       </div>
