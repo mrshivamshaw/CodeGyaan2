@@ -64,7 +64,7 @@ const JobPost = () => {
   return (
     <div className="w-full h-auto">
       <NavBar />
-      <div className="w-full h-auto flex justify-center items-start gap-8">
+      <div className="w-full h-auto flex justify-center items-start gap-8 mt-32">
         <div className="w-[95%] md:w-[95%] lg:w-[50%] xl:w-[50%] h-auto flex flex-col justify-start items-start gap-10 my-7">
           <div className="flex flex-col justify-start items-start gap-1 w-full">
             <h1 className="text-white/90 text-4xl font-semibold flex justify-center items-center">

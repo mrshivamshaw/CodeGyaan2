@@ -8,7 +8,7 @@ const MainDashBoard = () => {
   return (
     <div className='max-w-full h-auto overflow-x-hidden'>
         <NavBar/>
-        <div className='flex'>
+        <div className='flex mt-32'>
         <Sidebar/>
         <Outlet/>
         </div>

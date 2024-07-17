@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { LiaFreeCodeCamp } from "react-icons/lia";
 import { Link, useNavigate } from "react-router-dom";
 import authImage from "../../assets/signin-banner-removebg-preview.png";
-import { signup } from "../../servies/operations/authOpertaion";
+import { sendOtp, signup } from "../../servies/operations/authOpertaion";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
@@ -44,9 +44,16 @@ const SendOTP = () => {
   
     dispatch(signup(newData, navigate));
   }
+
+  const reSendOtp = () => {
+    setOtp(["", "", "", "", "", ""]);
+    inputRefs.current[0].focus();
+    dispatch(sendOtp(data.email, navigate, data));
+  }
+
   return (
     <div className="w-screen h-screen flex justify-center items-start">
-      <img src={authImage} alt="signin" className="h-full w-auto" />
+      <img src={authImage} alt="signin" className="h-full w-auto hidden md:hidden lg:block xl:block" />
       <div className="flex flex-col gap-[6vh] shadow-2xl h-full w-full pt-[3vh] px-[3vw]">
         <Link to={"/"}>
           <h1 className="text-4xl font-bold text-white flex justify-start items-center">
@@ -73,7 +80,7 @@ const SendOTP = () => {
                     key={index}
                     ref={(el) => (inputRefs.current[index] = el)}
                     style={{ border: "1px solid white" }}
-                    className="m-2 border h-12 w-12 text-center form-control rounded text-white"
+                    className="m-1 md:m-1 lg:m-2 xl:m-2 border h-12 w-12 text-center form-control rounded text-white"
                     type="text"
                     id="first"
                     value={digit}
@@ -92,9 +99,7 @@ const SendOTP = () => {
                 </button>
                 <div className="w-full text-end text-white text-sm">
                   Didn't recived OTP?{" "}
-                  <Link to="/login">
-                    <span className="text-amber-300">Resend OTP</span>
-                  </Link>
+                    <span onClick={() => reSendOtp()} className="text-amber-300">Resend OTP</span>
                 </div>
               </div>{" "}
             </form>

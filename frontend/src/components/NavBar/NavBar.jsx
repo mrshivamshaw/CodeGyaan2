@@ -4,7 +4,12 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { LiaFreeCodeCamp } from "react-icons/lia";
 import { BsCart4, BsSearch } from "react-icons/bs";
 import { IoSearch } from "react-icons/io5";
-import { FaAngleDown, FaGraduationCap, FaIdCardAlt, FaPlus } from "react-icons/fa";
+import {
+  FaAngleDown,
+  FaGraduationCap,
+  FaIdCardAlt,
+  FaPlus,
+} from "react-icons/fa";
 import CourseList from "./CourseList";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { RiArrowRightSLine, RiDashboard2Line } from "react-icons/ri";
@@ -55,7 +60,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className="h-auto max-w-[100vw] overflow-x-hidden py-4 flex flex-col gap-4 shadow-md shadow-black">
+    <div className="absolute top-0 left-0 right-0 h-auto max-w-[100vw] bg-blue-bg py-4 flex flex-col gap-4 shadow-md shadow-black z-20">
       <div className="flex justify-between items-center w-[95%] md:w-[90%] lg:w-[85%] xl:w-[85%] mx-auto ">
         <Link to={"/"}>
           {" "}
@@ -92,7 +97,7 @@ const NavBar = () => {
         )}
         <div className="block md:block lg:hidden xl:hidden">
           <div className="flex justify-end items-center gap-2">
-          {user?.accountType === "Student" && (
+            {user?.accountType === "Student" && (
               <div
                 onClick={getCartHandler}
                 className={
@@ -124,62 +129,61 @@ const NavBar = () => {
                 onClick={() => setPhnExt(!phnExt)}
               />
             )}
-            
           </div>
         </div>
 
         {token && (
           <div className="hidden md:hidden lg:block xl:block">
             <div className="flex justify-center items-center gap-1 text-white py-1 ">
-            {user?.accountType === "Student" && (
-              <div
-                onClick={getCartHandler}
-                className={
-                  "flex justify-center items-center cursor-pointer group relative"
-                }
-              >
-                <BsCart4 style={{ fontSize: "20px" }} />
-                <div className="absolute bg-yellow-300 w-[14px] h-[14px] text-[10px] text-center -top-1 -right-1 text-black/50 font-bold rounded-full">
-                  {totalItem}
-                </div>
-              </div>
-            )}
-
-            <div
-              onClick={
-                dashboardActive
-                  ? () => setDashboardActive(false)
-                  : () => setDashboardActive(true)
-              }
-              className="flex justify-center items-center cursor-pointer group"
-            >
-              {/* <div className="bg-glod-color px-2 py-1 rounded-full">{user.firstName}</div> */}
-              <img
-                className="w-[35px] h-[35px] rounded-full"
-                src={user?.image}
-                alt="profile"
-              />
-              <TiArrowSortedDown style={{ fontSize: "15px" }} />
-              <div
-                className={
-                  dashboardActive
-                    ? "bg-[#2c2d30] absolute top-[9vh] right-[6vw] block group-hover:block hover:block  rounded-md"
-                    : "bg-[#2c2d30] absolute top-[9vh] right-[6vw] hidden group-hover:block hover:block  rounded-md"
-                }
-              >
-                <NavLink to={"/dashboard/profile"}>
-                  <div className="flex justify-start items-center px-3 hover:bg-slate-700 font-light py-2 rounded-md gap-1">
-                    <RiDashboard2Line />
-                    <div>Dashboard</div>
+              {user?.accountType === "Student" && (
+                <div
+                  onClick={getCartHandler}
+                  className={
+                    "flex justify-center items-center cursor-pointer group relative"
+                  }
+                >
+                  <BsCart4 style={{ fontSize: "20px" }} />
+                  <div className="absolute bg-yellow-300 w-[14px] h-[14px] text-[10px] text-center -top-1 -right-1 text-black/50 font-bold rounded-full">
+                    {totalItem}
                   </div>
-                </NavLink>
-                <div className="flex justify-start items-center px-3  hover:bg-slate-700 font-light py-2 rounded-md gap-1">
-                  <IoMdLogOut />
-                  <div onClick={logoutHandler}>Logout</div>
+                </div>
+              )}
+
+              <div
+                onClick={
+                  dashboardActive
+                    ? () => setDashboardActive(false)
+                    : () => setDashboardActive(true)
+                }
+                className="flex justify-center items-center cursor-pointer group "
+              >
+                {/* <div className="bg-glod-color px-2 py-1 rounded-full">{user.firstName}</div> */}
+                <img
+                  className="w-[35px] h-[35px] rounded-full"
+                  src={user?.image}
+                  alt="profile"
+                />
+                <TiArrowSortedDown style={{ fontSize: "15px" }} />
+                <div
+                  className={
+                    dashboardActive
+                      ? "bg-[#2c2d30] absolute z-30 top-[9vh] right-[6vw] block group-hover:block hover:block  rounded-md"
+                      : "bg-[#2c2d30] absolute z-30 top-[9vh] right-[6vw] hidden group-hover:block hover:block  rounded-md"
+                  }
+                >
+                  <NavLink to={"/dashboard/profile"}>
+                    <div className="flex justify-start items-center px-3 hover:bg-slate-700 font-light py-2 rounded-md gap-1">
+                      <RiDashboard2Line />
+                      <div>Dashboard</div>
+                    </div>
+                  </NavLink>
+                  <div className="flex justify-start items-center px-3  hover:bg-slate-700 font-light py-2 rounded-md gap-1">
+                    <IoMdLogOut />
+                    <div onClick={logoutHandler}>Logout</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
           </div>
         )}
       </div>
@@ -192,8 +196,8 @@ const NavBar = () => {
             <span>Courses </span>
             <CourseList /> <FaAngleDown className="ml-1" />{" "}
           </div>
-          <Link to='/job' >
-          <div className="flex justify-center items-center">Job Portal</div>
+          <Link to="/job">
+            <div className="flex justify-center items-center">Job Portal</div>
           </Link>
           <Link to={"/aboutus"}>
             <div className="flex justify-center items-center">About Us</div>
@@ -233,8 +237,8 @@ const NavBar = () => {
                   </Link>
                 </div>
               </div>
-            ) : 
-              !phnDashboard ? <div
+            ) : !phnDashboard ? (
+              <div
                 onClick={() => setPhnDashboard(!phnDashboard)}
                 className="w-full"
               >
@@ -258,11 +262,15 @@ const NavBar = () => {
                     <RiArrowRightSLine className="text-white/90 text-2xl" />
                   </div>
                 </div>
-              </div> :
-              <div className="flex justify-start items-center gap-1 text-white/80" onClick={() => setPhnDashboard(!phnDashboard)}>
+              </div>
+            ) : (
+              <div
+                className="flex justify-start items-center gap-1 text-white/80"
+                onClick={() => setPhnDashboard(!phnDashboard)}
+              >
                 <HiArrowSmLeft className="text-lg" /> <span>Back</span>
               </div>
-            }
+            )}
             {!phnDashboard ? (
               <div className="flex flex-col justify-start items-start gap-8">
                 <Link to={"/"}>
@@ -274,10 +282,10 @@ const NavBar = () => {
                   <span>Courses </span>
                   <CourseList /> <FaAngleDown className="ml-1" />{" "}
                 </div>
-                <Link to='/job'>
-                <div className="flex justify-center items-center text-xl">
-                  Job Portal
-                </div>
+                <Link to="/job">
+                  <div className="flex justify-center items-center text-xl">
+                    Job Portal
+                  </div>
                 </Link>
                 <Link to={"/aboutus"}>
                   <div className="flex justify-center items-center text-xl">
@@ -293,14 +301,14 @@ const NavBar = () => {
             ) : (
               <div className="flex flex-col justify-start items-start gap-8">
                 <NavLink to={"/dashboard/profile"}>
-                  <div className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
+                  <div onClick={() => setPhnExt(!phnExt)} className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
                     <CgProfile />
                     <div>Profile</div>
                   </div>
                 </NavLink>
                 {user?.accountType === "Student" && (
                   <NavLink to={"/dashboard/enrolled-courses"}>
-                    <div className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
+                    <div onClick={() => setPhnExt(!phnExt)} className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
                       <FaGraduationCap />
                       <div>Enrolled Courses</div>
                     </div>
@@ -308,15 +316,15 @@ const NavBar = () => {
                 )}
                 {user?.accountType === "Student" && (
                   <NavLink to={"/dashboard/your-cart"}>
-                    <div className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
+                    <div onClick={() => setPhnExt(!phnExt)} className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
                       <BsCart4 />
                       <div>Your Collections</div>
                     </div>
                   </NavLink>
                 )}
                 {user?.accountType === "Instructor" && (
-                  <NavLink to={"/dashboard/dashboard"}>
-                    <div className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
+                  <NavLink onClick={() => setPhnExt(!phnExt)} to={"/dashboard/dashboard"}>
+                    <div onClick={() => setPhnDashboard(!phnDashboard)} className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
                       <FaGraduationCap />
                       <div>Dashboard</div>
                     </div>
@@ -324,7 +332,7 @@ const NavBar = () => {
                 )}
                 {user?.accountType === "Instructor" && (
                   <NavLink to={"/dashboard/my-courses"}>
-                    <div className=" w-full flex justify-start items-center gap-1 text rounded-l-3xl">
+                    <div onClick={() => setPhnExt(!phnExt)} className=" w-full flex justify-start items-center gap-1 text rounded-l-3xl">
                       <BsCart4 />
                       <div>My Courses</div>
                     </div>
@@ -332,22 +340,25 @@ const NavBar = () => {
                 )}
                 {user?.accountType === "Instructor" && (
                   <NavLink to={"/dashboard/add-courses"}>
-                    <div className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
+                    <div onClick={() => setPhnExt(!phnExt)} className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
                       <FaPlus />
                       <div>Add Courses</div>
                     </div>
                   </NavLink>
                 )}
-                <NavLink to={'/dashboard/setting'}>
-                <div className='w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl'>
-                    <MdSettings/>
+                <NavLink to={"/dashboard/setting"}>
+                  <div onClick={() => setPhnExt(!phnExt)} className="w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
+                    <MdSettings />
                     <div>Settings</div>
+                  </div>
+                </NavLink>
+                <div
+                  onClick={logoutHandler}
+                  className="w-full flex justify-start cursor-pointer items-center gap-1 text-xl rounded-l-3xl"
+                >
+                  <IoMdLogOut />
+                  <div>Logout</div>
                 </div>
-            </NavLink>
-            <div onClick={logoutHandler} className='w-full flex justify-start cursor-pointer items-center gap-1 text-xl rounded-l-3xl'>
-                <IoMdLogOut/>
-                <div>Logout</div>
-            </div>
               </div>
             )}
           </div>
