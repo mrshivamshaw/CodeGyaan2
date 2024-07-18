@@ -39,11 +39,11 @@ export default function CoursesTable({ courses, setCourses }) {
 
 
   return (
-    <>
-      <Table className="rounded-xl border border-richblack-800 ">
+     <>
+      <Table className="rounded-xl border  w-full">
         <Thead>
-          <Tr className="flex gap-x-10 rounded-t-md border-b border-b-richblack-800 px-6 py-2">
-            <Th className="flex-1 text-left text-sm font-medium uppercase text-white">
+          <Tr className="flex gap-x-10 rounded-t-md border-b border-b-richblack-800 px-6 py-2 uppercase text-white">
+            <Th className=" flex-1 text-left text-sm font-medium uppercase text-white">
               Courses
             </Th>
             <Th className="text-left text-sm font-medium uppercase text-white">
@@ -69,7 +69,7 @@ export default function CoursesTable({ courses, setCourses }) {
             courses?.map((course) => (
               <Tr
                 key={course._id}
-                className="flex gap-x-10 border-b border-richblack-800 px-6 py-8"
+                className="flex gap-x-10 border-b border-richblack-800 px-6 py-8 w-full"
               >
                 <Td className="flex flex-1 gap-x-4">
                   <img

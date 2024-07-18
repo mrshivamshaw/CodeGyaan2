@@ -167,10 +167,11 @@ const NavBar = () => {
                 <div
                   className={
                     dashboardActive
-                      ? "bg-[#2c2d30] absolute z-30 top-[9vh] right-[6vw] block group-hover:block hover:block  rounded-md"
-                      : "bg-[#2c2d30] absolute z-30 top-[9vh] right-[6vw] hidden group-hover:block hover:block  rounded-md"
+                      ? " p-4 absolute z-30 top-[7vh] right-[6vw] block group-hover:block hover:block  rounded-md"
+                      : " p-4 absolute z-30 top-[7vh] right-[6vw] hidden group-hover:block hover:block  rounded-md"
                   }
                 >
+                  <div className="bg-[#2c2d30] rounded-md">
                   <NavLink to={"/dashboard/profile"}>
                     <div className="flex justify-start items-center px-3 hover:bg-slate-700 font-light py-2 rounded-md gap-1">
                       <RiDashboard2Line />
@@ -180,6 +181,7 @@ const NavBar = () => {
                   <div className="flex justify-start items-center px-3  hover:bg-slate-700 font-light py-2 rounded-md gap-1">
                     <IoMdLogOut />
                     <div onClick={logoutHandler}>Logout</div>
+                  </div>
                   </div>
                 </div>
               </div>

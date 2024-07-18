@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {Navigate, useNavigate} from 'react-router-dom'
-import { checkToken } from '../../servies/operations/authOpertaion';
+import { checkToken, logout } from '../../servies/operations/authOpertaion';
 import toast from 'react-hot-toast';
 
 const ProtectedRoute = ({children}) => {

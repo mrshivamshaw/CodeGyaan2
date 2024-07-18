@@ -13,7 +13,7 @@ const Contact = () => {
   return (
     <div className="w-full h-auto">
       <NavBar />
-      <div className="mt-20 w-[95vw] md:w-[95vw] lg:w-[85vw] xl:w-[85vw] mx-auto flex flex-col md:flex-col lg:flex-row xl:flex-row justify-between items-start py-[5vh] md:py-[5vh] lg:py-[10vh] xl:py-[10vh] gap-[8vw] h-full">
+      <div className="mt-14 md:mt-14 lg:mt-20 xl:mt-20 w-[95vw] md:w-[95vw] lg:w-[85vw] xl:w-[85vw] mx-auto flex flex-col md:flex-col lg:flex-row xl:flex-row justify-between items-start py-[5vh] md:py-[5vh] lg:py-[10vh] xl:py-[10vh] gap-[8vw] h-full">
         <div className="flex flex-col justify-start items-start gap-2 w-[100%] md:w-[100%] lg:w-[50%] xl:w-[50%] ">
           <h1 className="text-white text-4xl font-bold">Contact <span className="text-glod-color">Us</span>.</h1>
           <p className="text-white text-lg font-light">

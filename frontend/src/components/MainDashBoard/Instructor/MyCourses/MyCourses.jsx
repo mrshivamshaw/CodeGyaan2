@@ -24,7 +24,7 @@ export default function MyCourses() {
   }, [])
 
   return (
-    <div className="w-full h-[81vh] overflow-y-scroll profile px-8 py-8">
+    <div className="w-full h-[81vh] overflow-y-scroll profile px-3 md:px-4 lg:px-8 xl:px-8 py-8">
       <div className="mb-14 flex items-center justify-between ">
         <h1 className="text-4xl font-medium text-glod-color">My <span className="text-white">Courses.</span></h1>
         <IconBtn

@@ -11,33 +11,48 @@ export default function Instructor() {
   const [loading, setLoading] = useState(false);
   const [instructorData, setInstructorData] = useState(null);
   const [courses, setCourses] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [totalStudents, setTotalStudents] = useState(0);
 
   useEffect(() => {
-    (async () => {
-      setLoading(true);
-      const instructorApiData = await getUserDetails(token);
-      const result = await fetchInstructorCourses(token);
-      // console.log(result);
-      if (instructorApiData.length) setInstructorData(instructorApiData);
-      if (result) {
-        setCourses(result);
+    const fetchDetails = async () => {
+      try {
+        setLoading(true);
+        const instructorApiData = await getUserDetails(token);
+        const result = await fetchInstructorCourses(token);
+        console.log(instructorApiData);
+        console.log(result);
+        if (instructorApiData.length) setInstructorData(instructorApiData);
+        if (result) {
+          setCourses(result);
+          // console.log(result);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
       }
-      setLoading(false);
-    })();
-  }, []);
+    };
 
-  const totalAmount = instructorData?.reduce(
-    (acc, curr) => acc + curr.totalAmountGenerated,
-    0
-  );
+    fetchDetails();
+  }, [token]);
 
-  const totalStudents = instructorData?.reduce(
-    (acc, curr) => acc + curr.totalStudentsEnrolled,
-    0
-  );
+  useEffect(() => {
+    const calculate = () => {
+      let totalAmount = 0;
+      let totalStudents = 0;
+      courses.forEach((course) => {
+        totalAmount += course.price * course.studentsEnrolled.length;
+        totalStudents += course.studentsEnrolled.length;
+      });
+      setTotalAmount(totalAmount);
+      setTotalStudents(totalStudents);
+    };
+
+    calculate();
+  }, [courses]);
 
   return (
-    <div className="w-[100%] md:w-[100%] lg:w-[80%] xl:w-[80%] h-[81vh]  profile pb-[10vh] pt-[5vh] mt-1 p-0 md:p-0 lg:p-0 mx-auto xl:p-8 overflow-y-scroll">
+    <div className="w-[100%] md:w-[100%] lg:w-[80%] xl:w-[80%] h-[81vh] profile pb-[10vh] pt-[5vh] mt-1 px-4 md:px-4 lg:px-4 xl:px-4 p-0 md:p-0 lg:p-0 mx-auto xl:p-8 overflow-y-scroll">
       <div className="space-y-2">
         <h1 className="text-4xl font-bold text-white">
           Hi <span className="text-glod-color">{user?.firstName}</span>👋
@@ -47,13 +62,15 @@ export default function Instructor() {
         </p>
       </div>
       {loading ? (
-        <div className="spinner"></div>
+        <div className="h-full w-full flex justify-center items-center">
+          <div className="spinner"></div>
+        </div>
       ) : courses.length > 0 ? (
         <div>
-          <div className="my-4 flex flex-col h-[450px] space-x-4 text-white">
+          <div className="my-4 flex flex-col md:flex-col lg:flex-row xl:flex-row h-auto md:h-auto lg:h-[450px] xl:h-[450px] gap-4 text-white">
             {/* Render chart / graph */}
             {totalAmount > 0 || totalStudents > 0 ? (
-              <InstructorChart courses={instructorData} />
+              <InstructorChart courses={courses} />
             ) : (
               <div className="flex-1 rounded-md bg-richblack-800 p-6 bg-black-bg">
                 <p className="text-lg font-bold text-richblack-5">Visualize</p>
@@ -63,7 +80,7 @@ export default function Instructor() {
               </div>
             )}
             {/* Total Statistics */}
-            <div className="flex min-w-[250px] flex-col rounded-md bg-richblack-800 p-6 bg-black-bg">
+            <div className="flex min-w-[250px] flex-col rounded-md  p-6 bg-black-bg">
               <p className="text-lg font-bold text-richblack-5">Statistics</p>
               <div className="mt-4 space-y-4">
                 <div>
@@ -87,7 +104,7 @@ export default function Instructor() {
               </div>
             </div>
           </div>
-          <div className="rounded-md w-full p-6">
+          <div className="rounded-md w-full p-0 md:p-0 lg:p-6 xl:p-6">
             {/* Render 3 courses */}
             <div className="flex items-center justify-between">
               <p className="text-lg font-bold text-white">Your Courses</p>
@@ -96,8 +113,11 @@ export default function Instructor() {
               </Link>
             </div>
             <div className="my-4 flex flex-col md:flex-col lg:flex-row xl:flex-row w-full items-start gap-6">
-              {courses.slice(0, 3).map((course) => (
-                <div key={course._id} className="w-full md:w-full lg:w-1/3 xl:w-1/3">
+              {courses.slice(0, 3)?.map((course) => (
+                <div
+                  key={course._id}
+                  className="w-full md:w-full lg:w-1/3 xl:w-1/3 "
+                >
                   <img
                     src={course.thumbnail}
                     alt={course.courseName}
@@ -111,9 +131,7 @@ export default function Instructor() {
                       <p className="text-xs font-medium text-white/80">
                         {course.studentsEnrolled.length} students
                       </p>
-                      <p className="text-xs font-medium text-white/80">
-                        |
-                      </p>
+                      <p className="text-xs font-medium text-white/80">|</p>
                       <p className="text-xs font-medium text-white/80">
                         Rs. {course.price}
                       </p>
@@ -125,7 +143,7 @@ export default function Instructor() {
           </div>
         </div>
       ) : (
-        <div className="mt-20 rounded-md bg-richblack-800 p-6 py-20">
+        <div className="mt-20 rounded-md p-6 py-20">
           <p className="text-center text-2xl font-bold text-richblack-5">
             You have not created any courses yet
           </p>

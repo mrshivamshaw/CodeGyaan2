@@ -4,7 +4,7 @@ import { FaChalkboardTeacher } from "react-icons/fa";
 import { GrSchedules } from "react-icons/gr";
 import { RiFolderVideoFill } from "react-icons/ri";
 import { TbDiscount2 } from "react-icons/tb";
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import { getFullDetailsOfCourse } from "../../../servies/operations/courseOpertaions";
 const CourseCard = ({
   img,
@@ -19,6 +19,8 @@ const CourseCard = ({
 }) => {
 
   const [copied,setCopied] = useState(false)
+  const navigate = useNavigate();
+
 
   const check = async() =>{
     const courseDetail = await getFullDetailsOfCourse(id);
@@ -37,7 +39,6 @@ const CourseCard = ({
     .catch(err => console.error("Could not copy text: ", err));
   }
 
-  const enrollHandler = () => {}
 
   return (
     <div className="realative min-w-full max-w-[220px] md:min-w-[350px] lg:min-w-[350px] xl:min-w-[350px] hover:scale-105 transition-all duration-200 flex flex-col justify-start items-start bg-black-bg rounded-2xl border-[1px] border-blue-bg shadow-md shadow-black gap-3">
@@ -88,15 +89,16 @@ const CourseCard = ({
         </div>
       </div>
       <div className="flex justify-between items-center w-full">
-        <Link to={'/course/'+title+'/'+id} className="w-[50%]">
-          <button className="py-3 font-bold bg-glod-color w-full rounded-es-lg text-white hover:bg-[#b99b55]" style={{ WebkitTextStroke: ".2px #000" }}>
+        <Link to={'/course/'+title+'/'+id} className="w-[100%]">
+          <button className="py-3 font-bold bg-glod-color w-full rounded-b-lg text-white hover:bg-[#b99b55]" style={{ WebkitTextStroke: ".2px #000" }}>
             Explore
           </button>
         </Link>
-        <button onClick={enrollHandler} className="py-3 text-[#cbab61] w-[50%]">{JSON.parse(localStorage.getItem('user'))?.enrolledCourses.includes(id) ? "View" : "Enroll Now"}</button>
-      </div>
+        
+        </div>
     </div>
   );
 };
+
 
 export default CourseCard;

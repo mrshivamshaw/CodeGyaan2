@@ -48,7 +48,7 @@ export default function ViewCourse() {
   return (
     <div className="flex flex-col w-[100vw] h-[100vh] justify-between ">
       <NavBar/>
-      <div className="relative flex h-full md:h-full lg:h-[83vh] xl:h-[83vh] ">
+      <div className="relative flex h-full md:h-full lg:h-[83vh] xl:h-[83vh] mt-[75px] md:mt-[75px] lg:mt-32 xl:mt-32">
         <VideoDetailsSidebar setReviewModal={setReviewModal} />
         <div className=" flex-1 overflow-auto">
           <div>

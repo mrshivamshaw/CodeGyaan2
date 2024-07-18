@@ -22,7 +22,7 @@ const CourseList = () => {
   
   return (
     
-    <div className=' absolute top-[12.5vh] left-[25.7vw] z-20 hidden group-hover:block courselist py-4 bg-transparent'>
+    <div className=' absolute top-[13.5vh] left-[26.7vw] z-20 hidden group-hover:block courselist py-4 bg-transparent'>
       <div className='bg-[#2c2d30] rounded-md'>
         <div className='flex flex-col justify-start items-start '>
           {

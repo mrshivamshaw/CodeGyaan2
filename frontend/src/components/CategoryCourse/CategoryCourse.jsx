@@ -50,7 +50,7 @@ const CategoryCourse = () => {
   return (
     <div className="w-full h-full bg-blue-bg">
       <NavBar />
-      <div className="w-full py-10 bg-black-bg px-10 flex flex-col gap-4 mt-32">
+      <div className="w-full py-10 bg-black-bg px-10 flex flex-col gap-4 mt-10 lg:mt-32 xl:mt-32">
         <h2 className="text-white/80 text-base">
           Home / Category / <span className="text-glod-color">{name}</span>
         </h2>

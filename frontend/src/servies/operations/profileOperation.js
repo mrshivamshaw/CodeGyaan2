@@ -31,6 +31,9 @@ export const getEnrolledCourses =  async(token) => {
         if(!userData?.data?.success){
             toast.error("Unable to fetch User Data");
         }
+        // console.log(userData.data);
+        const ProgressCount = userData?.data?.courseProgressCountArray
+        localStorage.setItem("ProgressCount",JSON.stringify(ProgressCount))
         return userData.data.data
     } catch (error) {
         console.log(error);

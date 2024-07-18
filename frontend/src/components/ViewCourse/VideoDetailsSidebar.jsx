@@ -97,7 +97,7 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
                     <div className="w-[70%] font-semibold text-white capitalize">
                       {course?.sectionName}
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 text-white">
                       {/* <span className="text-[12px] font-medium">
                         Lession {course?.subSection.length}
                       </span> */}
@@ -148,7 +148,7 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
         ) : (
           <div
             onClick={() => setOpen(!open)}
-            className="flex h-[35px] my-2 mx-2 w-[35px] items-center justify-center rounded-full bg-richblack-100 p-1 text-richblack-700 hover:scale-90"
+            className="flex h-[35px] text-white my-2 mx-2 w-[35px] items-center justify-center rounded-full bg-richblack-100 p-1 text-richblack-700 hover:scale-90"
           >
             <IoIosArrowForward size={30} />
           </div>

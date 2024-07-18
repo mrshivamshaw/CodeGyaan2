@@ -162,7 +162,7 @@ const Settings = () => {
           </div>
           </div>
         </form>
-        <div className="flex flex-col w-full justify-start items-start bg-[#ff2a2a91] px-[3rem] py-[2rem] gap-[2vh] rounded-lg shadow border border-[#898989]">
+        {/* <div className="flex flex-col w-full justify-start items-start bg-[#ff2a2a91] px-[3rem] py-[2rem] gap-[2vh] rounded-lg shadow border border-[#898989]">
           <RiDeleteBin6Line
             style={{
               fontSize: "40px",
@@ -170,7 +170,7 @@ const Settings = () => {
               backgroundColor: "cb6b6b91",
             }}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

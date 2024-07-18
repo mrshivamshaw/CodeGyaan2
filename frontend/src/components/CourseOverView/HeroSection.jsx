@@ -9,7 +9,7 @@ const HeroSection = ({course}) => {
       <div className="w-full h-auto flex justify-between items-start gap-12">
         <div className="flex flex-col justify-start items-start gap-8">
           <div className="flex flex-col justify-start items-start gap-2">
-            <h1 className="text-white text-5xl font-bold">
+            <h1 className="text-white text-3xl md:text-3xl lg:text-5xl xl:text-5xl font-bold">
               {course?.courseName}
             </h1>
             <p className="text-lg text-white/85">
@@ -17,7 +17,7 @@ const HeroSection = ({course}) => {
             </p>
           </div>
           <div className="flex flex-col justify-start items-start gap-1">
-            <div className="flex justify-start items-center gap-2">
+            <div className="flex flex-col md:flex-col lg:flex-row xl:flex-row justify-start items-start md:text-start lg:text-center xl:items-center gap-2">
               <div className="text-yellow-200 text-xl font-semibold">
                 3.8 ⭐⭐⭐⭐⭐
               </div>
