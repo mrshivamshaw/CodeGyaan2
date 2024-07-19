@@ -50,7 +50,7 @@ const CategoryCourse = () => {
   return (
     <div className="w-full h-full bg-blue-bg">
       <NavBar />
-      <div className="w-full py-10 bg-black-bg px-10 flex flex-col gap-4 mt-10 lg:mt-32 xl:mt-32">
+      <div className="w-full py-10 bg-black-bg px-[3vw] flex flex-col gap-2 md:gap-3 lg:gap-4 xl:gap-4 mt-14 md:mt-14 lg:mt-32 xl:mt-32">
         <h2 className="text-white/80 text-base">
           Home / Category / <span className="text-glod-color">{name}</span>
         </h2>
@@ -62,12 +62,12 @@ const CategoryCourse = () => {
         </p>
       </div>
       <div className="w-full h-auto">
-        <div className="w-[85%] mx-auto py-10">
+        <div className="w-[95%] md:w-[90%] lg:w-[85%] xl:w-[85%] mx-auto py-10">
           <div className="text-xl text-glod-color font-semibold border-b-2 text-center border-glod-color w-[10vw] ">
             Most Popular
           </div>
           <hr className="border-1 border-white/70" />
-          <div className="w-full h-auto py-10 flex flex-wrap gap-10">
+          <div className="w-full h-auto py-10 flex flex-wrap  gap-10">
             {courses.map((course, index) => (
               <CourseCard
                 key={index}
@@ -86,7 +86,7 @@ const CategoryCourse = () => {
           <div className="text-4xl text-white font-semibold text-start mt-16">
             Related <span className="text-glod-color">Courses</span>.
           </div>
-          <div className="w-full h-auto pb-10 pt-5 flex flex-wrap gap-10">
+          <div className="w-full h-auto pb-10 pt-5 flex flex-wrap  gap-10">
             {relatedCourses?.map((course, index) => (
               <CourseCard
                 key={index}

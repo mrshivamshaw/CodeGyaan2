@@ -56,7 +56,7 @@ const Settings = () => {
                 <input
                   type="file"
                   accept=".jpeg, .png, .jpg"
-                  className="py-[3px] bg-[#cbab61] rounded font-semibold text-white hover:bg-[#b99b55] w-[250px]"
+                  className="py-[3px] bg-glod-color rounded font-semibold text-white hover:bg-[#b99b55] w-[250px]"
                   placeholder="select"
                   onChange={(e) => setImage(e.target.files[0])}
                 />

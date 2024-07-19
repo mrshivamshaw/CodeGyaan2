@@ -10,7 +10,7 @@ const HomeSection4 = () => {
   return (
     <div className='w-full py-10'>
         <div className='w-[95%] md:w-[95%] lg:w-[85%] xl:w-[85%] mx-auto '>
-            <h1 className='text-3xl md:text-4xl lg:text-4xl xl:text-4xl w-full text-center md:text-start lg:text-start xl:text-start font-semibold text-white'>Explore Our <span className='text-[#cbab61]'>Ecosystem.</span></h1>
+            <h1 className='text-3xl md:text-4xl lg:text-4xl xl:text-4xl w-full text-center md:text-start lg:text-start xl:text-start font-semibold text-white'>Explore Our <span className='text-glod-color'>Ecosystem.</span></h1>
             <p className='font-extralight text-center md:text-start lg:text-start xl:text-start  mt-1 text-white'>A one-stop destination for all your learning to placement needs</p>
         </div>
         <div className='w-[95%] md:w-[95%] lg:w-[85%] xl:w-[85%] mx-auto flex justify-between items-center gap-10 mt-5 md:mt-0 lg:mt-0 xl:mt-0'>

@@ -29,6 +29,7 @@ import { HiArrowSmLeft } from "react-icons/hi";
 
 const NavBar = () => {
   const [dashboardActive, setDashboardActive] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
@@ -59,6 +60,45 @@ const NavBar = () => {
     navigate("/dashboard/your-cart");
   };
 
+  const searchInputHandler = () => {
+    const toastId = toast.loading("Loading...");
+  
+    try {
+      if (!searchInput) {
+        toast.error("Search input cannot be empty.");
+        toast.dismiss(toastId);
+        return;
+      }
+      
+      const products = JSON.parse(sessionStorage.getItem("category")) || [];
+      
+      const productTitles = products.map((product) => 
+      {
+        return {
+          name: product.name.toLowerCase(),
+          _id: product._id
+        }
+      }
+      );
+      const searchLower = searchInput.toLowerCase();
+      const matchedProduct = productTitles.find(title => title.name.includes(searchLower));
+      if (matchedProduct) {
+        const category = JSON.parse(sessionStorage.getItem("getAllCourses"))
+        .find(course => course.category === matchedProduct._id).category;
+        navigate(`/courses/category/${category}`);
+        setSearchActive(false);
+        setSearchInput("");
+      } else {
+        toast.error("Product Not Found");
+      }
+    } catch (error) {
+      console.error("Error parsing products from session storage:", error);
+      toast.error("An error occurred while searching for the product.");
+    } finally {
+      toast.dismiss(toastId);
+    }
+  };
+
   return (
     <div className="absolute top-0 left-0 right-0 h-auto max-w-[100vw] bg-blue-bg py-4 flex flex-col gap-4 shadow-md shadow-black z-20">
       <div className="flex justify-between items-center w-[95%] md:w-[90%] lg:w-[85%] xl:w-[85%] mx-auto ">
@@ -76,6 +116,9 @@ const NavBar = () => {
               type="text"
               className="w-full allunset h-full border-none rounded-lg px-4"
               placeholder="Search by product title"
+              value={searchInput}
+              onChange={e => setSearchInput(e.target.value)}
+              onKeyUp={e => e.key === "Enter" && searchInputHandler()}
             />
           </div>
         </div>
@@ -211,12 +254,14 @@ const NavBar = () => {
       </div>
       {searchActive && (
         <div className="w-[95%] mx-auto">
-          <div className="w-[100%] relative flex justify-center items-center  border-black bg-black-bg text-white rounded-xl">
-            <IoSearch className="px-3 text-[2.6rem] bg-glod-color rounded-l-xl group hover:bg-[#b99b55] cursor-pointer " />
+          <div className="w-[100%] relative flex justify-center items-center  border-black bg-black-bg text-[white] rounded-xl">
+            <IoSearch onClick={searchInputHandler} className="px-3 text-[2.6rem] bg-glod-color rounded-l-xl group hover:bg-[#b99b55] cursor-pointer " />
             <input
               type="text"
               className="w-full allunset h-full border-none rounded-lg px-4"
               placeholder="Search by product title"
+              onChange={(e) => setSearchInput(e.target.value)}
+              value={searchInput}
             />
           </div>
         </div>

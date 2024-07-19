@@ -24,7 +24,7 @@ const Profile = () => {
             </div>
           </div>
           <Link to={'/dashboard/setting'}>
-                <button className="py-2 px-6 bg-[#cbab61] rounded font-semibold text-white hover:bg-[#b99b55]">
+                <button className="py-2 px-6 bg-glod-color rounded font-semibold text-white hover:bg-[#b99b55]">
                 Edit{" "}
                 <FiEdit style={{ display: "inline", margin: "0 0 5px 5px" }} />
                 </button>
@@ -36,7 +36,7 @@ const Profile = () => {
             <p className="text-white/40">{user.about ? user.about : "Write something about yourself"}</p>
           </div>
           <Link to={'/dashboard/setting'}>
-                <button className="py-2 px-6 bg-[#cbab61] rounded font-semibold text-white hover:bg-[#b99b55]">
+                <button className="py-2 px-6 bg-glod-color rounded font-semibold text-white hover:bg-[#b99b55]">
                 Edit{" "}
                 <FiEdit style={{ display: "inline", margin: "0 0 5px 5px" }} />
                 </button>
@@ -46,7 +46,7 @@ const Profile = () => {
           <div className="flex flex-col md:flex-col xl:flex-row lg:flex-row justify-start md:justify-start lg:justify-between xl:justify-between items-start md:items-start lg:items-center xl:items-center gap-2 text-white w-full">
             <h1 className="font-semibold text-xl">Personal Details</h1>
             <Link to={'/dashboard/setting'}>
-                <button className="py-2 px-6 bg-[#cbab61] rounded font-semibold text-white hover:bg-[#b99b55]">
+                <button className="py-2 px-6 bg-glod-color rounded font-semibold text-white hover:bg-[#b99b55]">
                 Edit{" "}
                 <FiEdit style={{ display: "inline", margin: "0 0 5px 5px" }} />
                 </button>
