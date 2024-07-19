@@ -7,6 +7,9 @@ import {Provider} from 'react-redux'
 import {configureStore} from '@reduxjs/toolkit'
 import rootReducer from './reducer/index.js'
 import { Analytics } from '@vercel/analytics/react'
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 const store = configureStore({
   reducer: rootReducer

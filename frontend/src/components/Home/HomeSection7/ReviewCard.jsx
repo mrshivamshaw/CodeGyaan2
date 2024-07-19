@@ -4,7 +4,7 @@ import { LiaLongArrowAltRightSolid } from "react-icons/lia";
 
 const ReviewCard = (props) => {
   return (
-    <div className='min-w-[280px] h-[330px] bg-black-bg rounded-xl shadow-md shadow-black'>
+    <div className='min-w-[280px] h-[330px] bg-black-bg rounded-xl shadow-md shadow-black mr-5'>
         <h1 className='w-full text-center py-1 bg-[#6d6a5e] rounded-t-xl font-semibold text-green-500'>Increment {props.increment}</h1>
         <div className='w-full text-white flex px-3 py-5 gap-4 justify-start items-center'>
             <div className='uppercase bg-glod-color text-center py-3 px-4 text-xl rounded-full'>{props.short_name}</div>

@@ -47,3 +47,25 @@
     font-size: 16px;
     color: white; /* Tick color */
   }
+
+  .carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+  
+  .carousel-item {
+    min-width: 300px; /* Adjust based on your item width */
+    margin-right: 10px; /* Space between items */
+    background-color: #eee; /* Example background color */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+ 
+  
