@@ -64,7 +64,7 @@ const SignInSite = () => {
             Get Onboard and jumpstart your career!
           </h1>
           <p className="text-sm text-white/80">
-            Please enter your details to signIn
+            Please enter your details to signup
           </p>
           <div>
             <form
@@ -248,7 +248,7 @@ const SignInSite = () => {
                   type="submit"
                   className="bg-glod-color w-full text-center py-2 font-semibold rounded-md text-[#fff] hover:bg-[#b99b55]"
                 >
-                  Sign In
+                  Sign up
                 </button>
                 <div className="w-full text-end text-white text-sm">
                   Existing user?{" "}
