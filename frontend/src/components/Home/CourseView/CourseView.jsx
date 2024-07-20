@@ -90,7 +90,7 @@ const CourseView = () => {
         {coursesList?.map((card, index) => {
           if (courseType === "Trending") {
             return (
-              <CourseCard
+              card?.status === "Published" && <CourseCard
                 key={index}
                 instructor={card.instructor.firstName + " " + card.instructor.lastName}
                 date={card.startDate}
@@ -106,7 +106,7 @@ const CourseView = () => {
           } else if (courseType === "Live") {
             return (
               card.mode === "Online" && (
-                <CourseCard
+                card?.status === "Published" && <CourseCard
                 key={index}
                 instructor={card.instructor.firstName + " " + card.instructor.lastName}
                 date={card.startDate}
@@ -124,7 +124,7 @@ const CourseView = () => {
            else if (courseType === "Community") {
             return (
               card.mode === "Hybrid" && (
-                <CourseCard
+                card?.status === "Published" && <CourseCard
                 key={index}
                 instructor={card.instructor.firstName + " " + card.instructor.lastName}
                 date={card.startDate}

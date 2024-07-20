@@ -2,7 +2,7 @@ import React from 'react'
 import ReactStars from 'react-rating-stars-component'
 
 const ReviewSection = ({reviews}) => {
-  // console.log(typeof reviews);
+  console.log(reviews);
   
   return (
     <div className='w-[100%] mx-auto border-[1px] border-white/80 p-5 flex flex-col justify-start items-start gap-5'>
@@ -44,7 +44,7 @@ const ReviewSection = ({reviews}) => {
         </div> */}
         <div className='flex flex-col gap-1'>
           <div className='flex justify-start items-center gap-2'>
-            <img className='w-[50px] h-[50px] rounded-full' src={reviews[0]?.user?.image} alt="" />
+            <img className='w-[50px] h-[50px] rounded-full' src={item?.user?.image} alt="" />
             <h2 className='text-lg font-semibold text-white/95'>{`${item?.user?.firstName} ${item?.user?.lastName}`}</h2>
           </div>
           <ReactStars count={item?.rating} color={'#f9cb5e'} size={27}/>

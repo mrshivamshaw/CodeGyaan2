@@ -1,6 +1,7 @@
 import React from "react";
 import Typewriter from "typewriter-effect";
 import heroImg from "../../../assets/hero-bg.png";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -29,9 +30,11 @@ const Hero = () => {
             CodeGyaan is the one-stop destination for your upskilling journey. Brace yourself to find the best job-ready courses and high-end technologies available in the sector. And if that weren't good enough, get the highest quality course content at the most affordable prices!
 What are we waiting for ? Let's push Start!
           </p>
+          <Link to="/courses/category/6631d1590fbbb60e66870a9e">
           <button className="bg-glod-color text-base md:text-[18px] lg:text-xl xl:text-xl font-semibold px-5 py-3 rounded hover:bg-[#b99b55] text-white w-full md:w-auto lg:w-auto xl:w-auto">
             Explore courses
           </button>
+          </Link>
         </div>
         <div className="w-[100%]">
           <img src={heroImg} alt="heroImg" className="w-full h-auto" />

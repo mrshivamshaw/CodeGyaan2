@@ -69,7 +69,7 @@ const CategoryCourse = () => {
           <hr className="border-1 border-white/70" />
           <div className="w-full h-auto py-10 flex flex-wrap  gap-10">
             {courses.map((course, index) => (
-              <CourseCard
+              course?.status === "Published" && <CourseCard
                 key={index}
                 img={course.thumbnail}
                 title={course.courseName}
@@ -88,7 +88,7 @@ const CategoryCourse = () => {
           </div>
           <div className="w-full h-auto pb-10 pt-5 flex flex-wrap  gap-10">
             {relatedCourses?.map((course, index) => (
-              <CourseCard
+              course?.status === "Published" && <CourseCard
                 key={index}
                 img={course.thumbnail}
                 title={course.courseName}
@@ -107,7 +107,7 @@ const CategoryCourse = () => {
           </div>
           <div className="w-full h-auto pb-10 pt-5 flex flex-wrap gap-10">
             {frequentlyViewed?.map((course, index) => (
-              <CourseCard
+              course?.status === "Published"  && <CourseCard
                 key={index}
                 img={course.thumbnail}
                 title={course.courseName}

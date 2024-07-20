@@ -1,6 +1,7 @@
 import React from 'react'
 import instructor from '../../../assets/Instructor.8b4c4f204053f0dfe844.png'
 import { FaArrowRight } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
 
 
 const BecomeAnInstructor = () => {
@@ -14,8 +15,9 @@ const BecomeAnInstructor = () => {
             <div className='w-[100%] md:w-[50%] lg:w-[50%] xl:w-[50%]  flex flex-col justify-start items-start gap-7'>
                 <h1 className=' text-4xl text-white font-semibold w-full '>Become An <span className='text-glod-color'>Instructor.</span></h1>
                 <p className='text-white'>Instructors from around the world teach millions of students on StudyNotion. We provide the tools and skills to teach what you love.</p>
+                <Link to={'/dashboard/profile'}>
                 <button className='w-full md:w-auto lg:w-auto xl:w-auto bg-glod-color hover:bg-[#b99b55] px-4 py-2 rounded text-white'><span className='mr-1 font-medium '>Start Teaching Today</span><span><FaArrowRight className='inline'/></span></button>
-
+                </Link>
             </div>
         </div>
     </div>

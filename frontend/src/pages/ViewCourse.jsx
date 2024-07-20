@@ -15,6 +15,8 @@ import CourseReviewModal from "../components/ViewCourse/CourseReviewModal";
 export default function ViewCourse() {
   const { courseId } = useParams();
   const { token } = useSelector((state) => state.auth);
+  const [open, setOpen] = useState(true);
+
   const {
     courseSectionData,
     courseEntireData,
@@ -48,13 +50,13 @@ export default function ViewCourse() {
   return (
     <div className="flex flex-col w-[100vw] h-[100vh] justify-between ">
       <NavBar/>
-      <div className="relative flex h-full md:h-full lg:h-[83vh] xl:h-[83vh] mt-[75px] md:mt-[75px] lg:mt-32 xl:mt-32">
-        <VideoDetailsSidebar setReviewModal={setReviewModal} />
-        <div className=" flex-1 overflow-auto">
-          <div>
+      <div className="relative w-full flex justify-start md:justify-start lg:justify-end xl:justify-end items-start flex-col md:flex-col lg:flex-row-reverse xl:flex-row-reverse h-full md:h-full lg:h-[83vh] xl:h-[83vh] mt-[75px] md:mt-[75px] lg:mt-32 xl:mt-32">
+        <div className= {`flex ${!open ? "w-full md:w-full lg:w-[95%] xl:w-[95%] " : 'w-full md:w-full lg:w-[80%] xl:w-[80%] '} overflow-auto profile`}>
+          <div className="w-[100%]">
             <Outlet />
           </div>
         </div>
+        <VideoDetailsSidebar setReviewModal={setReviewModal} open={open} setOpen={setOpen} />
       </div>
       {reviewModal && <CourseReviewModal setReviewModal={setReviewModal} />}
     </div>

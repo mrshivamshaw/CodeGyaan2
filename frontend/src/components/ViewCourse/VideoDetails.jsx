@@ -265,8 +265,8 @@ const VideoDetails = () => {
         </Player>
       )}
 
-      <h1 className="mt-4 text-3xl font-semibold">{videoData?.title}</h1>
-      <p className="pt-2 pb-6">{videoData?.description}</p>
+      <h1 className="mt-4 text-3xl font-semibold px-3">{videoData?.title}</h1>
+      <p className="pt-2 pb-6 px-3">{videoData?.description}</p>
     </div>
   );
 };

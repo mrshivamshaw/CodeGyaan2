@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowDown, IoIosArrowForward, IoIosArrowUp } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -9,10 +9,9 @@ import { updateCompletedLectures } from "../../slices/viewCourseSlice";
 import { markLectureAsComplete } from "../../servies/operations/courseOpertaions";
 import toast from "react-hot-toast";
 
-export default function VideoDetailsSidebar({ setReviewModal }) {
+export default function VideoDetailsSidebar({ setReviewModal,open,setOpen }) {
   const [activeStatus, setActiveStatus] = useState("");
   const [videoBarActive, setVideoBarActive] = useState("");
-  const [open, setOpen] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -57,21 +56,22 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
 
   return (
     <>
-      <div className="h-full w-auto bg-black-bg overflow-hidden overflow-y-scroll profile">
+      <div className={`h-auto md:h-auto lg:h-full xl:h-full w-[100%] md:w-[100%] ${open ? "lg:w-[20%] xl:w-[20%]" : "lg:w-[5%] xl:w-[5%]"} bg-black-bg overflow-hidden overflow-y-scroll profile`}>
         {open ? (
-          <div className="flex w-[320px] max-w-[350px] flex-col">
-            <div className="px-2 flex flex-col items-start justify-between gap-2 gap-y-4 py-5 text-lg font-bold text-richblack-25">
-              <div className="flex w-full items-center justify-between ">
+          <div className="flex w-full flex-col">
+            <div className="px-2 flex flex-col items-start justify-between gap-2 gap-y-4 py-5 text-lg font-bold">
+              <div className="flex w-full items-center justify-between">
                 <div
                   onClick={() => setOpen(!open)}
-                  className="flex h-[35px] w-[35px] items-center justify-center rounded-full bg-richblack-100 p-1 text-richblack-700 hover:scale-90"
+                  className="flex h-[35px] w-[35px] items-center justify-center rounded-full p-1 hover:scale-90"
                   title="back"
                 >
-                  <IoIosArrowBack size={30} className="text-white/85" />
+                  <IoIosArrowBack size={30} className="text-white/85 hidden md:hidden lg:block xl:block" />
+                  <IoIosArrowDown size={30} className="text-white/85 block md:block lg:hidden xl:hidden" />
                 </div>
                 <IconBtn
                   text="Add Review"
-                  customClasses="ml-auto"
+                  customClasses=""
                   onclick={() => setReviewModal(true)}
                 />
               </div>
@@ -150,7 +150,8 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
             onClick={() => setOpen(!open)}
             className="flex h-[35px] text-white my-2 mx-2 w-[35px] items-center justify-center rounded-full bg-richblack-100 p-1 text-richblack-700 hover:scale-90"
           >
-            <IoIosArrowForward size={30} />
+            <IoIosArrowForward size={30}  className="text-white/85 hidden md:hidden lg:block xl:block"  />
+            <IoIosArrowUp size={30} className="text-white/85 block md:block lg:hidden xl:hidden" />
           </div>
         )}
       </div>

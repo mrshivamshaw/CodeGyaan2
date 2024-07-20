@@ -2,6 +2,7 @@ import React from "react";
 import { GiPodiumWinner, GiGraduateCap } from "react-icons/gi";
 import { IoDiamondSharp, IoCodeSlashSharp } from "react-icons/io5";
 import girlStudy from "../../../assets/TimelineImage.a610b1e5d891ac77fe93.png";
+import { Link } from "react-router-dom";
 
 const HomeSection3 = () => {
   return (
@@ -17,13 +18,15 @@ const HomeSection3 = () => {
               The modern CodeGyaan is the dictates its own terms. Today, to be a
               competitive specialist requires more than professional skills.
             </p>
-            <button className="py-3 px-6 bg-glod-color rounded font-semibold text-white hover:bg-[#b99b55]">
-              Learn More
-            </button>
+            <Link to="/dashboard/profile">
+              <button className="py-3 px-6 bg-glod-color rounded font-semibold text-white hover:bg-[#b99b55]">
+                Learn More
+              </button>
+            </Link>
           </div>
         </div>
-        <div className="w-full flex flex-col md:flex-col lg:flex-row xl:flex-row justify-center items-center py-16 gap-8">
-          <div className="flex flex-col justify-start items-start gap-4">
+        <div className="w-full flex flex-col md:flex-col lg:flex-row xl:flex-row justify-start md:justify-start lg:justify-center xl:justify-center items-center py-16 gap-8">
+          <div className="flex flex-col justify-start items-start gap-4 w-full md:w-full lg:w-auto xl:w-auto">
             <div className="flex justify-center items-center gap-7">
               <GiPodiumWinner className="text-6xl text-[#939ad8] bg-black-bg rounded-full p-4" />
               <div className="flex flex-col justify-start items-start gap-1">

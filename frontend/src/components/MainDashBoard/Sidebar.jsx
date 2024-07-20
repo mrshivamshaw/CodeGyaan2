@@ -7,6 +7,9 @@ import { MdSettings } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../servies/operations/authOpertaion";
+import toast from "react-hot-toast";
+import { setLoading } from "../../slices/UIslice";
+import { getCart } from "../../servies/operations/cartOperation";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -16,6 +19,15 @@ const Sidebar = () => {
     dispatch(logout());
     navigate("/login");
   };
+
+  const cartHandler = async() => {
+    dispatch(setLoading(true));
+    await getCart(dispatch, setLoading, toast);
+    dispatch(setLoading(false));
+    // console.log(cart);
+    navigate("/dashboard/your-cart");
+  };
+
   return (
     <div className="w-[20%] hidden md:hidden lg:block xl:block">
       <div className="sidebar w-full bg-black-bg h-[82vh] mt-1 flex items-start flex-col justify-center gap-[13vh] overflow-hidden">
@@ -36,11 +48,12 @@ const Sidebar = () => {
           )}
           {accountType === "Student" && (
             <NavLink to={"/dashboard/your-cart"}>
-              <div className=" w-full flex justify-start items-center gap-1 text-xl text-glod-color py-2 px-4 rounded-l-3xl">
+              <div onClick={cartHandler} className=" w-full flex justify-start items-center gap-1 text-xl text-glod-color py-2 px-4 rounded-l-3xl">
                 <BsCart4 />
                 <div>Your Collections</div>
               </div>
             </NavLink>
+            
           )}
           {accountType === "Instructor" && (
             <NavLink to={"/dashboard/dashboard"}>
