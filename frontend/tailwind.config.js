@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       colors:{
-        'blue-bg' : '#5f6168',
-        'black-bg' : '#2c2d30',
+        'blue-bg' : '#2A3439',
+        'black-bg' : '#0C0C0C',
         'glod-color' : '#f9cb5e'
         //0078ae
       },

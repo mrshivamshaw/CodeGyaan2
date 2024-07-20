@@ -25,7 +25,7 @@ const HomeSection3 = () => {
         <div className="w-full flex flex-col md:flex-col lg:flex-row xl:flex-row justify-center items-center py-16 gap-8">
           <div className="flex flex-col justify-start items-start gap-4">
             <div className="flex justify-center items-center gap-7">
-              <GiPodiumWinner className="text-6xl text-[#939ad8] bg-[#2c2d30] rounded-full p-4" />
+              <GiPodiumWinner className="text-6xl text-[#939ad8] bg-black-bg rounded-full p-4" />
               <div className="flex flex-col justify-start items-start gap-1">
                 <h2 className="text-white text-xl font-semibold">Leadership</h2>
                 <p className="text-white text-sm">
@@ -35,7 +35,7 @@ const HomeSection3 = () => {
             </div>
             <div className="h-[5vh] w-full border-dotted border-l-2 ml-7"></div>
             <div className="flex justify-center items-center gap-7">
-              <GiGraduateCap className="text-6xl text-rose-500 bg-[#2c2d30] rounded-full p-4" />
+              <GiGraduateCap className="text-6xl text-rose-500 bg-black-bg rounded-full p-4" />
               <div className="flex flex-col justify-start items-start">
                 <h2 className="text-white text-xl font-semibold">
                   Responsibility
@@ -47,7 +47,7 @@ const HomeSection3 = () => {
             </div>
             <div className="h-[5vh] w-full border-dotted border-l-2 ml-7"></div>
             <div className="flex justify-center items-center gap-7">
-              <IoDiamondSharp className="text-6xl text-green-400 bg-[#2c2d30] rounded-full p-4" />
+              <IoDiamondSharp className="text-6xl text-green-400 bg-black-bg rounded-full p-4" />
               <div className="flex flex-col justify-start items-start">
                 <h2 className="text-white text-xl font-semibold">
                   Flexibility
@@ -59,7 +59,7 @@ const HomeSection3 = () => {
             </div>
             <div className="h-[5vh] w-full border-dotted border-l-2 ml-7"></div>
             <div className="flex justify-center items-center gap-7">
-              <IoCodeSlashSharp className="text-6xl text-yellow-400 bg-[#2c2d30] rounded-full p-4" />
+              <IoCodeSlashSharp className="text-6xl text-yellow-400 bg-black-bg rounded-full p-4" />
               <div className="flex flex-col justify-start items-start">
                 <h2 className="text-white text-xl font-semibold">
                   Solve the problem

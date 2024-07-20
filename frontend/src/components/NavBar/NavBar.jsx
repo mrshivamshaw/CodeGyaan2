@@ -214,7 +214,7 @@ const NavBar = () => {
                       : " p-4 absolute z-30 top-[7vh] right-[6vw] hidden group-hover:block hover:block  rounded-md"
                   }
                 >
-                  <div className="bg-[#2c2d30] rounded-md">
+                  <div className="bg-black-bg rounded-md">
                   <NavLink to={"/dashboard/profile"}>
                     <div className="flex justify-start items-center px-3 hover:bg-slate-700 font-light py-2 rounded-md gap-1">
                       <RiDashboard2Line />
@@ -267,7 +267,7 @@ const NavBar = () => {
         </div>
       )}
       {phnExt && (
-        <div className="w-[85%] mx-auto block md:block lg:hidden xl:hidden mt-3 ">
+        <div className="w-[100%] mx-auto block md:block lg:hidden xl:hidden mt-3 ">
           <div className="flex flex-col items-start justify-start gap-8 text-white font-normal text-base ">
             {!token ? (
               <div className="w-auto mx-auto">
@@ -289,7 +289,7 @@ const NavBar = () => {
                 onClick={() => setPhnDashboard(!phnDashboard)}
                 className="w-full"
               >
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center px-5 py-3 w-full bg-black-bg">
                   <div className="flex justify-center items-center gap-2">
                     <img
                       src={user?.image}
@@ -319,34 +319,34 @@ const NavBar = () => {
               </div>
             )}
             {!phnDashboard ? (
-              <div className="flex flex-col justify-start items-start gap-8">
-                <Link to={"/"}>
-                  <div className="flex justify-center items-center text-xl">
+              <div className="flex flex-col justify-start items-start gap-8 w-full px-5">
+                <Link to={"/"} className="w-full">
+                  <div className="flex justify-start items-center text-xl w-full">
                     Home
                   </div>
                 </Link>
-                <div className="flex justify-center items-center text-xl group cursor-pointer">
+                <div className="flex justify-start w-full items-center text-xl group cursor-pointer ">
                   <span>Courses </span>
                   <CourseList /> <FaAngleDown className="ml-1" />{" "}
                 </div>
-                <Link to="/job">
-                  <div className="flex justify-center items-center text-xl">
+                <Link to="/job" className="w-full">
+                  <div className="flex justify-start items-center text-xl">
                     Job Portal
                   </div>
                 </Link>
-                <Link to={"/aboutus"}>
-                  <div className="flex justify-center items-center text-xl">
+                <Link to={"/aboutus"} className="w-full">
+                  <div className="flex justify-start items-center text-xl">
                     About Us
                   </div>
                 </Link>
-                <Link to={"/contact-us"}>
-                  <div className="flex justify-center items-center text-xl">
+                <Link to={"/contact-us"} className="w-full">
+                  <div className="flex justify-start items-center text-xl">
                     Contact Us
                   </div>
                 </Link>
               </div>
             ) : (
-              <div className="flex flex-col justify-start items-start gap-8">
+              <div className="flex flex-col justify-start items-start gap-8 px-5">
                 <NavLink to={"/dashboard/profile"}>
                   <div onClick={() => setPhnExt(!phnExt)} className=" w-full flex justify-start items-center gap-1 text-xl rounded-l-3xl">
                     <CgProfile />
