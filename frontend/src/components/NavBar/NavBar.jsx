@@ -132,7 +132,7 @@ const NavBar = () => {
               </Link>
               <Link to={"/signin"}>
                 <div className="text-base hover:cursor-pointer font-medium">
-                  &nbsp;Signin
+                  &nbsp;Signup
                 </div>
               </Link>
             </div>
@@ -279,7 +279,7 @@ const NavBar = () => {
                   </Link>
                   <Link to={"/signin"}>
                     <div className="text-base hover:cursor-pointer font-medium">
-                      &nbsp;Signin
+                      &nbsp;Signup
                     </div>
                   </Link>
                 </div>

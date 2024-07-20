@@ -79,7 +79,7 @@ const Login = () => {
               </div>
               <div>
               <button className="bg-glod-color w-full text-center py-2 font-semibold rounded-md text-[#fff] hover:bg-[#b99b55]">Login</button>
-                  <div className="w-full text-end text-white text-sm">New user? <Link to='/signin'><span className="text-amber-300">SignIn</span></Link></div>
+                  <div className="w-full text-end text-white text-sm">New user? <Link to='/signin'><span className="text-amber-300">Signup</span></Link></div>
               </div>
               {/* <div className="w-full text-white text-lg font-light text-center">OR</div>
               <button className="bg-white w-full text-center py-2 font-semibold rounded-md text-black">Signin with Google</button> */}
