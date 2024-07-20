@@ -138,7 +138,7 @@ export const addCourseDetails = async (data, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("CREATE COURSE API RESPONSE............", response);
+    // console.log("CREATE COURSE API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Add Course Details");
     }
@@ -169,7 +169,7 @@ export const editCourseDetails = async (data, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("EDIT COURSE API RESPONSE............", response);
+    // console.log("EDIT COURSE API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Update Course Details");
     }
@@ -198,7 +198,7 @@ export const createSection = async (data, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("CREATE SECTION API RESPONSE............", response);
+    // console.log("CREATE SECTION API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Create Section");
     }
@@ -227,7 +227,7 @@ export const createSubSection = async (data, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("CREATE SUB-SECTION API RESPONSE............", response);
+    // console.log("CREATE SUB-SECTION API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Add Lecture");
     }
@@ -256,13 +256,13 @@ export const updateSection = async (data, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("UPDATE SECTION API RESPONSE............", response);
+    // console.log("UPDATE SECTION API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Update Section");
     }
     toast.success("Course Section Updated");
     result = response?.data?.data;
-    console.log("bhai", result);
+    // console.log("bhai", result);
   } catch (error) {
     if(error?.response?.data?.message === "Token is invalid"){
       useNavigateHelper("/login");
@@ -320,7 +320,7 @@ export const deleteCourse = async (data, token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("DELETE COURSE API RESPONSE............", response);
+    // console.log("DELETE COURSE API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Delete Course");
     }
@@ -408,10 +408,10 @@ export const markLectureAsComplete = async (data) => {
     const response = await apiConneector("POST", courseEndpoints.markLectureAsComplete, data, {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     })
-    console.log(
-      "MARK_LECTURE_AS_COMPLETE_API API RESPONSE............",
-      response
-    )
+    // console.log(
+    //   "MARK_LECTURE_AS_COMPLETE_API API RESPONSE............",
+    //   response
+    // )
 
     if (!response?.data?.success) {
       toast.error(response?.data?.message)
@@ -440,7 +440,7 @@ export const createRating = async (data, token) => {
     const response = await apiConneector("POST", courseEndpoints.createRating, data, {
       Authorization: `Bearer ${token}`,
     })
-    console.log("CREATE RATING API RESPONSE............", response)
+    // console.log("CREATE RATING API RESPONSE............", response)
     if (!response?.data?.success) {
       toast.error(response?.data?.message)
       throw new Error("Could Not Create Rating")

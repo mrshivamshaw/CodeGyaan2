@@ -104,7 +104,8 @@ export const signup = async (req,res) =>{
         // await sendOtp(email)
         //find most recent otp
         const response = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
-		console.log(response);
+		// console.log("response wala otp", response);
+		// console.log("req wala otp", otp);
 
         //validate otp
         if (response.length === 0) {

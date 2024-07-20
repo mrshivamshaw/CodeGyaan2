@@ -15,10 +15,10 @@ export const updatePic = (image) => {
             formData.append("id", user._id);
             formData.append("token", localStorage.getItem("token"));
             for (const [key, value] of formData.entries()) {
-                console.log(key, value);
+                // console.log(key, value);
             }
             const res = await apiConneector("post",profileEndPoints.updatePic, formData);
-            console.log(res.data);
+            // console.log(res.data);
             if(res?.data?.success){
                 toast.success(res?.data?.message);
                 dispatch(setUser(res?.data?.user))

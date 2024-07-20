@@ -58,9 +58,9 @@ export default function InstructorChart({ courses }) {
 
   // Logging the chart data to check if it's correct
   useEffect(() => {
-    console.log(courses,"jksjnlw");
-    console.log("chartDataStudents:", chartDataStudents);
-    console.log("chartIncomeData:", chartIncomeData);
+    // console.log(courses,"jksjnlw");
+    // console.log("chartDataStudents:", chartDataStudents);
+    // console.log("chartIncomeData:", chartIncomeData);
   }, [courses]);
 
   return (

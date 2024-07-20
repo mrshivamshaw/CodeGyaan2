@@ -123,7 +123,7 @@ export default function SubSectionModal({
     formData.append("title", data.lectureTitle);
     formData.append("description", data.lectureDesc);
     formData.append("videoFile", data.lectureVideo);
-    console.log("video", data.lectureVideo);
+    // console.log("video", data.lectureVideo);
     formData.append("id", localStorage.getItem("id"));
     setLoading(true);
     const result = await createSubSection(formData, token);

@@ -89,8 +89,8 @@ async function verifyPayment(bodyData, token, navigate) {
         }
         toast.success("payment Successful, you are addded to the course");
         localStorage.setItem("user", JSON.stringify(response?.data?.user));
-        console.log("res wala user",response?.data?.user);
-        console.log("local wala user",response?.data?.user);
+        // console.log("res wala user",response?.data?.user);
+        // console.log("local wala user",response?.data?.user);
         navigate("/dashboard/enrolled-courses");
 
         // dispatch(resetCart());

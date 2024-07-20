@@ -41,7 +41,7 @@ const CourseInformationForm = () => {
         setCourseCategories(categories);
       }
       setLoading(false);
-      console.log(course);
+      // console.log(course);
     };
 
     if (editCourse) {

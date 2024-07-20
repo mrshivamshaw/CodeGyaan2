@@ -46,7 +46,6 @@ export const checkToken = async() => {
         return false
       }
     } catch (error) {
-      console.log("bhjb");
       toast.error(error?.response?.data?.message);
       return false
     }
@@ -71,7 +70,7 @@ export const sendOtp = (email, navigate, changeField) => {
     dispatch(setLoading(true));
     try {
       const res = await apiConneector("post", authEndPoints.sendOTP, { email });
-      console.log(res.data);
+      // console.log(res.data);
       if (res?.data?.success) {
         dispatch(setSignupData(changeField));
         navigate("/verify-email");

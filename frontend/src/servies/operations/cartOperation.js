@@ -18,7 +18,7 @@ export const addToCartt = async(dispatch, setLoading, id, toast) => {
         if(res?.data?.success) {
             toast.success(res?.data?.message);
             setLoading(false);
-            console.log(res);
+            // console.log(res);
             dispatch(addToCart(res?.data?.cart));
             localStorage.setItem("user", JSON.stringify(res?.data?.user));
             dispatch(setUser(res?.data?.user));
@@ -48,7 +48,7 @@ export const removeFromCart = async(dispatch, setLoading, id, toast) => {
     if(res?.data?.success) {
         toast.success(res?.data?.message);
         setLoading(false);
-        console.log(res);
+        // console.log(res);
         dispatch(addToCart(res?.data?.cart));
         localStorage.setItem("user", JSON.stringify(res?.data?.user));
         dispatch(setUser(res?.data?.user));
@@ -56,13 +56,13 @@ export const removeFromCart = async(dispatch, setLoading, id, toast) => {
     else {
         toast.error(res?.data?.message);
         setLoading(false);
-        console.log(res);
+        // console.log(res);
     }
     
   } catch (error) {
         setLoading(false);
         toast.error(error?.response?.data?.message);
-        console.log(error);
+        (error);
   }
 };
 
@@ -85,7 +85,7 @@ export const getCart = async (dispatch, setLoading, toast) => {
     else {
         toast.error(res?.data?.message);
         setLoading(false);
-        console.log(res);
+        // console.log(res);
     }
   } catch (error) {
         setLoading(false);
