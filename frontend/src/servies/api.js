@@ -1,7 +1,7 @@
 import { updatePic } from "./operations/updateProfile"
 
 // const BASE_URL = "http://localhost:3000";
-const BASE_URL = "https://codegyaan2.onrender.com/api/v1";
+const BASE_URL = "https://codegyaan2-rjpc.onrender.com/api/v1";
 
 //authentication endpoints
 export const authEndPoints = {
