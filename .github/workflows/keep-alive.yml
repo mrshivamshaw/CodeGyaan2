@@ -8,4 +8,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send request to keep backend active
-        run: curl -X GET https://codegyaan2.onrender.com/
+        run: curl -X GET https://codegyaan2-rjpc.onrender.com/
