@@ -1,23 +1,57 @@
-import React from 'react'
-import mig1 from '../../assets/aboutus/aboutus1.png'
-import mig2 from '../../assets/aboutus/aboutus2.png'
-import mig3 from '../../assets/aboutus/aboutus3.f5cfba861877ea03735d.png'
+import React from "react";
+import mig1 from "../../assets/aboutus/aboutus1.png";
+import mig2 from "../../assets/aboutus/aboutus2.png";
+import mig3 from "../../assets/aboutus/aboutus3.f5cfba861877ea03735d.png";
+import { Sparkles } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const HeroSection = () => {
   return (
-    <>
-        <div className='mt-12 md:mt-14 lg:mt-28 xl:mt-28 max-w-[95vw] md:max-w-[95vw] lg:max-w-[85vw] xl:max-w-[85vw] mx-auto flex flex-col justify-center items-center gap-7 py-10 md:py-10 lg:py-10 xl:py-10'>
-            <h1 className='text-white text-3xl font-bold w-full text-center'>Driving Innovation in Online Education for a <br /> <span className='text-glod-color'>Brighter Future</span>.</h1>
-            <p className='text-white/70  w-full text-center'>CodeGyaan is at the forefront of driving innovation in online education. We're passionate about creating a brighter future <br /> by offering cutting-edge courses, leveraging emerging technologies, and nurturing a vibrant learning community.</p>
-            <div className='flex justify-between items-center w-full'>
-                <img src={mig1} alt="mig1" className='w-[30vw] md:w-[30vw] lg:w-[27vw] xl:w-[27vw] h-auto shadow-black shadow-2xl' />
-                <img src={mig2} alt="mig2" className='w-[30vw] md:w-[30vw] lg:w-[27vw] xl:w-[27vw] h-auto shadow-black shadow-2xl' />
-                <img src={mig3} alt="mig3" className='w-[30vw] md:w-[30vw] lg:w-[27vw] xl:w-[27vw] h-auto shadow-black shadow-2xl' />
-            </div>
-            <h1 className='text-white mt-10 text-2xl md:text-2xl lg:text-3xl xl:text-3xl font-bold w-full text-center'>We are passionate about revolutionizing the way we learn. Our innovative platform <span className='text-glod-color'>combines technology</span>, <span className='text-glod-color'>expertise</span>, and <span className='text-glod-color'>community</span> to create an unparalleled educational experience.</h1>
-        </div>
-    </>
-  )
-}
+    <section className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 grid-bg opacity-50" />
+      <div className="pointer-events-none absolute -top-32 left-1/2 h-[460px] w-[760px] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl" />
 
-export default HeroSection
+      <div className="container-page relative pt-16 pb-12">
+        <div className="mx-auto max-w-3xl text-center">
+          <Badge variant="glow" className="gap-1.5">
+            <Sparkles className="h-3 w-3" /> About CodeGyaan
+          </Badge>
+          <h1 className="mt-6 text-balance text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            Driving innovation in online education for a{" "}
+            <span className="gradient-text">brighter future</span>.
+          </h1>
+          <p className="mx-auto mt-5 max-w-2xl text-balance text-muted-foreground">
+            We&apos;re passionate about making cutting-edge education
+            accessible — combining technology, expert instructors, and a vibrant
+            community.
+          </p>
+        </div>
+
+        <div className="mt-14 grid gap-4 sm:grid-cols-3">
+          {[mig1, mig2, mig3].map((src, i) => (
+            <div
+              key={i}
+              className="overflow-hidden rounded-2xl border border-border bg-card"
+            >
+              <img
+                src={src}
+                alt=""
+                className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+              />
+            </div>
+          ))}
+        </div>
+
+        <p className="mx-auto mt-16 max-w-4xl text-balance text-center text-xl font-medium leading-snug text-foreground sm:text-2xl lg:text-3xl">
+          We unite{" "}
+          <span className="gradient-text">technology</span>,{" "}
+          <span className="gradient-text">expertise</span>, and{" "}
+          <span className="gradient-text">community</span> into one
+          unparalleled learning experience.
+        </p>
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;

@@ -1,5 +1,8 @@
 import React from "react";
 import { formatDistanceToNow } from "date-fns";
+import { Building2, MapPin, Clock, ArrowUpRight, Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 const JobCard = ({
   job,
@@ -8,53 +11,69 @@ const JobCard = ({
   setJobDetails,
   setJobDetailsPage,
 }) => {
-  const postedDate = formatDistanceToNow(new Date(job.posted_date), {
+  if (seletedCompany && job.company !== seletedCompany) return null;
+  if (selectedLocation && job.location !== selectedLocation) return null;
+
+  const posted = formatDistanceToNow(new Date(job.posted_date), {
     addSuffix: true,
   });
 
-  if (job.company !== seletedCompany && seletedCompany) {
-    return null;
-  }
-  if (job.location !== selectedLocation && selectedLocation) {
-    return null;
-  }
-
   return (
-    <div className="w-[100%] mx-auto shadow-md shadow-white rounded-lg p-8 border border-gray-700 bg-black-bg flex flex-col gap-4">
-      <div className="flex justify-between items-start">
-        <div>
-          <p className="text-2xl font-semibold text-white/90">{job.company}</p>
-          <p className="text-white/80 text-md">
-            <strong>Location:</strong> {job.location}
-          </p>
+    <article className="group w-full rounded-2xl border border-border bg-card p-6 card-hover">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex min-w-0 items-start gap-3">
+          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-primary/15 text-primary">
+            <Building2 className="h-5 w-5" />
+          </div>
+          <div className="min-w-0">
+            <p className="truncate text-sm font-medium text-muted-foreground">
+              {job.company}
+            </p>
+            <h3 className="mt-0.5 line-clamp-2 text-lg font-semibold text-foreground transition-colors group-hover:text-primary">
+              {job.job_title}
+            </h3>
+          </div>
         </div>
-        <div>
-          <p className="text-white/90">{postedDate}</p>
+        <div className="flex flex-col items-end gap-1 text-xs text-muted-foreground">
+          <span className="inline-flex items-center gap-1">
+            <Clock className="h-3 w-3" /> {posted}
+          </span>
+          {job.job_type && (
+            <Badge variant="outline" className="text-[10px]">
+              {job.job_type}
+            </Badge>
+          )}
         </div>
-      </div>
-      <div>
-        <h2 className="text-2xl font-semibold text-white">{job.job_title}</h2>
-        <p className="text-white/80">{job.job_description}</p>
       </div>
 
-      <div className="flex justify-between items-center text-base md:text-base lg:text-lg xl:text-lg gap-1 mt-2 w-full">
-        {" "}
-        <a href={job.apply_link} className="w-[50%]" target="_blank">
-          <button className="inline-block w-[100%] bg-blue-bg hover:bg-slate-500 text-white font-semibold py-2 px-6 rounded-3xl  focus:outline-none focus:ring-2 focus:ring-blue-bg transition">
-            Apply
-          </button>
-        </a>
-        <button
+      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
+        <span className="inline-flex items-center gap-1">
+          <MapPin className="h-3 w-3" /> {job.location}
+        </span>
+      </div>
+
+      <p className="mt-4 line-clamp-3 text-sm text-muted-foreground">
+        {job.job_description}
+      </p>
+
+      <div className="mt-5 flex flex-wrap gap-2">
+        <Button asChild className="flex-1 min-w-[140px]">
+          <a href={job.apply_link} target="_blank" rel="noreferrer">
+            Apply <ArrowUpRight className="h-4 w-4" />
+          </a>
+        </Button>
+        <Button
+          variant="outline"
+          className="flex-1 min-w-[140px]"
           onClick={() => {
             setJobDetails(job);
             setJobDetailsPage(true);
           }}
-          className="inline-block w-[50%] bg-glod-color text-white font-semibold py-2 px-6 rounded-3xl hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
         >
-          View details
-        </button>
+          <Eye className="h-4 w-4" /> View details
+        </Button>
       </div>
-    </div>
+    </article>
   );
 };
 

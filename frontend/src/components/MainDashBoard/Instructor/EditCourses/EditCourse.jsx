@@ -1,58 +1,58 @@
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
-import {
-  getFullDetailsOfCourse,
-} from "../../../../servies/operations/courseOpertaions.js"
-import { setCourse, setEditCourse } from "../../../../slices/courseSlice.js"
-import RenderSteps from "../AddCourse/RenderSteps.jsx"
+import { getFullDetailsOfCourse } from "../../../../servies/operations/courseOpertaions.js";
+import { setCourse, setEditCourse } from "../../../../slices/courseSlice.js";
+import RenderSteps from "../AddCourse/RenderSteps.jsx";
 
- const EditCourse =  () => {
-  const dispatch = useDispatch()
-  const { id } = useParams()
-  const { course } = useSelector((state) => state.course)
-  const [loading, setLoading] = useState(false)
-  const { token } = useSelector((state) => state.auth)
+const EditCourse = () => {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const { course } = useSelector((s) => s.course);
+  const { token } = useSelector((s) => s.auth);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    ;(async () => {
-      setLoading(true)
-      const result = await getFullDetailsOfCourse(id, token)
-      // console.log("course",result);
+    (async () => {
+      setLoading(true);
+      const result = await getFullDetailsOfCourse(id, token);
       if (result) {
-        dispatch(setEditCourse(true))
-        dispatch(setCourse(result))
+        dispatch(setEditCourse(true));
+        dispatch(setCourse(result));
       }
-      setLoading(false)
-    })()
+      setLoading(false);
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   if (loading) {
     return (
-      <div className="grid flex-1 place-items-center">
-        <div className="spinner"></div>
+      <div className="container-page py-10">
+        <div className="h-72 animate-pulse rounded-2xl border border-border bg-card" />
       </div>
-    )
+    );
   }
 
   return (
-    <div className="w-full p-8 max-h-[79vh] overflow-y-scroll profile ">
-      <h1 className="mb-14 text-4xl font-semibold text-white">
-        Edit <span className="text-glod-color">Course.</span>
-      </h1>
-      <div className="mx-auto">
-        {course ? (
-          <RenderSteps />
-        ) : (
-          <p className="mt-14 text-center text-3xl font-semibold text-richblack-100">
-            Course not found
-          </p>
-        )}
+    <div className="container-page py-10">
+      <div className="mb-8">
+        <p className="text-sm font-medium uppercase tracking-[0.18em] text-primary">
+          Teaching
+        </p>
+        <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          Edit <span className="gradient-text">course</span>.
+        </h1>
       </div>
+      {course ? (
+        <RenderSteps />
+      ) : (
+        <div className="rounded-2xl border border-dashed border-border bg-card/40 p-16 text-center">
+          <p className="text-sm text-muted-foreground">Course not found.</p>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default EditCourse
+export default EditCourse;

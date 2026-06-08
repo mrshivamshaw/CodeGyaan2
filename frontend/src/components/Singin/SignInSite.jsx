@@ -1,24 +1,34 @@
 import React, { useState } from "react";
-import { LiaFreeCodeCamp } from "react-icons/lia";
-import authImage from "../../assets/signin-banner-removebg-preview.png";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-hot-toast";
+import {
+  ArrowRight,
+  GraduationCap,
+  Mic2,
+  Mail,
+  Lock,
+  User,
+  Eye,
+  EyeOff,
+} from "lucide-react";
+
 import { sendOtp } from "../../servies/operations/authOpertaion";
+import AuthLayout from "../common/AuthLayout";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 const SignInSite = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  const [firstName, setFirstName] = useState(false);
-  const [lastName, setLastName] = useState(false);
-  const [email, setEmail] = useState(false);
-  const [pass, setPass] = useState(false);
-  const [conPass, setConPass] = useState(false);
 
-  const [changeFiled, setChangeFiled] = useState({
-    accountType: "" || "Student",
+  const [showPw, setShowPw] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [form, setForm] = useState({
+    accountType: "Student",
     firstName: "",
     lastName: "",
     email: "",
@@ -26,248 +36,183 @@ const SignInSite = () => {
     confirmPassword: "",
   });
 
-  const changeHandler = (e) => {
-    setChangeFiled({
-      ...changeFiled,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const change = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  const formSubmitHandler = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    if (
-      changeFiled.firstName === "" ||
-      changeFiled.lastName === "" ||
-      changeFiled.email === "" ||
-      changeFiled.password === "" ||
-      changeFiled.confirmPassword === "" ||
-      changeFiled.accountType === ""
-    ) {
-      toast.error("Please fill all the fields");
+    const required = ["firstName", "lastName", "email", "password", "confirmPassword"];
+    if (required.some((k) => !form[k])) {
+      toast.error("Please fill all fields.");
       return;
     }
-    dispatch(sendOtp(changeFiled.email, navigate, changeFiled));
+    if (form.password !== form.confirmPassword) {
+      toast.error("Passwords don't match.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      await dispatch(sendOtp(form.email, navigate, form));
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const RoleBtn = ({ value, icon: Icon, label, sub }) => {
+    const active = form.accountType === value;
+    return (
+      <button
+        type="button"
+        onClick={() => setForm((p) => ({ ...p, accountType: value }))}
+        className={cn(
+          "flex flex-1 items-center gap-3 rounded-lg border p-3 text-left transition-all",
+          active
+            ? "border-primary/50 bg-primary/10 shadow-[0_0_0_1px_hsl(var(--primary)/0.2)]"
+            : "border-border bg-secondary/40 hover:border-border hover:bg-secondary"
+        )}
+      >
+        <div
+          className={cn(
+            "grid h-9 w-9 place-items-center rounded-md",
+            active ? "bg-primary/20 text-primary" : "bg-background text-muted-foreground"
+          )}
+        >
+          <Icon className="h-4 w-4" />
+        </div>
+        <div>
+          <p className={cn("text-sm font-semibold", active ? "text-foreground" : "text-muted-foreground")}>
+            {label}
+          </p>
+          <p className="text-[11px] text-muted-foreground">{sub}</p>
+        </div>
+      </button>
+    );
   };
 
   return (
-    <div className="w-screen h-screen flex justify-center items-start">
-      <img src={authImage} alt="signin" className="h-full w-auto hidden md:hidden lg:block xl:block" />
-      <div className="flex flex-col gap-[6vh] shadow-2xl h-full w-full pt-[3vh] px-[3vw]">
-        <Link to={"/"}>
-          <h1 className="text-4xl font-bold text-white flex justify-start items-center">
-            <LiaFreeCodeCamp className="text-[50px] mr-1" />
-            Code<span className="text-glod-color">Gyaan.</span>
-          </h1>
-        </Link>
-        <div className="flex flex-col justify-start gap-[2vh]">
-          <h1 className="text-white text-2xl font-bold">
-            Get Onboard and jumpstart your career!
-          </h1>
-          <p className="text-sm text-white/80">
-            Please enter your details to signup
-          </p>
-          <div>
-            <form
-              onSubmit={formSubmitHandler}
-              className="flex flex-col gap-[3vh] w-full"
-            >
-              <div className="flex gap-[1vw] bg-black-bg items-center justify-start w-[57%] md:w-[27%] lg:w-[49%] xl:w-[49%] p-2 rounded-3xl">
-                <div
-                  onClick={() => setChangeFiled({ ...changeFiled, accountType: "Student" })}
-                  className={
-                    changeFiled.accountType === "Student"
-                      ? "cursor-pointer text-lg bg-glod-color text-white px-3 py-1 rounded-3xl font-semibold"
-                      : "text-lg cursor-pointer text-white px-3 py-1 rounded-3xl font-semibold"
-                  }
-                >
-                  Student
-                </div>
-                <div
-                  onClick={() => setChangeFiled({...changeFiled,accountType: "Instructor"})}
-                  className={
-                    changeFiled.accountType === "Instructor"
-                      ? "cursor-pointer text-lg bg-glod-color text-white px-3 py-1 rounded-3xl font-semibold"
-                      : "text-lg cursor-pointer  text-white px-3 py-1 rounded-3xl font-semibold"
-                  }
-                >
-                  Instructor
-                </div>
-              </div>
-              <div className="flex flex-col md:flex-col lg:flex-row xl:flex-row gap-[1.45vw]">
-                <div className="flex flex-col h-[7vh] justify-end ">
-                  <label
-                    htmlFor="first"
-                    className={
-                      firstName
-                        ? "text-white font-medium text-sm block"
-                        : "text-white font-medium text-sm hidden"
-                    }
-                  >
-                    First name
-                  </label>
-                  <input
-                    type="text"
-                    id="first"
-                    name="firstName"
-                    value={changeFiled.firstName}
-                    className="text-white rounded-lg px-4 py-1"
-                    style={{
-                      borderBottom: "1px solid white",
-                    }}
-                    placeholder="Enter your Fisrt name"
-                    onFocus={() => setFirstName(true)}
-                    onBlur={() => setFirstName(false)}
-                    onChange={(e) => changeHandler(e)}
-                  />
-                </div>
-                <div className="flex flex-col h-[7vh] justify-end ">
-                  <label
-                    htmlFor="last"
-                    className={
-                      lastName
-                        ? "text-white font-medium text-sm block"
-                        : "text-white font-medium text-sm hidden"
-                    }
-                  >
-                    Last name
-                  </label>
-                  <input
-                    type="text"
-                    id="last"
-                    name="lastName"
-                    value={changeFiled.lastName}
-                    onChange={(e) => changeHandler(e)}
-                    className="text-white rounded-lg px-4 py-1"
-                    style={{
-                      borderBottom: "1px solid white",
-                    }}
-                    placeholder="Enter your Last name"
-                    onFocus={() => setLastName(true)}
-                    onBlur={() => setLastName(false)}
-                  />
-                </div>
-              </div>
-              <div className="flex gap-[1.45vw] w-full ">
-                <div className="flex flex-col w-full h-[7vh] justify-end ">
-                  <label
-                    htmlFor="email"
-                    className={
-                      email
-                        ? "text-white font-medium text-sm block"
-                        : "text-white font-medium text-sm hidden"
-                    }
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={changeFiled.email}
-                    onChange={(e) => changeHandler(e)}
-                    className="text-white rounded-lg px-4 py-1"
-                    style={{
-                      borderBottom: "1px solid white",
-                    }}
-                    placeholder="Enter your email"
-                    onFocus={() => setEmail(true)}
-                    onBlur={() => setEmail(false)}
-                  />
-                </div>
-                {/* <div className="flex flex-col">
-                  <label htmlFor="num" className="text-white font-medium ">
-                    Phone no.
-                  </label>
-                  <input
-                    type="number"
-                    id="num"
-                    className="text-white rounded-lg px-4 py-1"
-                    style={{
-                      borderBottom: "1px solid white",
-                    }}
-                    placeholder="Enter your Phone no."
-                  />
-                </div> */}
-              </div>
-              <div className="flex flex-col md:flex-col lg:flex-row xl:flex-row w-full  gap-[1.45vw]  ">
-                <div className="flex flex-col h-[7vh] justify-end items-start w-full bgb">
-                  <label
-                    htmlFor="pass"
-                    className={
-                      pass
-                        ? "text-white font-medium text-sm block w-full"
-                        : "text-white font-medium text-sm hidden w-full"
-                    }
-                  >
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    id="pass"
-                    name="password"
-                    value={changeFiled.password}
-                    onChange={(e) => changeHandler(e)}
-                    className="text-white rounded-lg px-4 py-1 w-[90%]"
-                    style={{
-                      borderBottom: "1px solid white",
-                    }}
-                    placeholder="Enter your Password"
-                    onFocus={() => setPass(true)}
-                    onBlur={() => setPass(false)}
-                  />
-                </div>
-                <div className="flex flex-col h-[7vh] justify-end items-start w-full">
-                  <label
-                    htmlFor="conpass"
-                    className={
-                      conPass
-                        ? "text-white font-medium text-sm block"
-                        : "text-white font-medium text-sm hidden"
-                    }
-                  >
-                    Confirm Password
-                  </label>
-                  <input
-                    type="password"
-                    id="conpass"
-                    name="confirmPassword"
-                    value={changeFiled.confirmPassword}
-                    onChange={(e) => changeHandler(e)}
-                    className="text-white rounded-lg px-4 py-1 w-[90%] "
-                    style={{
-                      borderBottom: "1px solid white",
-                    }}
-                    placeholder="Confirm your password"
-                    onFocus={() => setConPass(true)}
-                    onBlur={() => setConPass(false)}
-                  />
-                </div>
-              </div>
-              <div>
-                <button
-                  type="submit"
-                  className="bg-glod-color w-full text-center py-2 font-semibold rounded-md text-[#fff] hover:bg-[#b99b55]"
-                >
-                  Sign up
-                </button>
-                <div className="w-full text-end text-white text-sm">
-                  Existing user?{" "}
-                  <Link to="/login">
-                    <span className="text-amber-300">Login</span>
-                  </Link>
-                </div>
-              </div>{" "}
-              {/* <div className="w-full text-white text-lg font-light text-center">
-                OR
-              </div>
-              <button className="bg-white w-full text-center py-2 font-semibold rounded-md text-black">
-                Signin with Google
-              </button> */}
-            </form>
+    <AuthLayout
+      eyebrow="Get started"
+      title="Create your account"
+      subtitle="Two minutes to set up. Lifetime access to your cohort."
+    >
+      <form onSubmit={submit} className="flex flex-col gap-5">
+        <div className="flex gap-2">
+          <RoleBtn
+            value="Student"
+            icon={GraduationCap}
+            label="Student"
+            sub="Learn & get hired"
+          />
+          <RoleBtn value="Instructor" icon={Mic2} label="Instructor" sub="Teach & earn" />
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="grid gap-2">
+            <Label htmlFor="firstName">First name</Label>
+            <div className="relative">
+              <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                id="firstName"
+                name="firstName"
+                value={form.firstName}
+                onChange={change}
+                placeholder="Ada"
+                className="pl-9"
+                required
+              />
+            </div>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="lastName">Last name</Label>
+            <Input
+              id="lastName"
+              name="lastName"
+              value={form.lastName}
+              onChange={change}
+              placeholder="Lovelace"
+              required
+            />
           </div>
         </div>
-      </div>
-    </div>
+
+        <div className="grid gap-2">
+          <Label htmlFor="email">Email</Label>
+          <div className="relative">
+            <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              value={form.email}
+              onChange={change}
+              placeholder="you@codegyaan.dev"
+              className="pl-9"
+              required
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="grid gap-2">
+            <Label htmlFor="password">Password</Label>
+            <div className="relative">
+              <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                id="password"
+                name="password"
+                type={showPw ? "text" : "password"}
+                value={form.password}
+                onChange={change}
+                placeholder="••••••••"
+                className="pl-9 pr-9"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPw((v) => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              >
+                {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="confirmPassword">Confirm</Label>
+            <div className="relative">
+              <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirm ? "text" : "password"}
+                value={form.confirmPassword}
+                onChange={change}
+                placeholder="••••••••"
+                className="pl-9 pr-9"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirm((v) => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              >
+                {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <Button size="lg" type="submit" disabled={submitting}>
+          {submitting ? "Sending OTP…" : "Create account"}{" "}
+          <ArrowRight className="h-4 w-4" />
+        </Button>
+
+        <p className="text-center text-sm text-muted-foreground">
+          Already have an account?{" "}
+          <Link to="/login" className="font-medium text-primary hover:underline">
+            Log in
+          </Link>
+        </p>
+      </form>
+    </AuthLayout>
   );
 };
 

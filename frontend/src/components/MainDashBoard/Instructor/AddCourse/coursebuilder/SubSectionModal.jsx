@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { RxCross2 } from "react-icons/rx";
+import { X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -9,8 +9,11 @@ import {
   updateSubSection,
 } from "../../../../../servies/operations/courseOpertaions.js";
 import { setCourse } from "../../../../../slices/courseSlice";
-import IconBtn from "../../../../common/IconBtn";
 import Upload from "../Upload";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function SubSectionModal({
   modalData,
@@ -27,70 +30,50 @@ export default function SubSectionModal({
     getValues,
   } = useForm();
 
-  // console.log("view", view)
-  // console.log("edit", edit)
-  // console.log("add", add)
-
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const { token } = useSelector((state) => state.auth);
-  const { course } = useSelector((state) => state.course);
+  const { token } = useSelector((s) => s.auth);
+  const { course } = useSelector((s) => s.course);
 
   useEffect(() => {
     if (view || edit) {
-      // console.log("modalData", modalData)
       setValue("lectureTitle", modalData.title);
       setValue("lectureDesc", modalData.description);
       setValue("lectureVideo", modalData.videoUrl);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // detect whether form is updated or not
-  const isFormUpdated = () => {
-    const currentValues = getValues();
-    // console.log("changes after editing form values:", currentValues)
-    if (
-      currentValues.lectureTitle !== modalData.title ||
-      currentValues.lectureDesc !== modalData.description ||
-      currentValues.lectureVideo !== modalData.videoUrl
-    ) {
-      return true;
-    }
-    return false;
+  const isUpdated = () => {
+    const c = getValues();
+    return (
+      c.lectureTitle !== modalData.title ||
+      c.lectureDesc !== modalData.description ||
+      c.lectureVideo !== modalData.videoUrl
+    );
   };
 
-  // handle the editing of subsection
-  const handleEditSubsection = async () => {
-    const currentValues = getValues();
-    // console.log("changes after editing form values:", currentValues)
+  const handleEdit = async () => {
+    const c = getValues();
     const formData = new FormData();
-    // console.log("Values After Editing form values:", currentValues)
     formData.append("sectionId", modalData.sectionId);
     formData.append("subSectionId", modalData._id);
-    formData.append("title", currentValues.lectureTitle);
-    formData.append("duration", currentValues.lectureDuration);
-    formData.append("description", currentValues.lectureDesc);
-
-    // console.log("currentValues.lectureVideo", currentValues.lectureVideo);
-    if (currentValues.lectureVideo !== modalData.videoUrl) {
-      formData.append("videoFile", currentValues.lectureVideo);
-    }
+    formData.append("title", c.lectureTitle);
+    formData.append("duration", c.lectureDuration);
+    formData.append("description", c.lectureDesc);
+    if (c.lectureVideo !== modalData.videoUrl)
+      formData.append("videoFile", c.lectureVideo);
     formData.append("id", localStorage.getItem("id"));
-    // console.log("formData", formData);
     setLoading(true);
     const result = await updateSubSection(formData, token);
     if (result) {
-      // console.log("result", result)
-      // update the structure of course
-      const updatedCourseContent = course.courseContent.map((section) =>
+      const updated = course.courseContent.map((section) =>
         section._id === modalData.sectionId
           ? {
-              // Incorrect use of map for removing the old subsection
-              // Corrected by using filter to remove the old subsection
               sectionName: section.sectionName,
               subSection: [
                 ...section.subSection.filter(
-                  (subsection) => subsection._id !== modalData._id
+                  (s) => s._id !== modalData._id
                 ),
                 result,
               ],
@@ -98,123 +81,119 @@ export default function SubSectionModal({
             }
           : section
       );
-      const updatedCourse = { ...course, courseContent: updatedCourseContent };
-      dispatch(setCourse(updatedCourse));
+      dispatch(setCourse({ ...course, courseContent: updated }));
     }
     setModalData(null);
     setLoading(false);
   };
 
   const onSubmit = async (data) => {
-    // console.log(data)
     if (view) return;
-
     if (edit) {
-      if (!isFormUpdated()) {
-        toast.error("No changes made to the form");
-      } else {
-        handleEditSubsection();
-      }
+      if (!isUpdated()) return toast.error("No changes made.");
+      handleEdit();
       return;
     }
-
     const formData = new FormData();
     formData.append("sectionId", modalData);
     formData.append("title", data.lectureTitle);
     formData.append("description", data.lectureDesc);
     formData.append("videoFile", data.lectureVideo);
-    // console.log("video", data.lectureVideo);
     formData.append("id", localStorage.getItem("id"));
     setLoading(true);
     const result = await createSubSection(formData, token);
     if (result) {
-      // update the structure of course
-      const updatedCourseContent = course.courseContent.map((section) =>
-        section._id === modalData ? result : section
+      const updated = course.courseContent.map((s) =>
+        s._id === modalData ? result : s
       );
-      const updatedCourse = { ...course, courseContent: updatedCourseContent };
-
-      dispatch(setCourse(updatedCourse));
+      dispatch(setCourse({ ...course, courseContent: updated }));
     }
     setModalData(null);
     setLoading(false);
   };
 
+  const mode = view ? "Viewing" : edit ? "Editing" : "Adding";
+
   return (
-    <div className="fixed inset-0 z-[1000] !mt-0 grid h-screen w-screen place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm">
-      <div className="my-10 w-11/12 max-w-[700px] rounded-lg border border-richblack-400 bg-richblack-800">
-        {/* Modal Header */}
-        <div className="flex items-center justify-between rounded-t-lg bg-richblack-700 p-5">
-          <p className="text-3xl font-semibold text-white">
-            {view && "Viewing"} {add && "Adding"} {edit && "Editing"}{" "}
-            <span className="text-glod-color">Lecture.</span>
-          </p>
-          <button onClick={() => (!loading ? setModalData(null) : {})}>
-            <RxCross2 className="text-2xl text-white" />
+    <div
+      className="fixed inset-0 z-[1000] grid place-items-center bg-black/70 p-4 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div className="my-10 w-full max-w-2xl overflow-hidden rounded-2xl border border-border bg-card shadow-2xl shadow-black/50">
+        <div className="flex items-center justify-between border-b border-border bg-background/40 p-5">
+          <h2 className="text-lg font-semibold text-foreground">
+            {mode} <span className="gradient-text">lecture</span>
+          </h2>
+          <button
+            onClick={() => (!loading ? setModalData(null) : null)}
+            className="grid h-8 w-8 place-items-center rounded-md text-muted-foreground hover:bg-secondary hover:text-foreground"
+          >
+            <X className="h-4 w-4" />
           </button>
         </div>
-        {/* Modal Form */}
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-8 px-8 py-10"
-        >
-          {/* Lecture Video Upload */}
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 p-6">
           <Upload
             name="lectureVideo"
-            label="Lecture Video"
+            label="Lecture video"
             register={register}
             setValue={setValue}
             errors={errors}
-            video={true}
+            video
             viewData={view ? modalData.videoUrl : null}
             editData={edit ? modalData.videoUrl : null}
           />
-          {/* Lecture Title */}
-          <div className="flex flex-col space-y-2">
-            <label className="text-sm text-white" htmlFor="lectureTitle">
-              Lecture Title {!view && <sup className="text-red-600">*</sup>}
-            </label>
-            <input
-              disabled={view || loading}
+
+          <div className="grid gap-2">
+            <Label htmlFor="lectureTitle">
+              Lecture title {!view && <sup className="text-destructive">*</sup>}
+            </Label>
+            <Input
               id="lectureTitle"
-              placeholder="Enter Lecture Title"
+              disabled={view || loading}
+              placeholder="Enter lecture title"
               {...register("lectureTitle", { required: true })}
-              className="form-style w-full bg-black-bg rounded-md px-3 py-2 text-white/80"
             />
             {errors.lectureTitle && (
-              <span className="ml-2 text-xs tracking-wide text-pink-200">
+              <span className="text-xs text-destructive">
                 Lecture title is required
               </span>
             )}
           </div>
-          {/* Lecture Description */}
-          <div className="flex flex-col space-y-2">
-            <label className="text-sm text-white" htmlFor="lectureDesc">
-              Lecture Description{" "}
-              {!view && <sup className="text-red-600">*</sup>}
-            </label>
-            <textarea
-              disabled={view || loading}
+
+          <div className="grid gap-2">
+            <Label htmlFor="lectureDesc">
+              Lecture description{" "}
+              {!view && <sup className="text-destructive">*</sup>}
+            </Label>
+            <Textarea
               id="lectureDesc"
-              placeholder="Enter Lecture Description"
+              disabled={view || loading}
+              placeholder="Brief summary of the lecture…"
+              rows={5}
               {...register("lectureDesc", { required: true })}
-              className="form-style w-full bg-black-bg rounded-md px-3 py-2 text-white/80 min-h-[150px]"
             />
             {errors.lectureDesc && (
-              <span className="ml-2 text-xs tracking-wide text-red-600">
-                Lecture Description is required
+              <span className="text-xs text-destructive">
+                Lecture description is required
               </span>
             )}
           </div>
+
           {!view && (
-            <div className="flex bg-glod-color text-white  rounded-md w-fit px-3 py-1 justify-end">
-              {/* <IconBtn
+            <div className="flex justify-end gap-2 border-t border-border pt-5">
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setModalData(null)}
                 disabled={loading}
-                text={loading ? "Loading.." : edit ? "Save Changes" : "Save"}
-              /> */}
-              <button type="Submit">
-                {loading ? "Loading.." : edit ? "Save Changes" : "Save"}
-              </button>
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={loading}>
+                {loading ? "Saving…" : edit ? "Save changes" : "Save"}
+              </Button>
             </div>
           )}
         </form>

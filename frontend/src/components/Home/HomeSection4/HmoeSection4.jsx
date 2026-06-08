@@ -1,68 +1,102 @@
-import React from 'react'
-import { FaArrowRight } from 'react-icons/fa6';
-import { GiPodiumWinner,GiGraduateCap } from "react-icons/gi";
-import { IoDiamondSharp , IoCodeSlashSharp} from "react-icons/io5";
-import { MdWork } from "react-icons/md";
-import rightGif from '../../../assets/output-onlinegiftools.gif'
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import {
+  Code2,
+  Trophy,
+  GraduationCap,
+  Briefcase,
+  Gem,
+  Bot,
+  ArrowUpRight,
+} from "lucide-react";
 
+const items = [
+  {
+    icon: Code2,
+    title: "CodeGyaan Lab",
+    body: "Cloud IDE + auto-graded sandboxes. No setup hell — write code from anywhere.",
+    gradient: "from-cyan-500/30 to-blue-500/30",
+    iconColor: "text-cyan-300",
+  },
+  {
+    icon: Trophy,
+    title: "Experience Portal",
+    body: "570+ internship-grade projects. Real shipping repos, code reviews, demo days.",
+    gradient: "from-rose-500/30 to-orange-500/30",
+    iconColor: "text-rose-300",
+  },
+  {
+    icon: GraduationCap,
+    title: "Hall of Fame",
+    body: "100k+ alumni placements across product teams at top tech companies.",
+    gradient: "from-violet-500/30 to-fuchsia-500/30",
+    iconColor: "text-violet-300",
+  },
+  {
+    icon: Briefcase,
+    title: "Job Portal",
+    body: "Curated openings + AI resume builder. Zero spam, faster offers.",
+    gradient: "from-amber-500/30 to-yellow-500/30",
+    iconColor: "text-amber-300",
+  },
+  {
+    icon: Gem,
+    title: "Affiliate Program",
+    body: "Share what you love, earn while learners win. Lifetime recurring payouts.",
+    gradient: "from-emerald-500/30 to-teal-500/30",
+    iconColor: "text-emerald-300",
+  },
+  {
+    icon: Bot,
+    title: "AI Tutor",
+    body: "24/7 doubt solver fine-tuned on course material. Like office hours, always on.",
+    gradient: "from-sky-500/30 to-indigo-500/30",
+    iconColor: "text-sky-300",
+  },
+];
 
 const HomeSection4 = () => {
   return (
-    <div className='w-full py-10'>
-        <div className='w-[95%] md:w-[95%] lg:w-[85%] xl:w-[85%] mx-auto '>
-            <h1 className='text-3xl md:text-4xl lg:text-4xl xl:text-4xl w-full text-center md:text-start lg:text-start xl:text-start font-semibold text-white'>Explore Our <span className='text-glod-color'>Ecosystem.</span></h1>
-            <p className='font-extralight text-center md:text-start lg:text-start xl:text-start  mt-1 text-white'>A one-stop destination for all your learning to placement needs</p>
-        </div>
-        <div className='w-[95%] md:w-[95%] lg:w-[85%] xl:w-[85%] mx-auto flex justify-between items-center gap-10 mt-5 md:mt-0 lg:mt-0 xl:mt-0'>
-          <div className='w-auto flex flex-col md:flex-row lg:flex-col xl:flex-col flex-wrap justify-center items-center gap-5 h-auto md:h-auto lg:h-[140vh] xl:h-[140vh]'>
-              <div className='w-full md:w-[340px] lg:w-[340px] xl:w-[340px] h-[260px] bg-black-bg flex flex-col justify-between items-start p-6 text-white group shadow-md shadow-black hover:bg-[#1c1b1b] transition-all duration-500'>
-                  <IoCodeSlashSharp className='bg-gradient-to-r from-cyan-500 to-blue-500 p-3 text-white text-5xl rounded-full'/>
-                  <h1 className='text-2xl font-semibold'>CodeGyaan Lab</h1>
-                  <p className='font-light'>Buying a new PC is no longer required, Access unlimited computing power!</p>
-                  <Link to={"/dashboard/profile"}>
-                    <button className=' bg-glod-color px-4 py-2 rounded hover:bg-[#b99b55] invisible group-hover:visible transition-all duration-200'><span className='mr-1'>Explore</span><span><FaArrowRight className='inline'/></span></button>
-                  </Link>
-              </div>
-              <div className='w-full md:w-[340px] lg:w-[340px] xl:w-[340px] h-[260px] bg-black-bg flex flex-col justify-between items-start p-6 text-white group shadow-md shadow-black hover:bg-[#1c1b1b] transition-all duration-500'>
-                  <GiPodiumWinner className='bg-gradient-to-r from-red-300 to-red-500 p-3 text-white text-5xl rounded-full'/>
-                  <h1 className='text-2xl font-semibold'>Experience Portal</h1>
-                  <p className='font-light'>Self-paced portal prioritizes hands-on training with 570+ internship projects.</p>
-                  <Link to={"/dashboard/profile"}>
-                  <button className=' bg-glod-color px-4 py-2 rounded hover:bg-[#b99b55] invisible group-hover:visible transition-all duration-200'><span className='mr-1'>Explore</span><span><FaArrowRight className='inline'/></span></button>
-                  </Link>
-              </div>
-              <div className='w-full md:w-[340px] lg:w-[340px] xl:w-[340px] h-[260px] bg-black-bg flex flex-col justify-between items-start p-6 text-white group shadow-md shadow-black hover:bg-[#1c1b1b] transition-all duration-500'>
-                  <GiGraduateCap className='bg-gradient-to-r from-purple-300 to-purple-500 p-3 text-white text-5xl rounded-full'/>
-                  <h1 className='text-2xl font-semibold'>Hall Of Fame</h1>
-                  <p className='font-light'>Our student placements and 100K+ career transitions speak volumes.</p>
-                  <Link to={"/dashboard/profile"}>
-                  <button className=' bg-glod-color px-4 py-2 rounded hover:bg-[#b99b55] invisible group-hover:visible transition-all duration-200'><span className='mr-1'>Explore</span><span><FaArrowRight className='inline'/></span></button>
-                  </Link>
-              </div>
-              <div className='w-full md:w-[340px] lg:w-[340px] xl:w-[340px] h-[260px] bg-black-bg flex flex-col justify-between items-start p-6 text-white group shadow-md shadow-black hover:bg-[#1c1b1b] transition-all duration-500'>
-                  <MdWork className='bg-gradient-to-r from-yellow-300 to-yellow-500 p-3 text-white text-5xl rounded-full'/>
-                  <h1 className='text-2xl font-semibold'>Job Portal</h1>
-                  <p className='font-light'>Use exceptional templates for a stand-out resume minus the sign up process.</p>
-                  <Link to={"/dashboard/profile"}>
-                  <button className=' bg-glod-color px-4 py-2 rounded hover:bg-[#b99b55] invisible group-hover:visible transition-all duration-200'><span className='mr-1'>Explore</span><span><FaArrowRight className='inline'/></span></button>
-                  </Link>
-              </div>
-              <div className='w-full md:w-[340px] lg:w-[340px] xl:w-[340px] h-[260px] bg-black-bg flex flex-col justify-between items-start p-6 text-white group shadow-md shadow-black hover:bg-[#1c1b1b] transition-all duration-500'>
-                  <IoDiamondSharp className='bg-gradient-to-r from-green-300 to-green-500 p-3 text-white text-5xl rounded-full'/>
-                  <h1 className='text-2xl font-semibold'>Become an affiliate</h1>
-                  <p className='font-light'>Explore affiliate marketing opportunities and attain financial freedom.</p>
-                  <Link to={"/dashboard/profile"}>
-                  <button className=' bg-glod-color px-4 py-2 rounded hover:bg-[#b99b55] invisible group-hover:visible transition-all duration-200'><span className='mr-1'>Explore</span><span><FaArrowRight className='inline'/></span></button>
-                  </Link>
-              </div>
-          </div>
-          <div className='hidden md:hidden lg:block xl:block '>
-              <img src={rightGif} alt="img" />
-          </div>
-        </div>
-    </div>
-  )
-}
+    <section className="container-page py-20">
+      <div className="max-w-2xl">
+        <p className="text-sm font-medium uppercase tracking-[0.18em] text-primary">
+          Ecosystem
+        </p>
+        <h2 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          Everything you need, <span className="gradient-text">in one place.</span>
+        </h2>
+        <p className="mt-3 text-muted-foreground">
+          One platform from your first line of code to your first offer letter.
+        </p>
+      </div>
 
-export default HomeSection4
+      <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {items.map(({ icon: Icon, title, body, gradient, iconColor }) => (
+          <Link
+            key={title}
+            to="/dashboard/profile"
+            className="group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-border bg-card p-6 card-hover"
+          >
+            <div
+              className={`pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gradient-to-br ${gradient} opacity-30 blur-2xl transition-opacity group-hover:opacity-60`}
+            />
+            <div className={`grid h-12 w-12 place-items-center rounded-xl border border-border bg-background/60 ${iconColor}`}>
+              <Icon className="h-5 w-5" />
+            </div>
+            <h3 className="text-lg font-semibold tracking-tight text-foreground">
+              {title}
+            </h3>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              {body}
+            </p>
+            <div className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-primary opacity-0 transition-all group-hover:opacity-100">
+              Explore <ArrowUpRight className="h-4 w-4" />
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default HomeSection4;

@@ -1,22 +1,28 @@
 import { useEffect, useState } from "react";
-import { BsChevronDown, BsChevronUp } from "react-icons/bs";
-import { IoIosArrowBack, IoIosArrowDown, IoIosArrowForward, IoIosArrowUp } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  CheckCircle2,
+  Circle,
+  Star,
+} from "lucide-react";
 
-import IconBtn from "../common/IconBtn";
 import { updateCompletedLectures } from "../../slices/viewCourseSlice";
 import { markLectureAsComplete } from "../../servies/operations/courseOpertaions";
-import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-export default function VideoDetailsSidebar({ setReviewModal,open,setOpen }) {
-  const [activeStatus, setActiveStatus] = useState("");
-  const [videoBarActive, setVideoBarActive] = useState("");
+export default function VideoDetailsSidebar({ setReviewModal, open, setOpen }) {
+  const [activeSection, setActiveSection] = useState("");
+  const [activeVideo, setActiveVideo] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const { sectionId, subSectionId, courseId } = useParams();
-  // console.log("bhai apna", sectionId, subSectionId, courseId);
   const {
     courseSectionData,
     courseEntireData,
@@ -25,136 +31,139 @@ export default function VideoDetailsSidebar({ setReviewModal,open,setOpen }) {
   } = useSelector((state) => state.viewCourse);
 
   useEffect(() => {
-    (() => {
-      if (!courseSectionData.length) return;
-      const currentSectionIndx = courseSectionData.findIndex(
-        (data) => data._id === sectionId
-      );
-      const currentSubSectionIndx = courseSectionData?.[
-        currentSectionIndx
-      ]?.subSection.findIndex((data) => data._id === subSectionId);
-      const activeSubSectionId =
-        courseSectionData[currentSectionIndx]?.subSection?.[
-          currentSubSectionIndx
-        ]?._id;
-      setActiveStatus(courseSectionData?.[currentSectionIndx]?._id);
-      setVideoBarActive(activeSubSectionId);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!courseSectionData.length) return;
+    const secIdx = courseSectionData.findIndex((d) => d._id === sectionId);
+    const subIdx = courseSectionData?.[secIdx]?.subSection.findIndex(
+      (d) => d._id === subSectionId
+    );
+    setActiveSection(courseSectionData?.[secIdx]?._id);
+    setActiveVideo(courseSectionData[secIdx]?.subSection?.[subIdx]?._id);
   }, [courseSectionData, courseEntireData, location.pathname]);
 
-  const handleLectureCompletion = async (courseId, subSectionId) => {
-    const res = await markLectureAsComplete(
-      { courseId: courseId, subSectionId: subSectionId, id : localStorage.getItem("id") }
-    );
-    if (res) {
-      dispatch(updateCompletedLectures(subSectionId));
-      // console.log(completedLectures, subSectionId);
-    }
-
+  const onComplete = async (cid, subId) => {
+    const res = await markLectureAsComplete({
+      courseId: cid,
+      subSectionId: subId,
+      id: localStorage.getItem("id"),
+    });
+    if (res) dispatch(updateCompletedLectures(subId));
   };
 
+  if (!open) {
+    return (
+      <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-12 shrink-0 border-r border-border bg-card/40 lg:flex lg:flex-col lg:items-center lg:py-4">
+        <button
+          onClick={() => setOpen(true)}
+          className="grid h-9 w-9 place-items-center rounded-md border border-border text-muted-foreground hover:bg-secondary hover:text-foreground"
+          aria-label="Open sidebar"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
+      </aside>
+    );
+  }
+
+  const pct = totalNoOfLectures
+    ? Math.round((completedLectures.length / totalNoOfLectures) * 100)
+    : 0;
+
   return (
-    <>
-      <div className={`h-auto md:h-auto lg:h-full xl:h-full w-[100%] md:w-[100%] ${open ? "lg:w-[20%] xl:w-[20%]" : "lg:w-[5%] xl:w-[5%]"} bg-black-bg overflow-hidden overflow-y-scroll profile`}>
-        {open ? (
-          <div className="flex w-full flex-col">
-            <div className="px-2 flex flex-col items-start justify-between gap-2 gap-y-4 py-5 text-lg font-bold">
-              <div className="flex w-full items-center justify-between">
-                <div
-                  onClick={() => setOpen(!open)}
-                  className="flex h-[35px] w-[35px] items-center justify-center rounded-full p-1 hover:scale-90"
-                  title="back"
-                >
-                  <IoIosArrowBack size={30} className="text-white/85 hidden md:hidden lg:block xl:block" />
-                  <IoIosArrowDown size={30} className="text-white/85 block md:block lg:hidden xl:hidden" />
-                </div>
-                <IconBtn
-                  text="Add Review"
-                  customClasses=""
-                  onclick={() => setReviewModal(true)}
-                />
-              </div>
-              <div className="flex flex-col">
-                <p className="text-white text-medium">
-                  {courseEntireData?.courseDetails?.courseName}
-                </p>
-                <p className="text-sm font-semibold text-white/80  ">
-                  {completedLectures?.length} / {totalNoOfLectures}
-                </p>
-              </div>
+    <aside className="sticky top-16 z-10 h-auto w-full shrink-0 border-r border-border bg-card/60 backdrop-blur lg:h-[calc(100vh-4rem)] lg:w-[340px]">
+      <div className="flex h-full flex-col">
+        <div className="border-b border-border p-5">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => setOpen(false)}
+              className="grid h-9 w-9 place-items-center rounded-md border border-border text-muted-foreground hover:bg-secondary hover:text-foreground"
+              aria-label="Collapse"
+            >
+              <ChevronLeft className="hidden h-4 w-4 lg:block" />
+              <ChevronDown className="block h-4 w-4 lg:hidden" />
+            </button>
+            <Button size="sm" onClick={() => setReviewModal(true)}>
+              <Star className="h-3.5 w-3.5" /> Add review
+            </Button>
+          </div>
+
+          <p className="mt-4 text-base font-semibold text-foreground">
+            {courseEntireData?.courseDetails?.courseName}
+          </p>
+          <div className="mt-3">
+            <div className="mb-1.5 flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">
+                {completedLectures.length} / {totalNoOfLectures} lectures
+              </span>
+              <span className="font-medium text-foreground">{pct}%</span>
             </div>
+            <div className="h-1.5 overflow-hidden rounded-full bg-secondary">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-primary to-amber-300 transition-all"
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+          </div>
+        </div>
 
-            <div className="h-[calc(100vh - 5rem)] overflow-y-scroll profile">
-              {courseSectionData.map((course, index) => (
-                <div
-                  className="mt-2 cursor-pointer text-sm text-richblack-50 bg-blue-bg"
-                  onClick={() => setActiveStatus(course?._id)}
-                  key={index}
-                >
-                  {/* Section */}
-                  <div className="flex flex-row justify-between  px-5 py-4">
-                    <div className="w-[70%] font-semibold text-white capitalize">
-                      {course?.sectionName}
-                    </div>
-                    <div className="flex items-center gap-3 text-white">
-                      {/* <span className="text-[12px] font-medium">
-                        Lession {course?.subSection.length}
-                      </span> */}
-                      <span className={`transition-all duration-500`}>
-                        {activeStatus === course?._id ? (
-                          <BsChevronDown />
-                        ) : (
-                          <BsChevronUp />
-                        )}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Sub Sections */}
-                  {activeStatus === course?._id && (
-                    <div className="transition-[height] duration-500 ease-in-out">
-                      {course.subSection.map((topic, i) => (
-                        <div
-                          className={`flex gap-3  px-5 py-2 ${
-                            videoBarActive === topic._id
-                              ? "bg-glod-color bg-opacity-200 font-semibold text-black capitalize"
-                              : "bg-black-bg hover:bg-slate-700 text-white capitalize"
-                          } `}
-                          key={i}
+        <div className="flex-1 overflow-y-auto p-3">
+          {courseSectionData.map((section) => (
+            <div key={section._id} className="mb-2">
+              <button
+                onClick={() => setActiveSection(section._id)}
+                className="flex w-full items-center justify-between rounded-md px-3 py-2.5 text-left text-sm font-semibold text-foreground transition-colors hover:bg-secondary/60"
+              >
+                <span className="truncate">{section.sectionName}</span>
+                <ChevronDown
+                  className={cn(
+                    "h-4 w-4 text-muted-foreground transition-transform",
+                    activeSection === section._id && "rotate-180"
+                  )}
+                />
+              </button>
+              {activeSection === section._id && (
+                <ul className="mt-1 flex flex-col gap-0.5">
+                  {section.subSection.map((topic) => {
+                    const done = completedLectures.includes(topic._id);
+                    const active = activeVideo === topic._id;
+                    return (
+                      <li key={topic._id}>
+                        <button
                           onClick={() => {
                             navigate(
-                              `/view-course/${courseEntireData?.courseDetails?._id}/section/${course?._id}/sub-section/${topic?._id}`
+                              `/view-course/${courseEntireData?.courseDetails?._id}/section/${section._id}/sub-section/${topic._id}`
                             );
-                            setVideoBarActive(topic._id);
+                            setActiveVideo(topic._id);
                           }}
+                          className={cn(
+                            "flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition-colors",
+                            active
+                              ? "bg-primary/10 text-primary"
+                              : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
+                          )}
                         >
-                          {/* //checkbox tick color change */}
-                          <input
-                            type="checkbox"
-                            className="custom-checkbox"
-                            checked={completedLectures.includes(topic._id)}
-                            onChange={() => handleLectureCompletion(courseId,topic._id)}
-                          />
-                          {topic.title}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onComplete(courseId, topic._id);
+                            }}
+                            className="shrink-0"
+                          >
+                            {done ? (
+                              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                            ) : (
+                              <Circle className="h-4 w-4 text-muted-foreground" />
+                            )}
+                          </button>
+                          <span className="truncate">{topic.title}</span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
-          </div>
-        ) : (
-          <div
-            onClick={() => setOpen(!open)}
-            className="flex h-[35px] text-white my-2 mx-2 w-[35px] items-center justify-center rounded-full bg-richblack-100 p-1 text-richblack-700 hover:scale-90"
-          >
-            <IoIosArrowForward size={30}  className="text-white/85 hidden md:hidden lg:block xl:block"  />
-            <IoIosArrowUp size={30} className="text-white/85 block md:block lg:hidden xl:hidden" />
-          </div>
-        )}
+          ))}
+        </div>
       </div>
-    </>
+    </aside>
   );
 }

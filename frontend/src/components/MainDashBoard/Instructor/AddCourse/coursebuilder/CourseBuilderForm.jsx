@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { IoAddCircleOutline } from "react-icons/io5";
-import { MdNavigateNext } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { Plus, ChevronRight, ChevronLeft } from "lucide-react";
 
 import {
   createSection,
@@ -15,7 +14,9 @@ import {
   setStep,
 } from "../../../../../slices/courseSlice.js";
 import NestedView from "./NestedView";
-import IconBtn from "../../../../common/IconBtn.jsx";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function CourseBuilderForm() {
   const {
@@ -25,46 +26,37 @@ export default function CourseBuilderForm() {
     formState: { errors },
   } = useForm();
 
-  const { course } = useSelector((state) => state.course);
-  const { token } = useSelector((state) => state.auth);
+  const { course } = useSelector((s) => s.course);
+  const { token } = useSelector((s) => s.auth);
   const [loading, setLoading] = useState(false);
   const [editSectionName, setEditSectionName] = useState(null);
   const dispatch = useDispatch();
 
-
-  // handle form submission
   const onSubmit = async (data) => {
-    // console.log(data)
     setLoading(true);
-
     let result;
-
     if (editSectionName) {
       result = await updateSection(
         {
           sectionName: data.sectionName,
           sectionId: editSectionName,
           courseId: course._id,
-          id : localStorage.getItem("id")
+          id: localStorage.getItem("id"),
         },
         token
       );
-      // console.log("edit", result)
     } else {
       result = await createSection(
         {
           sectionName: data.sectionName,
           courseId: course._id,
-          id: localStorage.getItem("id")
+          id: localStorage.getItem("id"),
         },
         token
       );
-      // toast.error("Please add atleast one section");
     }
     if (result) {
-      // console.log("section result", result)
       dispatch(setCourse(result));
-      console.log("here it is->",course);
       setEditSectionName(null);
       setValue("sectionName", "");
     }
@@ -85,15 +77,13 @@ export default function CourseBuilderForm() {
     setValue("sectionName", sectionName);
   };
 
-  const goToNext = () => {
+  const goNext = () => {
     if (course.courseContent.length === 0) {
-      toast.error("Please add atleast one section");
+      toast.error("Add at least one section.");
       return;
     }
-    if (
-      course.courseContent.some((section) => section.subSection.length === 0)
-    ) {
-      toast.error("Please add atleast one lecture in each section");
+    if (course.courseContent.some((s) => s.subSection.length === 0)) {
+      toast.error("Each section needs at least one lecture.");
       return;
     }
     dispatch(setStep(3));
@@ -105,75 +95,59 @@ export default function CourseBuilderForm() {
   };
 
   return (
-    <div className="space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6  mb-4">
-      <p className="text-2xl font-semibold text-glod-color">
-        Course <span className="text-white">Builder.</span>
-      </p>
+    <div className="space-y-6 rounded-2xl border border-border bg-card p-6 sm:p-8">
+      <div>
+        <p className="text-sm font-medium uppercase tracking-[0.18em] text-primary">
+          Step 2
+        </p>
+        <h2 className="mt-1 text-2xl font-bold tracking-tight text-foreground">
+          Course <span className="gradient-text">builder</span>.
+        </h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Organize sections and lectures.
+        </p>
+      </div>
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className="flex flex-col space-y-2">
-          <label className="text-sm text-white" htmlFor="sectionName">
-            Section Name <sup className="text-red-500">*</sup>
-          </label>
-          <input
+        <div className="grid gap-2">
+          <Label htmlFor="sectionName">
+            Section name <sup className="text-destructive">*</sup>
+          </Label>
+          <Input
             id="sectionName"
             disabled={loading}
-            placeholder="Add a section to build your course"
+            placeholder="e.g. Introduction"
             {...register("sectionName", { required: true })}
-            className="form-style w-[80% rounded-md px-3 py-2 text-white"
-            style={{ borderBottom: ".1px solid white" }}
           />
           {errors.sectionName && (
-            <span className="ml-2 text-xs tracking-wide text-red-500">
-              ** Section name is required **
-            </span>
+            <span className="text-xs text-destructive">Section name is required</span>
           )}
         </div>
-        <div className="flex items-end gap-x-4">
-          <IconBtn
-            type="Submit"
-            disabled={loading}
-            text={editSectionName ? "Edit Section Name" : "Create Section"}
-            outline={true}
-          >
-            <IoAddCircleOutline size={20} className="text-yellow-50" />
-          </IconBtn>
-          {/* <div className="flex items-center gap-x-1 text-white">
-            <button type="Submit">
-              {editSectionName ? "Edit Section Name" : "Create Section"}
-            </button>
-            <IoAddCircleOutline size={20} className="text-yellow-50" />
-          </div> */}
+
+        <div className="flex flex-wrap items-center gap-2">
+          <Button type="submit" disabled={loading} variant="outline">
+            <Plus className="h-4 w-4" />
+            {editSectionName ? "Edit section name" : "Create section"}
+          </Button>
           {editSectionName && (
-            <button
-              type="button"
-              onClick={cancelEdit}
-              className="text-sm text-white underline"
-            >
-              Cancel Edit
-            </button>
+            <Button type="button" variant="ghost" onClick={cancelEdit}>
+              Cancel edit
+            </Button>
           )}
         </div>
       </form>
+
       {course?.courseContent?.length > 0 && (
         <NestedView handleChangeEditSectionName={handleChangeEditSectionName} />
       )}
-      {/* Next Prev Button */}
-      <div className="flex justify-end gap-x-3 ">
-        <button onClick={goBack} 
-          className={`flex cursor-pointer items-center gap-x-2 rounded-md bg-white py-[8px] px-[20px] font-semibold text-black`}
-        >
-          Back
-        </button>
-        {/* <IconBtn disabled={loading} text="Next" onclick={goToNext}>
-          <MdNavigateNext />
-        </IconBtn> */}
-        <button
-          className=" flex items-center bg-glod-color text-white rounded-md px-3 py-1 font-semibold"
-          onClick={goToNext}
-        >
-          Next
-          <MdNavigateNext />
-        </button>
+
+      <div className="flex items-center justify-end gap-2 border-t border-border pt-6">
+        <Button variant="outline" onClick={goBack}>
+          <ChevronLeft className="h-4 w-4" /> Back
+        </Button>
+        <Button onClick={goNext}>
+          Next <ChevronRight className="h-4 w-4" />
+        </Button>
       </div>
     </div>
   );

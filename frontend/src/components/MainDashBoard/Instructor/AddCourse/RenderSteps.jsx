@@ -1,90 +1,72 @@
-import { FaCheck } from "react-icons/fa"
-import { useSelector } from "react-redux"
+import React from "react";
+import { useSelector } from "react-redux";
+import { Check } from "lucide-react";
 
-import CourseBuilderForm from "./coursebuilder/CourseBuilderForm"
-import CourseInformationForm from "./courseInformation/CourseInformationForm"
-import PublishCourse from "./PublishCourse"
+import CourseBuilderForm from "./coursebuilder/CourseBuilderForm";
+import CourseInformationForm from "./courseInformation/CourseInformationForm";
+import PublishCourse from "./PublishCourse";
+import { cn } from "@/lib/utils";
 
+const steps = [
+  { id: 1, title: "Course information", sub: "Title, price, category" },
+  { id: 2, title: "Course builder", sub: "Sections & lectures" },
+  { id: 3, title: "Publish", sub: "Final review" },
+];
 
 export default function RenderSteps() {
-  const { step } = useSelector((state) => state.course)
-
-  const steps = [
-    {
-      id: 1,
-      title: "Course Information",
-    },
-    {
-      id: 2,
-      title: "Course Builder",
-    },
-    {
-      id: 3,
-      title: "Publish",
-    },
-  ]
+  const { step } = useSelector((state) => state.course);
 
   return (
-    <>
-      <div className="relative mb-2 flex w-full justify-center text-white ">
-        {steps.map((item,id) => (
-          <>
-            <div
-              className="flex flex-col items-center "
-              key={item.id}
+    <div className="flex flex-col gap-8">
+      <ol className="grid grid-cols-3 gap-3">
+        {steps.map((s) => {
+          const active = step === s.id;
+          const done = step > s.id;
+          return (
+            <li
+              key={s.id}
+              className={cn(
+                "relative flex flex-col gap-2 rounded-xl border p-4 transition-all",
+                active
+                  ? "border-primary/40 bg-primary/5 shadow-[0_0_0_1px_hsl(var(--primary)/0.2)]"
+                  : done
+                  ? "border-border bg-card"
+                  : "border-dashed border-border bg-card/40"
+              )}
             >
-              <button
-                className={`grid cursor-default aspect-square w-[34px] place-items-center rounded-full border-[1px] ${
-                  step === item.id
-                    ? "border-yellow-50 bg-glod-color text-yellow-50 "
-                    : "border-richblack-700 b"
-                } ${step > item.id && "bg-glod-color text-yellow-50"}} `}
-              >
-                {step > item.id ? (
-                  <FaCheck className="font-bold text-white " />
-                ) : (
-                  item.id
-                )}
-              </button>
-              
-            </div>
-            {item.id !== steps.length && (
-              <>
-                <div
-                  className={`h-[calc(34px/2)] w-[33%]  border-dashed border-b-2  ${
-                  step > item.id  ? "border-yellow-50" : "border-richblack-500"
-                } `}
-                ></div>
-              </>
-            )}
-          </>
-        ))}
-      </div>
+              <div className="flex items-center gap-2">
+                <span
+                  className={cn(
+                    "grid h-7 w-7 place-items-center rounded-full text-xs font-bold",
+                    active
+                      ? "bg-primary text-primary-foreground"
+                      : done
+                      ? "bg-primary/20 text-primary"
+                      : "bg-secondary text-muted-foreground"
+                  )}
+                >
+                  {done ? <Check className="h-3.5 w-3.5" /> : s.id}
+                </span>
+                <p
+                  className={cn(
+                    "text-sm font-semibold",
+                    active || done ? "text-foreground" : "text-muted-foreground"
+                  )}
+                >
+                  {s.title}
+                </p>
+              </div>
+              <p className="text-xs text-muted-foreground">{s.sub}</p>
+            </li>
+          );
+        })}
+      </ol>
 
-      <div className="relative mb-16 flex w-full select-none justify-between">
-        {steps.map((item,id) => (
-          <>
-            <div
-              className="flex min-w-[130px] flex-col items-center gap-y-2"
-              key={item.id}
-            >
-              
-              <p
-                className={`text-sm ${
-                  step >= item.id ? "text-glod-color" : "text-white"
-                }`}
-              >
-                {item.title}
-              </p>
-            </div>
-            
-          </>
-        ))}
+      <div>
+        {step === 1 && <CourseInformationForm />}
+        {step === 2 && <CourseBuilderForm />}
+        {step === 3 && <PublishCourse />}
       </div>
-      {/* Render specific component based on current step */}
-      {step === 1 && <CourseInformationForm />}
-      {step === 2 && <CourseBuilderForm />}
-      {step === 3 &&  <PublishCourse /> }
-    </>
-  )
+    </div>
+  );
 }

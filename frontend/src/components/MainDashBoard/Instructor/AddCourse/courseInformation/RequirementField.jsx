@@ -1,5 +1,9 @@
-import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Plus, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function RequirementsField({
   name,
@@ -7,81 +11,69 @@ export default function RequirementsField({
   register,
   setValue,
   errors,
-  getValues,
 }) {
-  const { editCourse, course } = useSelector((state) => state.course)
-  const [requirement, setRequirement] = useState("")
-  const [requirementsList, setRequirementsList] = useState([])
+  const { editCourse, course } = useSelector((s) => s.course);
+  const [item, setItem] = useState("");
+  const [list, setList] = useState([]);
 
   useEffect(() => {
-    if (editCourse) {
-      setRequirementsList(course?.instruction)
-    }
-    register(name, { required: true, validate: (value) => value.length > 0 })
+    if (editCourse) setList(course?.instruction || []);
+    register(name, { required: true, validate: (v) => v.length > 0 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   useEffect(() => {
-    setValue(name, requirementsList)
+    setValue(name, list);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [requirementsList])
+  }, [list]);
 
-  const handleAddRequirement = () => {
-    if (requirement) {
-      setRequirementsList([...requirementsList, requirement])
-      setRequirement("")
-    }
-  }
-
-  const handleRemoveRequirement = (index) => {
-    const updatedRequirements = [...requirementsList]
-    updatedRequirements.splice(index, 1)
-    setRequirementsList(updatedRequirements)
-  }
+  const add = () => {
+    if (!item.trim()) return;
+    setList([...list, item.trim()]);
+    setItem("");
+  };
+  const remove = (i) => setList(list.filter((_, idx) => idx !== i));
 
   return (
-    <div className="flex flex-col ">
-      <label className="text-white/90 flex flex-col " htmlFor={name}>
-        {label} <sup className="text-pink-200">*</sup>
-      </label>
-      <div className="flex flex-col items-start space-y-2">
-        <input
-          type="text"
+    <div className="grid gap-2">
+      <Label htmlFor={name} className="capitalize">
+        {label}
+        <sup className="text-destructive">*</sup>
+      </Label>
+      <div className="flex gap-2">
+        <Input
           id={name}
-          value={requirement}
-          onChange={(e) => setRequirement(e.target.value)}
-          placeholder="Enter Requirement"
-          className=" border-2 border-white px-2 py-[10px] w-full rounded-lg bg-blue-bg text-white transition-all duration-400"
-          style={{ borderBottom: "1px solid white" }}        />
-        <button
-          type="button"
-          onClick={handleAddRequirement}
-          className="font-semibold text-yellow-50"
-        >
-          Add
-        </button>
+          value={item}
+          onChange={(e) => setItem(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), add())}
+          placeholder="Add a requirement and press enter"
+        />
+        <Button type="button" onClick={add} variant="outline">
+          <Plus className="h-4 w-4" /> Add
+        </Button>
       </div>
-      {requirementsList?.length > 0 && (
-        <ul className="mt-2 list-inside list-disc">
-          {requirementsList?.map((requirement, index) => (
-            <li key={index} className="flex items-center text-white/90">
-              <span>{requirement}</span>
+      {list.length > 0 && (
+        <ul className="mt-2 space-y-1.5">
+          {list.map((r, i) => (
+            <li
+              key={i}
+              className="flex items-center justify-between gap-2 rounded-md border border-border bg-background/40 px-3 py-2 text-sm text-foreground"
+            >
+              <span>{r}</span>
               <button
                 type="button"
-                className="ml-2 text-xs text-pure-greys-300 "
-                onClick={() => handleRemoveRequirement(index)}
+                onClick={() => remove(i)}
+                className="text-muted-foreground hover:text-destructive"
               >
-                clear
+                <X className="h-4 w-4" />
               </button>
             </li>
           ))}
         </ul>
       )}
       {errors[name] && (
-        <span className="text-red-400 text-xs mt-1">
-          {label} is required
-        </span>
+        <span className="text-xs text-destructive">{label} is required</span>
       )}
     </div>
-  )
+  );
 }

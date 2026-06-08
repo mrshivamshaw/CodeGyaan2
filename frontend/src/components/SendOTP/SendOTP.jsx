@@ -1,112 +1,117 @@
 import React, { useRef, useState } from "react";
-import { LiaFreeCodeCamp } from "react-icons/lia";
-import { Link, useNavigate } from "react-router-dom";
-import authImage from "../../assets/signin-banner-removebg-preview.png";
-import { sendOtp, signup } from "../../servies/operations/authOpertaion";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { ShieldCheck, ArrowRight } from "lucide-react";
+
+import { sendOtp, signup } from "../../servies/operations/authOpertaion";
+import AuthLayout from "../common/AuthLayout";
+import { Button } from "@/components/ui/button";
+
+const OTP_LEN = 6;
 
 const SendOTP = () => {
-    const dispatch = useDispatch();
-    const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-    const inputRefs = useRef([]);
-    const navigate = useNavigate()
-    const data = useSelector((state) => state.auth.signUpData);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const data = useSelector((state) => state.auth.signUpData);
+  const [otp, setOtp] = useState(Array(OTP_LEN).fill(""));
+  const [submitting, setSubmitting] = useState(false);
+  const refs = useRef([]);
 
-  const handleChange = (index, value) => {
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-
-    // Move focus to the next input field
-    if (value !== "" && index < otp.length - 1) {
-      inputRefs.current[index + 1].focus();
-    }
+  const onChange = (i, val) => {
+    const v = val.replace(/\D/g, "").slice(-1);
+    const next = [...otp];
+    next[i] = v;
+    setOtp(next);
+    if (v && i < OTP_LEN - 1) refs.current[i + 1]?.focus();
   };
 
-  const handleKeyDown = (index, event) => {
-    if (event.key === "Backspace" && index > 0 && otp[index] === "") {
-      inputRefs.current[index - 1].focus();
-    }
+  const onKeyDown = (i, e) => {
+    if (e.key === "Backspace" && !otp[i] && i > 0) refs.current[i - 1]?.focus();
+    if (e.key === "ArrowLeft" && i > 0) refs.current[i - 1]?.focus();
+    if (e.key === "ArrowRight" && i < OTP_LEN - 1) refs.current[i + 1]?.focus();
   };
 
-  const formHandler = (e) => {
+  const onPaste = (e) => {
+    const v = (e.clipboardData.getData("text") || "").replace(/\D/g, "").slice(0, OTP_LEN);
+    if (!v) return;
     e.preventDefault();
-    if (otp.join("") === "") {
-      toast.error("Please fill all the fields");
+    const next = Array(OTP_LEN).fill("");
+    v.split("").forEach((c, i) => (next[i] = c));
+    setOtp(next);
+    refs.current[Math.min(v.length, OTP_LEN - 1)]?.focus();
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+    const code = otp.join("");
+    if (code.length !== OTP_LEN) {
+      toast.error("Enter the full 6-digit code.");
       return;
     }
-    const refData = data
-    const newData = {
-      ...refData, // Spread the existing properties of data
-      otp: otp.join("") // Add or update the otp property
-    };
-  
-    dispatch(signup(newData, navigate));
-  }
+    setSubmitting(true);
+    try {
+      await dispatch(signup({ ...data, otp: code }, navigate));
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
-  const reSendOtp = () => {
-    setOtp(["", "", "", "", "", ""]);
-    inputRefs.current[0].focus();
+  const resend = () => {
+    setOtp(Array(OTP_LEN).fill(""));
+    refs.current[0]?.focus();
     dispatch(sendOtp(data.email, navigate, data));
-  }
+    toast.success("New code sent.");
+  };
 
   return (
-    <div className="w-screen h-screen flex justify-center items-start">
-      <img src={authImage} alt="signin" className="h-full w-auto hidden md:hidden lg:block xl:block" />
-      <div className="flex flex-col gap-[6vh] shadow-2xl h-full w-full pt-[3vh] px-[3vw]">
-        <Link to={"/"}>
-          <h1 className="text-4xl font-bold text-white flex justify-start items-center">
-            <LiaFreeCodeCamp className="text-[50px] mr-1" />
-            Code<span className="text-glod-color">Gyaan.</span>
-          </h1>
-        </Link>
-        <div className="flex flex-col justify-start gap-[2vh]">
-          <h1 className="text-white text-2xl font-bold">
-            Get Onboard and jumpstart your career!
-          </h1>
-          <h1 className="text-white text-2xl font-bold">Verify Email</h1>
-          <p className="text-sm text-white/80">
-            A verification code has been sent to you. Enter the code below
-          </p>
-          <div>
-            <form onSubmit={formHandler} className="flex flex-col gap-[3vh] w-full">
-              <div
-                id="otp"
-                className="flex flex-row justify-between text-center px-2 mt-5"
-              >
-                {otp.map((digit, index) => (
-                  <input
-                    key={index}
-                    ref={(el) => (inputRefs.current[index] = el)}
-                    style={{ border: "1px solid white" }}
-                    className="m-1 md:m-1 lg:m-2 xl:m-2 border h-12 w-12 text-center form-control rounded text-white"
-                    type="text"
-                    id="first"
-                    value={digit}
-                    onChange={(e) => handleChange(index, e.target.value)}
-                    onKeyDown={(e) => handleKeyDown(index, e)}
-                    maxLength={1}
-                  />
-                ))}
-              </div>
-              <div>
-                <button
-                  type="submit"
-                  className="bg-glod-color w-full text-center py-2 font-semibold rounded-md text-[#fff] hover:bg-[#b99b55]"
-                >
-                  Submit OTP
-                </button>
-                <div className="w-full text-end text-white text-sm">
-                  Didn't recived OTP?{" "}
-                    <span onClick={() => reSendOtp()} className="text-amber-300">Resend OTP</span>
-                </div>
-              </div>{" "}
-            </form>
+    <AuthLayout
+      eyebrow="Verify"
+      title="Check your inbox"
+      subtitle={`We sent a 6-digit code to ${data?.email || "your email"}.`}
+    >
+      <form onSubmit={submit} className="flex flex-col gap-6">
+        <div className="flex items-center gap-3 rounded-xl border border-border bg-secondary/40 p-3">
+          <div className="grid h-9 w-9 place-items-center rounded-md bg-primary/15 text-primary">
+            <ShieldCheck className="h-4 w-4" />
           </div>
+          <p className="text-xs text-muted-foreground">
+            Codes expire after 10 minutes. Don&apos;t share with anyone.
+          </p>
         </div>
-      </div>
-    </div>
+
+        <div className="grid grid-cols-6 gap-2" onPaste={onPaste}>
+          {otp.map((d, i) => (
+            <input
+              key={i}
+              ref={(el) => (refs.current[i] = el)}
+              inputMode="numeric"
+              maxLength={1}
+              value={d}
+              onChange={(e) => onChange(i, e.target.value)}
+              onKeyDown={(e) => onKeyDown(i, e)}
+              className="h-14 rounded-lg border border-border bg-secondary/50 text-center text-2xl font-bold text-foreground caret-primary focus:border-primary/50 focus:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary/20 transition"
+            />
+          ))}
+        </div>
+
+        <Button size="lg" type="submit" disabled={submitting}>
+          {submitting ? "Verifying…" : "Verify and continue"}{" "}
+          <ArrowRight className="h-4 w-4" />
+        </Button>
+
+        <p className="text-center text-sm text-muted-foreground">
+          Didn&apos;t get a code?{" "}
+          <button
+            type="button"
+            onClick={resend}
+            className="font-medium text-primary hover:underline"
+          >
+            Resend
+          </button>
+        </p>
+      </form>
+    </AuthLayout>
   );
 };
 

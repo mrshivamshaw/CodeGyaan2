@@ -1,36 +1,54 @@
-import React from 'react'
-import { LiaLongArrowAltRightSolid } from "react-icons/lia";
+import React from "react";
+import { ArrowRight, Quote, TrendingUp } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
-
-const ReviewCard = (props) => {
+const ReviewCard = ({ name, short_name, increment, course, feedback, history }) => {
   return (
-    <div className='min-w-[280px] h-[330px] bg-black-bg rounded-xl shadow-md shadow-black mr-5'>
-        <h1 className='w-full text-center py-1 bg-[#6d6a5e] rounded-t-xl font-semibold text-green-500'>Increment {props.increment}</h1>
-        <div className='w-full text-white flex px-3 py-5 gap-4 justify-start items-center'>
-            <div className='uppercase bg-glod-color text-center py-3 px-4 text-xl rounded-full'>{props.short_name}</div>
-            <div className='flex flex-col justify-start items-start'>
-                <div className='text-lg font-semibold'>
-                    {props.name}
-                </div>
-                <div className='text-sm font-light'>
-                    {props.course}
-                </div>
-            </div>
-        </div>
-        <p className='px-3 text-white font-light '>{props.feedback}</p>
-        <div className='flex justify-between items-center px-3 text-white mt-12'>
-            <div>
-                <div className='font-bold'>From</div>
-                <div>{props.history[0].from}</div>
-            </div>
-            <LiaLongArrowAltRightSolid className='text-2xl'/>
-            <div className='text-glod-color'>
-                <div className='font-bold'>To</div>
-                <div>{props.history[0].to}</div>
-            </div>
-        </div>
-    </div>
-  )
-}
+    <div className="group relative flex h-full min-w-[300px] max-w-[340px] flex-col gap-5 rounded-2xl border border-border bg-card p-6 card-hover sm:min-w-[340px]">
+      <div className="flex items-start justify-between">
+        <Quote className="h-7 w-7 text-primary/40" />
+        <Badge variant="default" className="gap-1">
+          <TrendingUp className="h-3 w-3" /> {increment}
+        </Badge>
+      </div>
 
-export default ReviewCard
+      <p className="line-clamp-5 text-sm leading-relaxed text-foreground">
+        “{feedback}”
+      </p>
+
+      <div className="mt-auto flex items-center gap-3 border-t border-border pt-4">
+        <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-primary to-amber-400 text-sm font-bold uppercase text-primary-foreground">
+          {short_name}
+        </div>
+        <div className="min-w-0">
+          <p className="truncate text-sm font-semibold text-foreground">
+            {name}
+          </p>
+          <p className="truncate text-xs text-muted-foreground">{course}</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-[1fr,auto,1fr] items-center gap-2 rounded-lg border border-border bg-background/40 p-3">
+        <div>
+          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+            From
+          </p>
+          <p className="truncate text-sm font-medium text-muted-foreground">
+            {history[0]?.from}
+          </p>
+        </div>
+        <ArrowRight className="h-4 w-4 text-primary" />
+        <div>
+          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+            To
+          </p>
+          <p className="truncate text-sm font-semibold gradient-text">
+            {history[0]?.to}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ReviewCard;

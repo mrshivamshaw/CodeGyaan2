@@ -1,18 +1,21 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import JobCard from "./JobCard";
-import NavBar from "../../components/NavBar/NavBar";
-import Filter from "./Filter.jsx";
 import toast from "react-hot-toast";
-import { FaArrowLeftLong } from "react-icons/fa6";
+import { ArrowLeft, Briefcase, Sparkles } from "lucide-react";
+
+import NavBar from "../../components/NavBar/NavBar";
+import Footer from "../../components/Footer/Footer";
+import JobCard from "./JobCard";
+import Filter from "./Filter.jsx";
 import JobDetails from "./JobDetails.jsx";
-import Footer from "../../components/Footer/Footer.jsx";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 const JobPost = () => {
   const [jobs, setJobs] = useState([]);
   const [companySet, setCompanySet] = useState(new Set());
   const [locationSet, setLocationSet] = useState(new Set());
-  const [seletedCompany, setSelectedCompany] = useState("");
+  const [selectedCompany, setSelectedCompany] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
   const [jobDetails, setJobDetails] = useState(false);
   const [jobDetailsPage, setJobDetailsPage] = useState(false);
@@ -29,130 +32,138 @@ const JobPost = () => {
           "x-rapidapi-host": "jobs-api19.p.rapidapi.com",
         },
       };
-
-      const toastId = toast.loading("Fetching Jobs...");
-
+      const tId = toast.loading("Fetching jobs…");
       try {
-        const response = await axios.request(options);
-        setJobs(response.data);
-        const companies = response.data.map((job) => job.company);
-        setCompanySet(new Set(companies));
-        const locations = response.data.map((job) => job.location);
-        setLocationSet(new Set(locations));
-        sessionStorage.setItem("jobs", JSON.stringify(response.data));
-      } catch (error) {
-        console.error("Error fetching jobs:", error);
-        toast.error("Failed to fetch jobs. Please try again later.");
+        const res = await axios.request(options);
+        setJobs(res.data);
+        setCompanySet(new Set(res.data.map((j) => j.company)));
+        setLocationSet(new Set(res.data.map((j) => j.location)));
+        sessionStorage.setItem("jobs", JSON.stringify(res.data));
+      } catch (e) {
+        toast.error("Failed to fetch jobs.");
       } finally {
-        toast.dismiss(toastId);
+        toast.dismiss(tId);
       }
     };
 
-    // Check sessionStorage for cached jobs
-    if (!sessionStorage.getItem("jobs")) {
+    const cached = sessionStorage.getItem("jobs");
+    if (!cached) {
       fetchJobs();
     } else {
-      const cachedJobs = JSON.parse(sessionStorage.getItem("jobs"));
-      setJobs(cachedJobs);
-      const companies = cachedJobs.map((job) => job.company);
-      setCompanySet(new Set(companies));
-      const locations = cachedJobs.map((job) => job.location);
-      setLocationSet(new Set(locations));
+      const arr = JSON.parse(cached);
+      setJobs(arr);
+      setCompanySet(new Set(arr.map((j) => j.company)));
+      setLocationSet(new Set(arr.map((j) => j.location)));
     }
   }, []);
 
-  return (
-    <div className="w-full h-auto">
-      <NavBar />
-      <div className="w-full h-auto flex justify-center items-start gap-8 mt-14 md:mt-14 lg:mt-32 xl:mt-32">
-        <div className="w-[95%] md:w-[95%] lg:w-[50%] xl:w-[50%] h-auto flex flex-col justify-start items-start gap-10 my-7">
-          <div className="flex flex-col justify-start items-start gap-1 w-full">
-            <h1 className="text-white/90 text-4xl font-semibold flex justify-center items-center">
-              {jobDetailsPage && <span onClick={() => setJobDetailsPage(false)} className="cursor-pointer">
-                <FaArrowLeftLong className="text-xl mr-2" />
-              </span>}
-              Job <span className="text-glod-color">Listing</span>.
-            </h1>
-            <p className="text-white/70 text-lg">
-              Dive deep into a world of career possibilities with our tailored
-              job listings.
-            </p>
-          </div>
-          {!jobDetailsPage && <div className="w-full block md:block lg:hidden xl:hidden">
-            <div className="flex flex-col gap-3 justify-center items-start md:items-start lg:items-center xl:items-center -mb-6">
-              <span className="text-white/95 text-2xl font-semibold">
-                Filter by
-              </span>
-              <select
-                id="company"
-                className="border-2 border-white px-2 py-[10px] rounded-lg bg-blue-bg text-white transition-all duration-400"
-                style={{ borderBottom: "1px solid white" }}
-                value={seletedCompany}
-                onChange={(e) => {
-                  setSelectedCompany(e.target.value);
-                }}
-              >
-                <option value="" disabled>
-                  Choose a Company
-                </option>
-                {Array.from(companySet)?.map((company, index) => (
-                  <option key={index} value={company}>
-                    {company}
-                  </option>
-                ))}
-              </select>
+  const visible = jobs.filter((j) => {
+    if (selectedCompany && j.company !== selectedCompany) return false;
+    if (selectedLocation && j.location !== selectedLocation) return false;
+    return true;
+  });
 
-              <select
-                id="location"
-                className="border-2 border-white px-2 py-[10px] rounded-lg bg-blue-bg text-white transition-all duration-400"
-                style={{ borderBottom: "1px solid white" }}
-                value={selectedLocation}
-                onChange={(e) => {
-                  setSelectedLocation(e.target.value);
-                }}
-              >
-                <option value="" disabled>
-                  Choose Location
-                </option>
-                {Array.from(locationSet)?.map((location, index) => (
-                  <option key={index} value={location}>
-                    {location}
-                  </option>
-                ))}
-              </select>
+  return (
+    <div className="min-h-screen bg-background">
+      <NavBar />
+
+      <section className="relative border-b border-border">
+        <div className="pointer-events-none absolute inset-0 grid-bg opacity-50" />
+        <div className="pointer-events-none absolute -top-32 left-1/2 h-[400px] w-[700px] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl" />
+        <div className="container-page relative py-14">
+          <Badge variant="glow" className="gap-1.5">
+            <Sparkles className="h-3 w-3" /> Curated openings
+          </Badge>
+          <h1 className="mt-4 flex items-center gap-3 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+            {jobDetailsPage && (
               <button
-                className="bg-black-bg py-1 px-4 rounded-2xl text-white/90 font-semibold hover:bg-slate-500"
-                onClick={() => {
-                  setSelectedCompany("");
-                  setSelectedLocation("");
-                }}
+                onClick={() => setJobDetailsPage(false)}
+                className="grid h-10 w-10 place-items-center rounded-md border border-border bg-card text-muted-foreground transition-colors hover:text-foreground"
+                aria-label="Back"
               >
-                Clear all
+                <ArrowLeft className="h-5 w-5" />
               </button>
+            )}
+            Job <span className="gradient-text">Portal</span>.
+          </h1>
+          <p className="mt-3 max-w-xl text-muted-foreground">
+            Tailored roles from partner companies — apply directly, track your
+            progress, get hired.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3 text-xs text-muted-foreground">
+            <span className="inline-flex items-center gap-1.5">
+              <Briefcase className="h-3 w-3" /> {jobs.length} live roles
+            </span>
+            <span>·</span>
+            <span>{companySet.size} companies</span>
+            <span>·</span>
+            <span>{locationSet.size} locations</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="container-page py-12">
+        <div className="flex flex-col gap-8 lg:flex-row">
+          <div className="flex-1 min-w-0">
+            {!jobDetailsPage && jobs.length > 0 && (
+              <div className="mb-6 flex items-center justify-between">
+                <p className="text-sm text-muted-foreground">
+                  Showing{" "}
+                  <span className="font-semibold text-foreground">
+                    {visible.length}
+                  </span>{" "}
+                  of {jobs.length} jobs
+                </p>
+                {(selectedCompany || selectedLocation) && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setSelectedCompany("");
+                      setSelectedLocation("");
+                    }}
+                  >
+                    Clear filters
+                  </Button>
+                )}
+              </div>
+            )}
+
+            <div className="grid gap-5">
+              {jobDetailsPage ? (
+                <JobDetails job={jobDetails} />
+              ) : visible.length > 0 ? (
+                visible.map((job) => (
+                  <JobCard
+                    key={job.id}
+                    job={job}
+                    seletedCompany={selectedCompany}
+                    selectedLocation={selectedLocation}
+                    setJobDetails={setJobDetails}
+                    setJobDetailsPage={setJobDetailsPage}
+                  />
+                ))
+              ) : (
+                <div className="rounded-2xl border border-dashed border-border bg-card/40 p-16 text-center">
+                  <p className="text-muted-foreground">
+                    {jobs.length === 0 ? "Loading jobs…" : "No jobs match your filters."}
+                  </p>
+                </div>
+              )}
             </div>
-          </div>}
-          {jobs.length > 0 && !jobDetailsPage ? (
-            jobs?.map((job) => (
-              <JobCard
-                key={job.id}
-                job={job}
-                seletedCompany={seletedCompany}
-                selectedLocation={selectedLocation}
-                setJobDetails={setJobDetails}
-                setJobDetailsPage={setJobDetailsPage}
-              />
-            ))
-          ) : (
-            jobs.length <= 0 ? (<p className="text-white">No jobs found.</p>) : (<JobDetails job={jobDetails} />)
+          </div>
+
+          {!jobDetailsPage && (
+            <Filter
+              companies={Array.from(companySet)}
+              locations={Array.from(locationSet)}
+              setSelectedCompany={setSelectedCompany}
+              setSelectedLocation={setSelectedLocation}
+            />
           )}
         </div>
-        {!jobDetailsPage && <Filter
-          companies={Array.from(companySet)}
-          locations={Array.from(locationSet)}
-          setSelectedCompany={setSelectedCompany}
-          setSelectedLocation={setSelectedLocation}
-        />}
-      </div>
+      </section>
+
       <Footer />
     </div>
   );

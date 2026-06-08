@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "create:collections": "node scripts/create_collections.js",
+    "seed": "node scripts/seed.js"
   },
   "keywords": [],
   "author": "",
