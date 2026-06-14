@@ -9,6 +9,11 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 const DB_URI = process.env.DB_URI;
 
+// Build URLs to local frontend assets served statically by the backend at /assets
+const ASSET_BASE = process.env.ASSET_BASE || 'http://localhost:5000';
+const asset = (p) =>
+  `${ASSET_BASE}/assets/${p.split('/').map(encodeURIComponent).join('/')}`;
+
 // Import models
 import User from '../models/user.js';
 import Profile from '../models/profile.js';
@@ -67,6 +72,22 @@ async function seedDatabase() {
       {
         name: 'Cloud Computing',
         description: 'Learn cloud platforms and DevOps',
+      },
+      {
+        name: 'Programming',
+        description: 'Master core programming languages',
+      },
+      {
+        name: 'Blockchain',
+        description: 'Build decentralized apps and Web3 projects',
+      },
+      {
+        name: 'Cyber Security',
+        description: 'Ethical hacking and security fundamentals',
+      },
+      {
+        name: 'Game Development',
+        description: 'Create games with modern engines',
       },
     ]);
     console.log(`✓ Created ${categories.length} categories`);
@@ -134,8 +155,7 @@ async function seedDatabase() {
         gender: 'Male',
         accountType: 'Instructor',
         additionalDetails: profiles[0]._id,
-        image:
-          'https://api.example.com/images/instructor1.jpg',
+        image: asset('Instructor.8b4c4f204053f0dfe844.png'),
         enrolledCourses: [],
         courses: [],
         cart: { courses: [], totalPrice: 0 },
@@ -148,8 +168,7 @@ async function seedDatabase() {
         gender: 'Female',
         accountType: 'Instructor',
         additionalDetails: profiles[1]._id,
-        image:
-          'https://api.example.com/images/instructor2.jpg',
+        image: asset('aboutus/aboutus1.png'),
         enrolledCourses: [],
         courses: [],
         cart: { courses: [], totalPrice: 0 },
@@ -162,8 +181,7 @@ async function seedDatabase() {
         gender: 'Male',
         accountType: 'Instructor',
         additionalDetails: profiles[2]._id,
-        image:
-          'https://api.example.com/images/instructor3.jpg',
+        image: asset('aboutus/aboutus2.png'),
         enrolledCourses: [],
         courses: [],
         cart: { courses: [], totalPrice: 0 },
@@ -176,8 +194,7 @@ async function seedDatabase() {
         gender: 'Female',
         accountType: 'Student',
         additionalDetails: profiles[0]._id,
-        image:
-          'https://api.example.com/images/student1.jpg',
+        image: asset('aboutus/aboutus3.f5cfba861877ea03735d.png'),
         enrolledCourses: [],
         courses: [],
         cart: { courses: [], totalPrice: 0 },
@@ -190,8 +207,7 @@ async function seedDatabase() {
         gender: 'Male',
         accountType: 'Student',
         additionalDetails: profiles[1]._id,
-        image:
-          'https://api.example.com/images/student2.jpg',
+        image: asset('Call center-cuate.png'),
         enrolledCourses: [],
         courses: [],
         cart: { courses: [], totalPrice: 0 },
@@ -281,8 +297,7 @@ async function seedDatabase() {
         courseContent: [sections[0]._id, sections[1]._id],
         status: 'Published',
         price: 4999,
-        thumbnail:
-          'https://api.example.com/images/web-dev-course.jpg',
+        thumbnail: asset('courseListBanner/website-development-banner_33099-1687.png'),
         instruction: [
           'Complete all videos',
           'Build 5 projects',
@@ -292,7 +307,7 @@ async function seedDatabase() {
         studentsEnrolled: [users[3]._id, users[4]._id],
       },
       {
-        courseName: 'Data Science Masterclass',
+        courseName: 'Data Science & Machine Learning Masterclass',
         courseDescription:
           'Become a data scientist. Learn Python, Pandas, and ML.',
         startDate: '2024-07-01',
@@ -304,8 +319,7 @@ async function seedDatabase() {
         courseContent: [sections[3]._id],
         status: 'Published',
         price: 3999,
-        thumbnail:
-          'https://api.example.com/images/data-science-course.jpg',
+        thumbnail: asset('courseListBanner/machine-lerning1-min-2048x695-1.png'),
         instruction: [
           'Complete all assignments',
           'Build ML models',
@@ -327,8 +341,7 @@ async function seedDatabase() {
         courseContent: [],
         status: 'Published',
         price: 5999,
-        thumbnail:
-          'https://api.example.com/images/aws-course.jpg',
+        thumbnail: asset('courseListBanner/cloud-computing (1).png'),
         instruction: [
           'Set up AWS account',
           'Deploy applications',
@@ -348,10 +361,9 @@ async function seedDatabase() {
           'React Native, JavaScript, Mobile UI/UX, Firebase',
         category: categories[1]._id,
         courseContent: [sections[1]._id],
-        status: 'Draft',
+        status: 'Published',
         price: 4499,
-        thumbnail:
-          'https://api.example.com/images/react-native-course.jpg',
+        thumbnail: asset('courseListBanner/202308021690977891.png'),
         instruction: [
           'Complete app projects',
           'Deploy to app stores',
@@ -359,22 +371,158 @@ async function seedDatabase() {
         tag: ['React', 'Mobile Development'],
         studentsEnrolled: [],
       },
+      {
+        courseName: 'Python Programming Masterclass',
+        courseDescription:
+          'Go from beginner to pro in Python with hands-on projects.',
+        startDate: '2024-10-01',
+        mode: 'Online',
+        instructor: users[1]._id,
+        whatYouWillLearn:
+          'Python syntax, OOP, file handling, automation, APIs',
+        category: categories[4]._id,
+        courseContent: [],
+        status: 'Published',
+        price: 2999,
+        thumbnail: asset('courseListBanner/python-programing-banner.png'),
+        instruction: [
+          'Write daily code',
+          'Build automation scripts',
+          'Complete capstone project',
+        ],
+        tag: ['Python', 'Programming'],
+        studentsEnrolled: [users[3]._id],
+      },
+      {
+        courseName: 'Java Programming for Beginners',
+        courseDescription:
+          'Master core Java and object-oriented programming.',
+        startDate: '2024-10-15',
+        mode: 'Online',
+        instructor: users[2]._id,
+        whatYouWillLearn:
+          'Java basics, OOP, collections, exceptions, JVM',
+        category: categories[4]._id,
+        courseContent: [],
+        status: 'Published',
+        price: 3499,
+        thumbnail: asset('courseListBanner/Java-Programming-Training-For-Beginners.png'),
+        instruction: [
+          'Complete all exercises',
+          'Build console apps',
+          'Pass the final quiz',
+        ],
+        tag: ['Java', 'Programming'],
+        studentsEnrolled: [],
+      },
+      {
+        courseName: 'Blockchain & Web3 Development',
+        courseDescription:
+          'Build decentralized apps and smart contracts on Ethereum.',
+        startDate: '2024-11-01',
+        mode: 'Online',
+        instructor: users[0]._id,
+        whatYouWillLearn:
+          'Solidity, smart contracts, Web3.js, dApps, NFTs',
+        category: categories[5]._id,
+        courseContent: [],
+        status: 'Published',
+        price: 6999,
+        thumbnail: asset('courseListBanner/blockchain-course.png'),
+        instruction: [
+          'Deploy a smart contract',
+          'Build a dApp',
+          'Mint an NFT',
+        ],
+        tag: ['Blockchain', 'Web3', 'Solidity'],
+        studentsEnrolled: [users[4]._id],
+      },
+      {
+        courseName: 'Ethical Hacking & Cyber Security',
+        courseDescription:
+          'Learn penetration testing and how to secure systems.',
+        startDate: '2024-11-15',
+        mode: 'Online',
+        instructor: users[1]._id,
+        whatYouWillLearn:
+          'Networking, Linux, pentesting, OWASP, security tools',
+        category: categories[6]._id,
+        courseContent: [],
+        status: 'Published',
+        price: 5499,
+        thumbnail: asset('courseListBanner/cyberSecurity.png'),
+        instruction: [
+          'Set up a lab environment',
+          'Run vulnerability scans',
+          'Write a security report',
+        ],
+        tag: ['Cyber Security', 'Ethical Hacking'],
+        studentsEnrolled: [],
+      },
+      {
+        courseName: 'Game Development with Unity',
+        courseDescription:
+          'Create 2D and 3D games from scratch using Unity and C#.',
+        startDate: '2024-12-01',
+        mode: 'Online',
+        instructor: users[2]._id,
+        whatYouWillLearn:
+          'Unity engine, C#, physics, animation, game design',
+        category: categories[7]._id,
+        courseContent: [],
+        status: 'Published',
+        price: 4799,
+        thumbnail: asset('courseListBanner/gameDevelopment.png'),
+        instruction: [
+          'Build a 2D platformer',
+          'Build a 3D game',
+          'Publish to a store',
+        ],
+        tag: ['Game Development', 'Unity', 'C#'],
+        studentsEnrolled: [],
+      },
+      {
+        courseName: 'DevOps Engineering: CI/CD & Docker',
+        courseDescription:
+          'Automate builds and deployments with Docker, CI/CD and Kubernetes.',
+        startDate: '2024-12-15',
+        mode: 'Online',
+        instructor: users[0]._id,
+        whatYouWillLearn:
+          'Docker, Kubernetes, CI/CD pipelines, Git, monitoring',
+        category: categories[3]._id,
+        courseContent: [],
+        status: 'Published',
+        price: 5299,
+        thumbnail: asset('courseListBanner/image.png'),
+        instruction: [
+          'Containerize an app',
+          'Build a CI/CD pipeline',
+          'Deploy to Kubernetes',
+        ],
+        tag: ['DevOps', 'Docker', 'Kubernetes'],
+        studentsEnrolled: [users[3]._id],
+      },
     ]);
     console.log(`✓ Created ${courses.length} courses`);
 
     // Update courses in Category
-    categories[0].courses = [courses[0]._id];
-    categories[1].courses = [courses[3]._id];
-    categories[2].courses = [courses[1]._id];
-    categories[3].courses = [courses[2]._id];
+    categories[0].courses = [courses[0]._id];            // Web Development
+    categories[1].courses = [courses[3]._id];            // Mobile Development
+    categories[2].courses = [courses[1]._id];            // Data Science
+    categories[3].courses = [courses[2]._id, courses[9]._id]; // Cloud Computing
+    categories[4].courses = [courses[4]._id, courses[5]._id]; // Programming
+    categories[5].courses = [courses[6]._id];            // Blockchain
+    categories[6].courses = [courses[7]._id];            // Cyber Security
+    categories[7].courses = [courses[8]._id];            // Game Development
     await Promise.all(categories.map(cat => cat.save()));
 
     // Update instructor courses
-    users[0].courses = [courses[0]._id, courses[3]._id];
-    users[1].courses = [courses[1]._id];
-    users[2].courses = [courses[2]._id];
-    users[3].enrolledCourses = [courses[0]._id, courses[2]._id];
-    users[4].enrolledCourses = [courses[0]._id, courses[1]._id];
+    users[0].courses = [courses[0]._id, courses[3]._id, courses[6]._id, courses[9]._id];
+    users[1].courses = [courses[1]._id, courses[4]._id, courses[7]._id];
+    users[2].courses = [courses[2]._id, courses[5]._id, courses[8]._id];
+    users[3].enrolledCourses = [courses[0]._id, courses[2]._id, courses[4]._id, courses[9]._id];
+    users[4].enrolledCourses = [courses[0]._id, courses[1]._id, courses[6]._id];
 
     // Add courses to carts
     users[3].cart.courses = [courses[2]._id];

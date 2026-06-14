@@ -67,11 +67,9 @@ const NavBar = () => {
 
   useEffect(() => {
     const cached = sessionStorage.getItem("category");
-    if (cached) {
-      setCategories(JSON.parse(cached));
-    } else {
-      fetchCourseCategories().then((c) => c && setCategories(c));
-    }
+    if (cached) setCategories(JSON.parse(cached)); // instant placeholder
+    // always refresh from API so a re-seed never leaves stale data
+    fetchCourseCategories().then((c) => c && setCategories(c));
   }, []);
 
   useEffect(() => {

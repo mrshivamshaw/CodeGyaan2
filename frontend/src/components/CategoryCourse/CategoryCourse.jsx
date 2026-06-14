@@ -5,7 +5,11 @@ import { ChevronRight, Filter, SortDesc, Layers } from "lucide-react";
 import NavBar from "../NavBar/NavBar";
 import Footer from "../Footer/Footer";
 import CourseCard from "../Home/CourseView/CourseCard";
-import { fetchCourseByCategory } from "../../servies/operations/courseOpertaions";
+import {
+  fetchCourseByCategory,
+  getAllCourses,
+  fetchCourseCategories,
+} from "../../servies/operations/courseOpertaions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -31,18 +35,32 @@ const CategoryCourse = () => {
   const [related, setRelated] = useState([]);
   const [frequent, setFrequent] = useState([]);
   const [tab, setTab] = useState("popular");
+  const [categories, setCategories] = useState(() =>
+    JSON.parse(sessionStorage.getItem("category") || "[]")
+  );
 
-  const meta = useMemo(() => {
-    const all = JSON.parse(sessionStorage.getItem("category") || "[]");
-    return all.find((c) => c._id === category) || { name: "Category", description: "" };
-  }, [category]);
+  const meta = useMemo(
+    () =>
+      categories.find((c) => c._id === category) || {
+        name: "Category",
+        description: "",
+      },
+    [categories, category]
+  );
+
+  // keep category metadata fresh so a re-seed never strands this page
+  useEffect(() => {
+    fetchCourseCategories().then((c) => c && setCategories(c));
+  }, []);
 
   useEffect(() => {
     fetchCourseByCategory(category).then(setCourses);
-    const all = JSON.parse(sessionStorage.getItem("getAllCourses") || "[]");
-    const shuffled = shuffle(all);
-    setRelated(shuffled.slice(0, 8));
-    setFrequent(shuffled.slice(8, 16));
+    // always fetch fresh course list for related/frequent rails
+    getAllCourses().then((all) => {
+      const shuffled = shuffle(all || []);
+      setRelated(shuffled.slice(0, 8));
+      setFrequent(shuffled.slice(8, 16));
+    });
   }, [category]);
 
   const list =

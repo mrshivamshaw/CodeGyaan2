@@ -92,8 +92,8 @@ const CourseInformationForm = () => {
     }
 
     const cached = sessionStorage.getItem("category");
-    if (cached) setCourseCategories(JSON.parse(cached));
-    else getCategories();
+    if (cached) setCourseCategories(JSON.parse(cached)); // instant placeholder
+    getCategories(); // always refresh so a re-seed never leaves stale categories
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

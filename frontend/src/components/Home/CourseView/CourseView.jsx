@@ -17,16 +17,12 @@ const CourseView = () => {
   const railRef = useRef(null);
 
   useEffect(() => {
-    const cached = sessionStorage.getItem("getAllCourses");
-    if (cached) {
-      setCoursesList(JSON.parse(cached));
-    } else {
-      getAllCourses().then((data) => {
-        if (!data) return;
-        setCoursesList(data);
-        sessionStorage.setItem("getAllCourses", JSON.stringify(data));
-      });
-    }
+    getAllCourses().then((data) => {
+      if (!data) return;
+      setCoursesList(data);
+      // refresh shared cache used by NavBar search / CategoryCourse
+      sessionStorage.setItem("getAllCourses", JSON.stringify(data));
+    });
   }, [courseType]);
 
   const scroll = (dir) => {
