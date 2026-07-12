@@ -1,20 +1,22 @@
-import React from 'react'
-import NavBar from '../NavBar/NavBar'
-import Sidebar from './Sidebar'
-import { Outlet } from 'react-router-dom'
-import Footer from '../Footer/Footer'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import NavBar from "../NavBar/NavBar";
+import Sidebar from "./Sidebar";
+import Footer from "../Footer/Footer";
 
 const MainDashBoard = () => {
   return (
-    <div className='max-w-full h-auto overflow-x-hidden'>
-        <NavBar/>
-        <div className='flex mt-14 md:mt-14 lg:mt-32 xl:mt-32'>
-        <Sidebar/>
-        <Outlet/>
-        </div>
-        <Footer/>
+    <div className="min-h-screen bg-background">
+      <NavBar />
+      <div className="flex">
+        <Sidebar />
+        <main className="min-w-0 flex-1">
+          <Outlet />
+        </main>
+      </div>
+      <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default MainDashBoard
+export default MainDashBoard;

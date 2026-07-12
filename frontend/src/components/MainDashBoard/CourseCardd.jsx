@@ -1,32 +1,45 @@
-import React from 'react'
-import { IoBookmarks } from "react-icons/io5";
-import { removeFromCart } from '../../servies/operations/cartOperation';
-import { useDispatch } from 'react-redux';
-import { setLoading } from '../../slices/UIslice';
-import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
-const CourseCardd = ({image,title,price,id}) => {
+import React from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Trash2 } from "lucide-react";
+
+import { removeFromCart } from "../../servies/operations/cartOperation";
+import { setLoading } from "../../slices/UIslice";
+
+const CourseCardd = ({ image, title, price, id }) => {
   const dispatch = useDispatch();
-  const removeFromCartHandler = async() => {
-    removeFromCart(dispatch, setLoading, id, toast); 
+  const remove = () => {
+    removeFromCart(dispatch, setLoading, id, toast);
+  };
 
-  }
   return (
-    <div className='flex flex-col justify-between items-start rounded-md relative bg-black-bg pb-3 w-[100%] md:w-full lg:w-[300px] xl:w-[300px] border-1 border-black shadow-2xl'>
-        <img src={image} alt="image" className='w-full h-[160px] rounded-md'/>
-        <div className='flex justify-between items-center w-full px-2'>
-        <Link to={'/course/'+title+'/'+id} >
-          <div className='group'>
-            <div className='text-white/90 font-semibold pt-2 group-hover:underline'>{title}</div>
-            <div className='text-white/90 font-semibold text-glod-color group-hover:underline'>Rs. {price}</div>
-          </div>
-          </Link>
-          <div onClick={removeFromCartHandler} className='text-white text-2xl cursor-pointer'>
-            <IoBookmarks/>
-          </div>
+    <article className="group flex w-full overflow-hidden rounded-xl border border-border bg-card card-hover sm:w-[320px]">
+      <Link
+        to={`/course/${title}/${id}`}
+        className="flex w-full items-center gap-3 p-3"
+      >
+        <img
+          src={image}
+          alt=""
+          className="h-20 w-28 shrink-0 rounded-md object-cover"
+        />
+        <div className="min-w-0 flex-1">
+          <p className="line-clamp-2 text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
+            {title}
+          </p>
+          <p className="mt-1 text-sm font-bold gradient-text">₹ {price}</p>
         </div>
-    </div>
-  )
-}
+      </Link>
+      <button
+        onClick={remove}
+        title="Remove"
+        className="grid w-10 shrink-0 place-items-center border-l border-border text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+      >
+        <Trash2 className="h-4 w-4" />
+      </button>
+    </article>
+  );
+};
 
-export default CourseCardd
+export default CourseCardd;

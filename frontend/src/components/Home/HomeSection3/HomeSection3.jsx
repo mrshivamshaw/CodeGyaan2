@@ -1,102 +1,106 @@
 import React from "react";
-import { GiPodiumWinner, GiGraduateCap } from "react-icons/gi";
-import { IoDiamondSharp, IoCodeSlashSharp } from "react-icons/io5";
-import girlStudy from "../../../assets/TimelineImage.a610b1e5d891ac77fe93.png";
 import { Link } from "react-router-dom";
+import { Trophy, GraduationCap, Gem, Code2, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+const values = [
+  {
+    icon: Trophy,
+    title: "Leadership",
+    body: "Mentors who've shipped at scale — not just taught at it.",
+    color: "text-violet-300",
+    bg: "bg-violet-500/10",
+  },
+  {
+    icon: GraduationCap,
+    title: "Accountability",
+    body: "1:1 reviews, weekly checkpoints, no learner left behind.",
+    color: "text-rose-300",
+    bg: "bg-rose-500/10",
+  },
+  {
+    icon: Gem,
+    title: "Flexibility",
+    body: "Live cohorts or self-paced. Switch tracks when you need to.",
+    color: "text-emerald-300",
+    bg: "bg-emerald-500/10",
+  },
+  {
+    icon: Code2,
+    title: "Build to learn",
+    body: "42+ real-world projects per track. You ship, then you understand.",
+    color: "text-amber-300",
+    bg: "bg-amber-500/10",
+  },
+];
 
 const HomeSection3 = () => {
   return (
-    <div className="w-full py-10">
-      <div className="w-[95%] md:w-[85%] lg:w-[85%] xl:w-[85%] mx-auto flex flex-col justify-start items-start">
-        <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row justify-between items-start w-full gap-4">
-          <h1 className="w-[100%] md:w-[50%]lg:w-[50%] xl:w-[50%] text-[30px] md:text-4xl lg:text-4xl xl:text-4xl text-white font-semibold">
-            Get the skills you need for a{" "}
-            <span className="text-glod-color">job that is in demand.</span>
-          </h1>
-          <div className="w-[100%] md:w-[50%]lg:w-[50%] xl:w-[50%] flex flex-col justify-start items-start gap-5">
-            <p className="text-white font-light">
-              The modern CodeGyaan is the dictates its own terms. Today, to be a
-              competitive specialist requires more than professional skills.
-            </p>
+    <section className="container-page py-20">
+      <div className="grid items-end gap-8 lg:grid-cols-2">
+        <h2 className="text-balance text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+          Get the skills you need for a{" "}
+          <span className="gradient-text">job that&apos;s in demand.</span>
+        </h2>
+        <div className="flex flex-col items-start gap-5">
+          <p className="text-muted-foreground">
+            Today, a competitive engineer needs more than syntax. We teach the
+            craft, the systems thinking, and the soft skills hiring managers
+            actually filter for.
+          </p>
+          <Button asChild>
             <Link to="/dashboard/profile">
-              <button className="py-3 px-6 bg-glod-color rounded font-semibold text-white hover:bg-[#b99b55]">
-                Learn More
-              </button>
+              Learn more <ArrowRight className="h-4 w-4" />
             </Link>
-          </div>
-        </div>
-        <div className="w-full flex flex-col md:flex-col lg:flex-row xl:flex-row justify-start md:justify-start lg:justify-center xl:justify-center items-center py-16 gap-8">
-          <div className="flex flex-col justify-start items-start gap-4 w-full md:w-full lg:w-auto xl:w-auto">
-            <div className="flex justify-center items-center gap-7">
-              <GiPodiumWinner className="text-6xl text-[#939ad8] bg-black-bg rounded-full p-4" />
-              <div className="flex flex-col justify-start items-start gap-1">
-                <h2 className="text-white text-xl font-semibold">Leadership</h2>
-                <p className="text-white text-sm">
-                  Fully committed to the success company
-                </p>
-              </div>
-            </div>
-            <div className="h-[5vh] w-full border-dotted border-l-2 ml-7"></div>
-            <div className="flex justify-center items-center gap-7">
-              <GiGraduateCap className="text-6xl text-rose-500 bg-black-bg rounded-full p-4" />
-              <div className="flex flex-col justify-start items-start">
-                <h2 className="text-white text-xl font-semibold">
-                  Responsibility
-                </h2>
-                <p className="text-white text-sm">
-                  Students will always be our top priority
-                </p>
-              </div>
-            </div>
-            <div className="h-[5vh] w-full border-dotted border-l-2 ml-7"></div>
-            <div className="flex justify-center items-center gap-7">
-              <IoDiamondSharp className="text-6xl text-green-400 bg-black-bg rounded-full p-4" />
-              <div className="flex flex-col justify-start items-start">
-                <h2 className="text-white text-xl font-semibold">
-                  Flexibility
-                </h2>
-                <p className="text-white text-sm">
-                  The ability to switch is an important skills
-                </p>
-              </div>
-            </div>
-            <div className="h-[5vh] w-full border-dotted border-l-2 ml-7"></div>
-            <div className="flex justify-center items-center gap-7">
-              <IoCodeSlashSharp className="text-6xl text-yellow-400 bg-black-bg rounded-full p-4" />
-              <div className="flex flex-col justify-start items-start">
-                <h2 className="text-white text-xl font-semibold">
-                  Solve the problem
-                </h2>
-                <p className="text-white text-sm">
-                  Code your way to a solution
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="relative w-[100%] md:w-full lg:w-[55%] xl:w-[55%]">
-            <div className=" h-auto z-10 shadow-2xl shadow-black/10 w-full">
-              <img src={girlStudy} alt="timeline" className="w-[100%] md:h-[40vh] lg:h-[40vh] xl:h-[40vh] min-h-[55vh]" />
-            </div>
-            <div className="bg-glod-color absolute -bottom-14 left-5 z-20 w-[92%] flex justify-center items-center py-7 px-3">
-              <div className="flex justify-center items-center w-[50%] border-r gap-2 md:gap-2 lg:gap-6 xl:gap-6">
-                <div className="text-4xl font-bold text-white">10</div>
-                <div className="text-sm font-semibold text-[#f6f1e5]">
-                  YEARS
-                  <br />
-                  EXPERIENCES
-                </div>
-              </div>
-              <div className="flex justify-center items-center w-[50%] gap-2 md:gap-2 lg:gap-6 xl:gap-6">
-                <div className="text-4xl font-bold text-white">250</div>
-                <div className="text-sm font-semibold text-[#f6f1e5]">
-                  TYPES OF <br /> COURSES
-                </div>
-              </div>
-            </div>
-          </div>
+          </Button>
         </div>
       </div>
-    </div>
+
+      <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {values.map(({ icon: Icon, title, body, color, bg }) => (
+          <div
+            key={title}
+            className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 card-hover"
+          >
+            <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-primary/5 blur-2xl transition-opacity group-hover:opacity-100" />
+            <div className={`mb-5 grid h-12 w-12 place-items-center rounded-xl ${bg} ${color}`}>
+              <Icon className="h-5 w-5" />
+            </div>
+            <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {body}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-16 grid gap-4 rounded-2xl border border-border bg-gradient-to-br from-card to-card/40 p-8 sm:grid-cols-2 sm:p-12">
+        <div>
+          <p className="text-sm uppercase tracking-wider text-muted-foreground">
+            Experience
+          </p>
+          <p className="mt-2 text-5xl font-bold tracking-tight text-foreground">
+            10<span className="text-primary">+</span>{" "}
+            <span className="text-base font-medium text-muted-foreground">years</span>
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Designing learner-first programs since 2015.
+          </p>
+        </div>
+        <div className="sm:border-l sm:border-border sm:pl-12">
+          <p className="text-sm uppercase tracking-wider text-muted-foreground">
+            Tracks
+          </p>
+          <p className="mt-2 text-5xl font-bold tracking-tight text-foreground">
+            250<span className="text-primary">+</span>{" "}
+            <span className="text-base font-medium text-muted-foreground">courses</span>
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            From frontend basics to distributed systems.
+          </p>
+        </div>
+      </div>
+    </section>
   );
 };
 

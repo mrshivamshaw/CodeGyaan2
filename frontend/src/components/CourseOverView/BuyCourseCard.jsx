@@ -1,102 +1,138 @@
 import React from "react";
-import { FaShareFromSquare } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import {
+  Share2,
+  ShieldCheck,
+  ArrowUpRight,
+  Award,
+  Infinity as InfinityIcon,
+  Video,
+  Smartphone,
+} from "lucide-react";
+
 import { setLoading } from "../../slices/UIslice";
 import { addToCartt } from "../../servies/operations/cartOperation";
-import { toast } from "react-hot-toast";
 import { order } from "../../servies/operations/paymentOperation";
-import { useNavigate } from "react-router-dom";
-import { FiArrowUpRight } from "react-icons/fi";
+import { Button } from "@/components/ui/button";
+
+const perks = [
+  { icon: Video, label: "Live + recorded sessions" },
+  { icon: InfinityIcon, label: "Lifetime access" },
+  { icon: Award, label: "Completion certificate" },
+  { icon: Smartphone, label: "Mobile + desktop" },
+];
 
 const BuyCourseCard = ({ thumbnail, price, id, sectionId, subSectionId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart.cart);
-  // console.log(cart);
-  const addToCartHandler = async () => {
-    // Check if the course is already in the cart
-    const isCourseInCart = cart.some((course) => course._id === id);
 
-    if (isCourseInCart) {
+  const user =
+    typeof localStorage !== "undefined"
+      ? JSON.parse(localStorage.getItem("user") || "null")
+      : null;
+  const enrolled = !!user?.enrolledCourses?.includes(id);
+  const inCart = cart?.some((c) => c._id === id);
+
+  const addCart = () => {
+    if (inCart) {
       navigate("/dashboard/your-cart");
       return;
     }
-
-    // If not, add the course to the cart
     addToCartt(dispatch, setLoading, id, toast);
   };
 
-  const buyCourseHandler = async () => {
-    if (!localStorage.getItem("user") || !localStorage.getItem("token")) {
+  const buy = async () => {
+    if (!user || !localStorage.getItem("token")) {
       navigate("/login");
+      return;
     }
-    if (JSON.parse(localStorage.getItem("user")).enrolledCourses.includes(id)) {
+    if (enrolled) {
       navigate(
         `/view-course/${id}/section/${sectionId}/sub-section/${subSectionId}`
       );
       return;
     }
-    const toastId = toast.loading("Please wait...");
-    // console.log([id],JSON.parse(localStorage.getItem("user"))._id)
-    await order([id], JSON.parse(localStorage.getItem("user")), navigate);
-    toast.dismiss(toastId);
+    const tId = toast.loading("Starting checkout…");
+    await order([id], user, navigate, dispatch);
+    toast.dismiss(tId);
   };
 
-  const copyToClipboard = () => {
-    const link = window.location.href;
+  const copy = () => {
     navigator.clipboard
-      .writeText(link)
-      .then(() => toast.success("Link Copied"))
-      .catch(() => toast.error("Could not copy"));
+      .writeText(window.location.href)
+      .then(() => toast.success("Link copied"))
+      .catch(() => toast.error("Couldn't copy"));
   };
 
   return (
-    <div className="w-full md:w-full lg:w-[490px] xl:w-[490px] h-[530px] bg-black-bg rounded-xl shadow-md shadow-black mr-9 p-4">
-      <div className="w-full h-[220px] bg-glod-color rounded-t-xl flex justify-center items-center">
-        <img src={thumbnail} alt="img" className="w-full h-[220px]" />
-      </div>
-      <div className="flex flex-col justify-between items-center p-2 gap-5">
-        <h1 className="text-4xl font-semibold w-full text-start text-white">
-          Rs. {price}
-        </h1>
-        <button
-          onClick={buyCourseHandler}
-          className="bg-glod-color -mt-2 px-4 py-2 rounded w-full text-center font-semibold text-white/90 text-lg"
-        >
-          {JSON.parse(localStorage.getItem("user"))?.enrolledCourses.includes(
-            id
-          ) ? (
-            <span className="flex justify-center items-center">
-              View <FiArrowUpRight className="text-2xl font-bold" />
-            </span>
-          ) : (
-            "Buy Now"
+    <aside className="w-full lg:sticky lg:top-24 lg:w-[380px]">
+      <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-2xl shadow-black/30">
+        <div className="relative aspect-video overflow-hidden border-b border-border bg-secondary">
+          {thumbnail && (
+            <img src={thumbnail} alt="" className="h-full w-full object-cover" />
           )}
-        </button>
-        {!JSON.parse(localStorage.getItem("user"))?.enrolledCourses.includes(
-          id
-        ) && (
+          <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
+        </div>
+
+        <div className="flex flex-col gap-5 p-6">
+          <div>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">
+              One-time payment
+            </p>
+            <p className="mt-1 flex items-baseline gap-2 text-4xl font-bold tracking-tight text-foreground">
+              ₹{price}
+              {price && (
+                <span className="text-sm font-medium text-muted-foreground line-through">
+                  ₹{Math.round(price * 1.25)}
+                </span>
+              )}
+            </p>
+          </div>
+
+          <Button size="lg" onClick={buy} className="w-full">
+            {enrolled ? (
+              <>
+                Go to course <ArrowUpRight className="h-4 w-4" />
+              </>
+            ) : (
+              "Buy now"
+            )}
+          </Button>
+
+          {!enrolled && (
+            <Button variant="outline" size="lg" onClick={addCart} className="w-full">
+              {inCart ? "View cart" : "Add to cart"}
+            </Button>
+          )}
+
+          <div className="flex items-center gap-2 rounded-md border border-border bg-background/40 p-3 text-xs text-muted-foreground">
+            <ShieldCheck className="h-4 w-4 text-emerald-400" />
+            30-day money-back guarantee
+          </div>
+
+          <ul className="space-y-2.5">
+            {perks.map(({ icon: Icon, label }) => (
+              <li
+                key={label}
+                className="flex items-center gap-2.5 text-sm text-muted-foreground"
+              >
+                <Icon className="h-4 w-4 text-primary" /> {label}
+              </li>
+            ))}
+          </ul>
+
           <button
-            onClick={addToCartHandler}
-            className="bg-glod-color px-4 py-2 rounded w-full text-center font-semibold text-white/90 text-lg"
+            onClick={copy}
+            className="inline-flex items-center justify-center gap-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
-            {cart.map((course) => course._id).includes(id)
-              ? "View Cart"
-              : "Add to Cart"}
+            <Share2 className="h-3.5 w-3.5" /> Share this course
           </button>
-        )}
-        <p className="text-white/90 font-semibold">
-          30-Day Money-Back Guarantee
-        </p>
-        <div
-          onClick={() => copyToClipboard()}
-          className="flex justify-center items-center gap-2 hover:cursor-pointer"
-        >
-          <FaShareFromSquare className="text-3xl text-glod-color" />
-          <div className="text-white/90 font-semibold">Share</div>
         </div>
       </div>
-    </div>
+    </aside>
   );
 };
 

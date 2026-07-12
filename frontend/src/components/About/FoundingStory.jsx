@@ -3,44 +3,61 @@ import founding from "../../assets/aboutus/FoundingStory.84f2828a5f4a9c08a802.pn
 
 const FoundingStory = () => {
   return (
-    <div className="max-w-[95vw] md:max-w-[95vw] lg:max-w-[85vw] xl:max-w-[85vw] m-auto h-auto py-10 md:py-10 lg:py-[10vh] xl:py-[10vh]">
-      <div className="max-w-[95vw] md:max-w-[95vw] lg:max-w-[85vw] xl:max-w-[85vw]  mx-auto ">
-        <div className="flex flex-col md:flex-col lg:flex-row xl:flex-row justify-between items-center gap-[5vw]">
-          <div className="flex flex-col justify-start items-start gap-4">
-            <h1 className="text-4xl text-white font-semibold">
-              Our Founding <span className="text-glod-color">Story</span>.
-            </h1>
-            <p className="text-white/80 font-light">
-              Our e-learning platform was born out of a shared vision and
-              passion for transforming education. It all began with a group of
-              educators, technologists, and lifelong learners who recognized the
-              need for accessible, flexible, and high-quality learning
-              opportunities in a rapidly evolving digital world.
-            </p>
-            <p className="text-white/80 font-light">
-              As experienced educators ourselves, we witnessed firsthand the
-              limitations and challenges of traditional education systems. We
-              believed that education should not be confined to the walls of a
-              classroom or restricted by geographical boundaries. We envisioned
-              a platform that could bridge these gaps and empower individuals
-              from all walks of life to unlock their full potential.
-            </p>
-          </div>
-          <img src={founding} alt="founding" className="shadow-xl shadow-black w-full md:w-full lg:w-auto xl:w-auto"/>
+    <section className="container-page py-20">
+      <div className="grid items-center gap-10 lg:grid-cols-2">
+        <div className="flex flex-col gap-5">
+          <p className="text-sm font-medium uppercase tracking-[0.18em] text-primary">
+            Our story
+          </p>
+          <h2 className="text-balance text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Our founding <span className="gradient-text">story</span>.
+          </h2>
+          <p className="text-muted-foreground">
+            CodeGyaan started with a small group of educators, engineers, and
+            lifelong learners — frustrated that great teaching was locked
+            behind geography, cost, and outdated formats.
+          </p>
+          <p className="text-muted-foreground">
+            We saw the limitations of traditional education firsthand. The
+            classroom shouldn&apos;t be the ceiling. Today we&apos;re building
+            the platform we wish we&apos;d had when we started — accessible,
+            project-led, and rooted in real industry practice.
+          </p>
         </div>
-        <div className=" flex  flex-col md:flex-col lg:flex-row xl:flex-row justify-between items-start gap-[5vw] pt-[15vh]">
-            <div>
-                <h1 className="text-4xl text-white font-semibold">Our <span className="text-glod-color">Vision</span>.</h1>
-                <p className="text-white/80 font-light mt-[4vh]">With this vision in mind, we set out on a journey to create an e-learning platform that would revolutionize the way people learn. Our team of dedicated experts worked tirelessly to develop a robust and intuitive platform that combines cutting-edge technology with engaging content, fostering a dynamic and interactive learning experience.</p>
-            </div>
-            <div>
-                <h1 className="text-4xl text-white font-semibold">Our <span className="text-glod-color">Mision</span>.</h1>
-                <p className="text-white/80 font-light mt-[4vh]">Our mission goes beyond just delivering courses online. We wanted to create a vibrant community of learners, where individuals can connect, collaborate, and learn from one another. We believe that knowledge thrives in an environment of sharing and dialogue, and we foster this spirit of collaboration through forums, live sessions, and networking opportunities.</p>
-
-            </div>
+        <div className="relative">
+          <div className="absolute -inset-4 rounded-3xl bg-primary/10 blur-2xl" />
+          <img
+            src={founding}
+            alt="Founding story"
+            className="relative rounded-2xl border border-border shadow-2xl shadow-black/40"
+          />
         </div>
       </div>
-    </div>
+
+      <div className="mt-20 grid gap-6 lg:grid-cols-2">
+        {[
+          {
+            title: "Our vision",
+            body: "An open platform where anyone, anywhere can learn the skills that compound — and connect with people who care about the craft as much as they do.",
+          },
+          {
+            title: "Our mission",
+            body: "Deliver outcome-first programs that close the gap between learning a skill and earning from it. Mentor-led, project-driven, placement-supported.",
+          },
+        ].map((c) => (
+          <div
+            key={c.title}
+            className="rounded-2xl border border-border bg-card p-8 card-hover"
+          >
+            <h3 className="text-2xl font-semibold tracking-tight text-foreground">
+              {c.title.split(" ")[0]}{" "}
+              <span className="gradient-text">{c.title.split(" ")[1]}</span>.
+            </h3>
+            <p className="mt-4 text-muted-foreground">{c.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 };
 

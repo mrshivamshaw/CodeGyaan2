@@ -8,16 +8,10 @@ const CourseList = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   useEffect(() => {
-    const getCategories = async () => {
-      const categories = await fetchCourseCategories();
-      setCategories(categories);  
-    } 
-    if(!sessionStorage.getItem("category")){
-      getCategories()
-    }
-    else{
-      setCategories(JSON.parse(sessionStorage.getItem("category")))
-    }
+    const cached = sessionStorage.getItem("category");
+    if (cached) setCategories(JSON.parse(cached)); // instant placeholder
+    // always refresh so a re-seed never leaves stale categories
+    fetchCourseCategories().then((c) => c && setCategories(c));
   }, [])
   
   return (

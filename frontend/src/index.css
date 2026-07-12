@@ -1,59 +1,142 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Great+Vibes&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    /* Dark SaaS palette (Vercel/Linear inspired) */
+    --background: 220 13% 4%;
+    --foreground: 210 20% 98%;
 
-.courselist{
-    display: none;
+    --card: 220 13% 7%;
+    --card-foreground: 210 20% 98%;
+
+    --popover: 220 13% 6%;
+    --popover-foreground: 210 20% 98%;
+
+    --primary: 42 92% 60%;
+    --primary-foreground: 220 13% 6%;
+
+    --secondary: 220 13% 12%;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 220 13% 11%;
+    --muted-foreground: 215 16% 65%;
+
+    --accent: 220 13% 14%;
+    --accent-foreground: 210 20% 98%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 220 13% 16%;
+    --input: 220 13% 14%;
+    --ring: 42 92% 60%;
+
+    --radius: 0.75rem;
+
+    color-scheme: dark;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html,
+  body,
+  #root {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+  }
+
+  body {
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% -10%, hsl(var(--primary) / 0.08), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 100%, hsl(217 91% 60% / 0.05), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background-color: hsl(var(--primary) / 0.3);
+    color: hsl(var(--foreground));
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 999px;
+    border: 2px solid hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
 }
 
-.navCourse:hover .courselist{
-    display: block;
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--primary)),
+      hsl(38 95% 70%)
+    );
+  }
+
+  .glass {
+    @apply border border-white/5 bg-white/[0.02] backdrop-blur-xl;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:border-primary/30 hover:bg-card/80 hover:shadow-[0_0_0_1px_hsl(var(--primary)/0.15),0_20px_60px_-20px_hsl(var(--primary)/0.25)];
+  }
+
+  .grid-bg {
+    background-size: 28px 28px;
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.5) 1px, transparent 1px);
+    mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, #000 40%, transparent 100%);
+  }
 }
 
+/* legacy classes still referenced by old screens, soften them */
+.courselist {
+  display: none;
+}
+.navCourse:hover .courselist {
+  display: block;
+}
 
 .load-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background-color: #fdba2c;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--primary)),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+  z-index: 100;
 }
-.bar {
-    content: "";
-    display: inline;
-    position: absolute;
-    width: 0;
-    height: 100%;
-    left: 50%;
-    text-align: center;
-}
-.bar:nth-child(1) {
-    background-color: rgb(217, 52, 250);
-    animation: loading 3s linear infinite;
-}
-.bar:nth-child(2) {
-    background-color: #77a0ec;
-    animation: loading 3s linear 1s infinite;
-}
-.bar:nth-child(3) {
-    background-color: rgb(247, 192, 75);
-    animation: loading 3s linear 2s infinite;
-}
-@keyframes loading {
-    from {
-        left: 50%;
-        width: 0;
-        z-index: 100;
-    }
-    33.3333% {
-        left: 0;
-        width: 100%;
-        z-index: 10;
-    }
-    to {
-        left: 0;
-        width: 100%;
-    }
+
+.allunset {
+  all: unset;
 }

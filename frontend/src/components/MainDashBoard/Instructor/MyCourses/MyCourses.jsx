@@ -1,40 +1,41 @@
-import { useEffect, useState } from "react"
-import { VscAdd } from "react-icons/vsc"
-import { useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Plus } from "lucide-react";
 
-import { fetchInstructorCourses } from "../../../../servies/operations/courseOpertaions.js"
-import IconBtn from "../../../common/IconBtn"
-import CoursesTable from "../InctructorCourses/CoursesTable.jsx"
+import { fetchInstructorCourses } from "../../../../servies/operations/courseOpertaions.js";
+import CoursesTable from "../InctructorCourses/CoursesTable.jsx";
+import { Button } from "@/components/ui/button";
 
 export default function MyCourses() {
-  const { token } = useSelector((state) => state.auth)
-  const navigate = useNavigate()
-  const [courses, setCourses] = useState([])
+  const { token } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    const fetchCourses = async () => {
-      const result = await fetchInstructorCourses(token)
-      if (result) {
-        setCourses(result)
-      }
-    }
-    fetchCourses()
+    (async () => {
+      const result = await fetchInstructorCourses(token);
+      if (result) setCourses(result);
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   return (
-    <div className="w-full h-[81vh] overflow-y-scroll profile px-3 md:px-4 lg:px-8 xl:px-8 py-8">
-      <div className="mb-14 flex items-center justify-between ">
-        <h1 className="text-4xl font-medium text-glod-color">My <span className="text-white">Courses.</span></h1>
-        <IconBtn
-          text="Add Course"
-          onclick={() => navigate("/dashboard/add-courses")}
-        >
-          <VscAdd />
-        </IconBtn>
+    <div className="container-page py-10">
+      <div className="mb-8 flex items-center justify-between gap-4">
+        <div>
+          <p className="text-sm font-medium uppercase tracking-[0.18em] text-primary">
+            Teaching
+          </p>
+          <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            My <span className="gradient-text">courses</span>.
+          </h1>
+        </div>
+        <Button onClick={() => navigate("/dashboard/add-courses")}>
+          <Plus className="h-4 w-4" /> Add course
+        </Button>
       </div>
       {courses && <CoursesTable courses={courses} setCourses={setCourses} />}
     </div>
-  )
+  );
 }

@@ -1,38 +1,39 @@
-import RenderSteps from "./RenderSteps"
+import RenderSteps from "./RenderSteps";
+import { Lightbulb } from "lucide-react";
 
 export default function AddCourse() {
   return (
-    <>
-      <div className="flex z-10 w-full items-start gap-x-6 px-0 md:px-0 lg:px-8 xl:px-8 pt-8 h-[81vh] overflow-y-scroll profile">
-        <div className="flex flex-1 flex-col w-[70%]">
-          <h1 className="mb-14 ml-16 md:ml-0 text-4xl font-semibold  text-glod-color">
-            Add <span className="text-white">Course.</span>
-          </h1>
-          <div className="flex-1 w-full ">
-            <RenderSteps />
-          </div>
-        </div>
-        {/* Course Upload Tips */}
-        <div className="sticky top-10 hidden md:hidden lg:block max-w-[400px] flex-1 rounded-md border-[1px] p-6 xl:block">
-          <p className="mb-8 text-lg text-richblack-5 text-white font-semibold">⚡ Course Upload Tips</p>
-          <ul className="ml-5 list-item list-disc space-y-4 text-xs text-richblack-5 text-white">
-            <li>Set the Course Price option or make it free.</li>
-            <li>Standard size for the course thumbnail is 1024x576.</li>
-            <li>Video section controls the course overview video.</li>
-            <li>Course Builder is where you create & organize a course.</li>
-            <li>
-              Add Topics in the Course Builder section to create lessons,
-              quizzes, and assignments.
-            </li>
-            <li>
-              Information from the Additional Data section shows up on the
-              course single page.
-            </li>
-            <li>Make Announcements to notify any important</li>
-            <li>Notes to all enrolled students at once.</li>
-          </ul>
-        </div>
+    <div className="container-page py-10">
+      <div className="mb-8">
+        <p className="text-sm font-medium uppercase tracking-[0.18em] text-primary">
+          Teaching
+        </p>
+        <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          Add <span className="gradient-text">course</span>.
+        </h1>
       </div>
-    </>
-  )
+
+      <div className="grid items-start gap-6 lg:grid-cols-[1fr,320px]">
+        <div className="min-w-0">
+          <RenderSteps />
+        </div>
+        <aside className="sticky top-24 hidden rounded-2xl border border-border bg-card p-6 lg:block">
+          <div className="flex items-center gap-2">
+            <Lightbulb className="h-5 w-5 text-primary" />
+            <h2 className="text-sm font-semibold text-foreground">
+              Upload tips
+            </h2>
+          </div>
+          <ul className="mt-4 space-y-3 text-xs leading-relaxed text-muted-foreground">
+            <li>• Set a competitive price (or free) to attract learners.</li>
+            <li>• Thumbnail: 1024×576 (16:9) renders sharpest.</li>
+            <li>• Course Builder is where you organize sections + lectures.</li>
+            <li>• Topics inside builder = lessons, quizzes, assignments.</li>
+            <li>• Additional data appears on the course detail page.</li>
+            <li>• Use announcements to notify all enrolled learners.</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  );
 }

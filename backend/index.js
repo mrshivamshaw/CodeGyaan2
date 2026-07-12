@@ -9,10 +9,13 @@ import fileUpload from 'express-fileupload';
 import cors from 'cors';
 import studentRoute from './routes/student.js';
 import paymentRoute from './routes/payment.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 configDotenv();
 cloudinaryset();
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const port = process.env.PORT || 5000;
 const app = express();
 
@@ -31,6 +34,9 @@ app.use(fileUpload({
     tempFileDir: '/tmp/'
 }));
 
+// serve frontend assets so DB image URLs resolve in the browser
+app.use('/assets', express.static(path.join(__dirname, '../frontend/src/assets')));
+
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/instructor', instructorRoute);
@@ -41,7 +47,7 @@ app.get('/', (req, res) => {
     res.send("server is running");
 });
 
+dbconnect();
 app.listen(port, () => {
     console.log("server is running at port", port);
-    dbconnect();
 });

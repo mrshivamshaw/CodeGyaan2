@@ -1,37 +1,78 @@
-import React from 'react'
+import React from "react";
+import {
+  Globe,
+  BookOpen,
+  Award,
+  Star,
+  Wrench,
+  Briefcase,
+} from "lucide-react";
+
+const features = [
+  {
+    icon: BookOpen,
+    title: "Learning methods",
+    body: "Live + self-paced cohorts, peer review, and 1:1 mentorship.",
+  },
+  {
+    icon: Award,
+    title: "Certification",
+    body: "Verified completion certificates trusted by 500+ partners.",
+  },
+  {
+    icon: Star,
+    title: "Auto-grading",
+    body: "Instant feedback on assignments — improve while it's fresh.",
+  },
+  {
+    icon: Wrench,
+    title: "Industry curriculum",
+    body: "Updated quarterly with input from active practitioners.",
+  },
+  {
+    icon: Briefcase,
+    title: "Ready to work",
+    body: "Built around the actual interviews you'll face — not theory.",
+  },
+];
 
 const WorldClass = () => {
   return (
-    <div className='flex flex-wrap max-w-[95vw] md:max-w-[95vw] lg:max-w-[85vw] xl:max-w-[85vw] mx-auto my-[15vh]'>
-        <div className='flex flex-col gap-4 pb-6 w-full md:w-full lg:w-[614px] xl:w-[614px] h-[310px] md:h-[250px] lg:h-[250px] xl:h-[250px]'>
-            <h1 className='text-4xl text-white font-bold'>World-Class Learning for <span className='text-glod-color'>Anyone, Anywhere</span></h1>
-            <p className='text-white/80'>CodeGyann partners with more than 275+ leading universities and companies to bring flexible, affordable, job-relevant online learning to individuals and organizations worldwide.</p>
-            <button className='py-3 px-6 bg-[rgb(203,171,97)] rounded font-semibold text-white hover:bg-[#b99b55] w-[180px]'>Learn More</button>
+    <section className="container-page py-20">
+      <div className="grid items-start gap-12 lg:grid-cols-[1fr,1.4fr]">
+        <div className="lg:sticky lg:top-24">
+          <Globe className="h-10 w-10 text-primary" />
+          <h2 className="mt-5 text-balance text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            World-class learning for{" "}
+            <span className="gradient-text">anyone, anywhere</span>.
+          </h2>
+          <p className="mt-3 text-muted-foreground">
+            We partner with 275+ universities and product companies to make
+            flexible, job-relevant online learning accessible — globally.
+          </p>
         </div>
-        <div className='p-6 bg-[#82827f] flex flex-col gap-[4vh] w-full md:w-full lg:w-[339px] xl:w-[339px] h-[250px]'>
-            <h1 className='text-white text-xl font-semibold '>Our Learning Methods</h1>
-            <p className='text-white/80 text-[15px]'>CodeGyann partners with more than 275+ leading universities and companies to bring</p>
-        </div>
-        <div className='p-6 bg-black-bg flex flex-col gap-[4vh] w-full md:w-full lg:w-[339px] xl:w-[339px] h-[250px]'>
-            <h1 className='text-white text-xl font-semibold '>Certification</h1>
-            <p className='text-white/80 text-[15px]'>CodeGyann partners with more than 275+ leading universities and companies to bring</p>
-        </div>
-        <div className='w-[275px] h-[250px] hidden md:hidden lg:block xl:block '>
-            </div>
-        <div className='p-6 bg-[#82827f] flex flex-col gap-[4vh] w-full md:w-full lg:w-[339px] xl:w-[339px] h-[250px]'>
-            <h1 className='text-white text-xl font-semibold '>Rating "Auto-grading"</h1>
-            <p className='text-white/80 text-[15px]'>CodeGyann partners with more than 275+ leading universities and companies to bring</p>
-        </div>
-        <div className='p-6 bg-black-bg flex flex-col gap-[4vh] w-full md:w-full lg:w-[339px] xl:w-[339px] h-[250px]'>
-            <h1 className='text-white text-xl font-semibold '>Curriculum Based on Industry Needs</h1>
-            <p className='text-white/80 text-[15px]'>Save time and money! The Belajar curriculum is made to be easier to understand and in line with industry needs.</p>
-        </div>
-        <div className='p-6 bg-[#82827f] flex flex-col gap-[4vh] w-full md:w-full lg:w-[339px] xl:w-[339px] h-[250px]'>
-            <h1 className='text-white text-xl font-semibold '>Ready to Work</h1>
-            <p className='text-white/80 text-[15px]'>Save time and money! The Belajar curriculum is made to be easier to understand and in line with industry needs.</p>
-        </div>
-    </div>
-  )
-}
 
-export default WorldClass
+        <div className="grid gap-4 sm:grid-cols-2">
+          {features.map(({ icon: Icon, title, body }, i) => (
+            <div
+              key={title}
+              className={`rounded-2xl border border-border bg-card p-6 card-hover ${
+                i === 0 ? "sm:col-span-2" : ""
+              }`}
+            >
+              <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/15 text-primary">
+                <Icon className="h-5 w-5" />
+              </div>
+              <h3 className="mt-4 text-lg font-semibold text-foreground">
+                {title}
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground">{body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default WorldClass;

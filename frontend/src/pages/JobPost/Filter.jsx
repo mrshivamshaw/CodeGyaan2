@@ -1,79 +1,83 @@
 import React, { useState } from "react";
+import { Filter as FilterIcon, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
-const Filter = ({ companies, locations, setSelectedCompany, setSelectedLocation }) => {
-  const [selectedCompany, setSelectedCompanyLocal] = useState("");
-  const [selectedLocation, setSelectedLocationLocal] = useState("");
+const Select = ({ value, onChange, placeholder, options }) => (
+  <select
+    value={value}
+    onChange={onChange}
+    className="h-10 w-full rounded-md border border-border bg-secondary/50 px-3 text-sm text-foreground focus:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/20"
+  >
+    <option value="">{placeholder}</option>
+    {options?.map((o, i) => (
+      <option key={i} value={o}>
+        {o}
+      </option>
+    ))}
+  </select>
+);
 
-  const handleClearFilters = () => {
-    setSelectedCompanyLocal(""); // Reset local state for selected company
-    setSelectedLocationLocal(""); // Reset local state for selected location
-    setSelectedCompany(""); // Reset parent state for selected company
-    setSelectedLocation(""); // Reset parent state for selected location
+const Filter = ({
+  companies,
+  locations,
+  setSelectedCompany,
+  setSelectedLocation,
+}) => {
+  const [company, setCompany] = useState("");
+  const [location, setLocation] = useState("");
+
+  const clear = () => {
+    setCompany("");
+    setLocation("");
+    setSelectedCompany("");
+    setSelectedLocation("");
   };
 
   return (
-    <div className="hidden md:hidden lg:block xl:block top-0 my-7 border-gray-400 border-2 bg-black-bg w-[27%] rounded-2xl">
-      <div className="p-5 bg-blue-bg rounded-t-2xl text-white/90 font-semibold text-lg">Filter by</div>
-      <div className="p-5 flex flex-col gap-5">
-        {/* Filter by Company */}
-        <div className="flex gap-3 flex-col">
-          <label htmlFor="company" className="text-white/60">Company</label>
-          <select
-            id="company"
-            className="border-2 border-white px-2 py-[10px] rounded-lg bg-blue-bg text-white transition-all duration-400"
-            style={{ borderBottom: "1px solid white" }}
-            value={selectedCompany}
-            onChange={(e) => {
-              setSelectedCompanyLocal(e.target.value);
-              setSelectedCompany(e.target.value);
-            }}
-          >
-            <option value="" disabled>
-              Choose a Company
-            </option>
-            {companies?.map((company, index) => (
-              <option key={index} value={company}>
-                {company}
-              </option>
-            ))}
-          </select>
+    <aside className="sticky top-24 hidden h-fit w-[300px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card lg:block">
+      <div className="flex items-center justify-between border-b border-border p-5">
+        <div className="flex items-center gap-2">
+          <FilterIcon className="h-4 w-4 text-primary" />
+          <h3 className="text-sm font-semibold text-foreground">Filters</h3>
         </div>
-        
-        {/* Filter by Location */}
-        <div className="flex gap-3 flex-col">
-          <label htmlFor="location" className="text-white/60">Location</label>
-          <select
-            id="location"
-            className="border-2 border-white px-2 py-[10px] rounded-lg bg-blue-bg text-white transition-all duration-400"
-            style={{ borderBottom: "1px solid white" }}
-            value={selectedLocation}
-            onChange={(e) => {
-              setSelectedLocationLocal(e.target.value);
-              setSelectedLocation(e.target.value);
-            }}
-          >
-            <option value="" disabled>
-              Choose Location
-            </option>
-            {locations?.map((location, index) => (
-              <option key={index} value={location}>
-                {location}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* Clear Filters Button */}
-      <div className="rounded-2xl p-5 bg-black-bg flex justify-end items-center">
         <button
-          onClick={handleClearFilters}
-          className="bg-blue-bg py-1 px-4 rounded-2xl text-white/90 font-semibold hover:bg-slate-500"
+          onClick={clear}
+          className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
         >
-          Clear all
+          <X className="h-3 w-3" /> Clear
         </button>
       </div>
-    </div>
+      <div className="space-y-5 p-5">
+        <div className="grid gap-2">
+          <Label htmlFor="company">Company</Label>
+          <Select
+            value={company}
+            onChange={(e) => {
+              setCompany(e.target.value);
+              setSelectedCompany(e.target.value);
+            }}
+            placeholder="All companies"
+            options={companies}
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="location">Location</Label>
+          <Select
+            value={location}
+            onChange={(e) => {
+              setLocation(e.target.value);
+              setSelectedLocation(e.target.value);
+            }}
+            placeholder="Anywhere"
+            options={locations}
+          />
+        </div>
+        <Button onClick={clear} variant="outline" className="w-full">
+          Reset filters
+        </Button>
+      </div>
+    </aside>
   );
 };
 

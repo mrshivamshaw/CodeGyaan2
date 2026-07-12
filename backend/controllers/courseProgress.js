@@ -5,8 +5,8 @@ import courseProgess from "../models/courseProgess.js"
 import Course from "../models/course.js"
 
 export const updateCourseProgress = async (req, res) => {
-  const { courseId, subSectionId, id } = req.body
-  const userId = id
+  const { courseId, subSectionId } = req.body
+  const userId = req.user.id
 
   if (!courseId || !subSectionId || !userId) {
     console.log("Missing required fields");

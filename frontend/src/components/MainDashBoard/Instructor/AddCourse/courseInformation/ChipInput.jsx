@@ -1,107 +1,77 @@
-// Importing React hook for managing component state
-import { useEffect, useState } from "react"
-// Importing React icon component
-import { MdClose } from "react-icons/md"
-import { useSelector } from "react-redux"
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { X } from "lucide-react";
+import { Label } from "@/components/ui/label";
 
-// Defining a functional component ChipInput
 export default function ChipInput({
-  // Props to be passed to the component
   label,
   name,
   placeholder,
   register,
   errors,
   setValue,
-  getValues,
 }) {
-  const { editCourse, course } = useSelector((state) => state.course)
-
-  // Setting up state for managing chips array
-  const [chips, setChips] = useState([])
+  const { editCourse, course } = useSelector((state) => state.course);
+  const [chips, setChips] = useState([]);
 
   useEffect(() => {
-    if (editCourse) {
-      // console.log(course)
-      setChips(course?.tag)
-    }
-    register(name, { required: true, validate: (value) => value.length > 0 })
+    if (editCourse) setChips(course?.tag || []);
+    register(name, { required: true, validate: (v) => v.length > 0 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   useEffect(() => {
-    setValue(name, chips)
+    setValue(name, chips);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chips])
+  }, [chips]);
 
-  // Function to handle user input when chips are added
-  const handleKeyDown = (event) => {
-    // Check if user presses "Enter" or ","
-    if (event.key === "Enter" || event.key === ",") {
-      // Prevent the default behavior of the event
-      event.preventDefault()
-      // Get the input value and remove any leading/trailing spaces
-      const chipValue = event.target.value.trim()
-      // Check if the input value exists and is not already in the chips array
-      if (chipValue && !chips.includes(chipValue)) {
-        // Add the chip to the array and clear the input
-        const newChips = [...chips, chipValue]
-        setChips(newChips)
-        event.target.value = ""
+  const onKey = (e) => {
+    if (e.key === "Enter" || e.key === ",") {
+      e.preventDefault();
+      const v = e.target.value.trim();
+      if (v && !chips.includes(v)) {
+        setChips([...chips, v]);
+        e.target.value = "";
       }
     }
-  }
+  };
 
-  // Function to handle deletion of a chip
-  const handleDeleteChip = (chipIndex) => {
-    // Filter the chips array to remove the chip with the given index
-    const newChips = chips.filter((_, index) => index !== chipIndex)
-    setChips(newChips)
-  }
+  const remove = (i) => setChips(chips.filter((_, idx) => idx !== i));
 
-  // Render the component
   return (
-    <div className="flex flex-col space-y-2">
-      {/* Render the label for the input */}
-      <label className="text-sm text-white capitalize" htmlFor={name}>
-        {label} <sup className="text-red-500"> *</sup>
-      </label>
-      {/* Render the chips and input */}
-      <div className="flex w-full flex-wrap gap-y-2">
-        {/* Map over the chips array and render each chip */}
-        {chips.map((chip, index) => (
-          <div
-            key={index}
-            className="m-1 flex items-center rounded-full bg-glod-color text-white font-semibold px-2 py-1 text-sm text-richblack-5"
+    <div className="grid gap-2">
+      <Label className="capitalize">
+        {label}
+        <sup className="text-destructive">*</sup>
+      </Label>
+      <div className="flex flex-wrap items-center gap-2 rounded-md border border-border bg-secondary/50 p-2 focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/20">
+        {chips.map((c, i) => (
+          <span
+            key={i}
+            className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2.5 py-0.5 text-xs font-medium text-primary"
           >
-            {/* Render the chip value */}
-            {chip}
-            {/* Render the button to delete the chip */}
+            {c}
             <button
               type="button"
-              className="ml-2 focus:outline-none"
-              onClick={() => handleDeleteChip(index)}
+              onClick={() => remove(i)}
+              className="rounded-full hover:bg-primary/20"
+              aria-label={`Remove ${c}`}
             >
-              <MdClose className="text-sm" />
+              <X className="h-3 w-3" />
             </button>
-          </div>
+          </span>
         ))}
-        {/* Render the input for adding new chips */}
         <input
           id={name}
-          name={name}
           type="text"
           placeholder={placeholder}
-          onKeyDown={handleKeyDown}
-          className=" border-2 border-white px-2 py-[10px] rounded-lg w-full bg-blue-bg text-white transition-all duration-400"
-          style={{ borderBottom: "1px solid white" }}        />
+          onKeyDown={onKey}
+          className="min-w-[160px] flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground/70 focus:outline-none"
+        />
       </div>
-      {/* Render an error message if the input is required and not filled */}
       {errors[name] && (
-        <span className="text-red-400 text-xs mt-1">
-          {label} is required
-        </span>
+        <span className="text-xs text-destructive">{label} is required</span>
       )}
     </div>
-  )
+  );
 }

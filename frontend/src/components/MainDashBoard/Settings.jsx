@@ -1,176 +1,173 @@
-import React, { useEffect, useState } from "react";
-import { FiUpload } from "react-icons/fi";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { useSelector } from "react-redux";
-import { updatePic, updateProfile } from "../../servies/operations/updateProfile";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { Upload, ImagePlus } from "lucide-react";
+
+import {
+  updatePic,
+  updateProfile,
+} from "../../servies/operations/updateProfile";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 const Settings = () => {
   const [image, setImage] = useState();
-  const [uploading, setUploading] = useState({
+  const [form, setForm] = useState({
     firstName: "",
     lastName: "",
     dob: "",
-    gender: "male",
+    gender: "Male",
     contactNumber: "",
     about: "",
-
   });
   const { user } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
+
   const uploadPic = () => {
-    if (!image) {
-      toast.error("Please select an image");
-      return;
-    }
+    if (!image) return toast.error("Select an image first.");
     dispatch(updatePic(image));
   };
-  const onValueChange = (e) => {
-    setUploading({ ...uploading, [e.target.name]: e.target.value });
-  }
 
-  const formSubmitHandler = (e) =>{
-    e.preventDefault()
-    dispatch(updateProfile(uploading))
-  }
+  const onChange = (e) =>
+    setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(updateProfile(form));
+  };
+
   return (
-    <div className="w-[95%] md:w-[95%] lg:w-[80%] xl:w-[80%] h-[81vh] mx-auto overflow-hidden hover:overflow-y-scroll profile pb-[10vh] pt-[5vh] mt-1">
-      <div className="w-[100%] md:w-[100%] lg:w-[90%] xl:w-[90%] mx-auto flex flex-col gap-[5vh]">
-        <h1 className="text-4xl text-white font-bold">
-          Edit <span className="text-glod-color">Profile</span>.
+    <div className="container-page py-10">
+      <div className="mb-8">
+        <p className="text-sm font-medium uppercase tracking-[0.18em] text-primary">
+          Account
+        </p>
+        <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          Edit <span className="gradient-text">profile</span>.
         </h1>
-        <div className="flex w-full justify-between items-center bg-black-bg px-1 py-[1rem] md:py-[1rem] lg:py-[2rem] xl:py-[2rem] rounded-lg shadow border border-[#898989]">
-          <div className="flex flex-col md:flex-col lg:flex-row xl:flex-row justify-start items-start gap-2 text-white">
-            {/* <div className="bg-red-600  rounded-full w-[76px] py-[22px] text-center font-semibold text-2xl">
-              SS
-            </div> */}
-            <img
-              src={image ? URL.createObjectURL(image) : user?.image}
-              alt="profile"
-              className="h-[13vh] w-[13vh] rounded-full"
-            />
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <section className="rounded-2xl border border-border bg-card p-6">
+          <h2 className="mb-5 text-lg font-semibold text-foreground">
+            Profile photo
+          </h2>
+          <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center">
+            <div className="relative">
+              <img
+                src={image ? URL.createObjectURL(image) : user?.image}
+                alt=""
+                className="h-24 w-24 rounded-full object-cover ring-2 ring-primary/30 ring-offset-4 ring-offset-card"
+              />
+              <label
+                htmlFor="avatar"
+                className="absolute -bottom-1 -right-1 grid h-8 w-8 cursor-pointer place-items-center rounded-full bg-primary text-primary-foreground shadow-lg"
+              >
+                <ImagePlus className="h-4 w-4" />
+              </label>
+              <input
+                id="avatar"
+                type="file"
+                accept=".jpeg,.jpg,.png"
+                hidden
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </div>
             <div className="flex flex-col gap-1">
-              <h1 className="font-semibold text-xl">Change Your Profile</h1>
-              <div className="flex gap-3">
-                <input
-                  type="file"
-                  accept=".jpeg, .png, .jpg"
-                  className="py-[3px] bg-glod-color rounded font-semibold text-white hover:bg-[#b99b55] w-[250px]"
-                  placeholder="select"
-                  onChange={(e) => setImage(e.target.files[0])}
+              <p className="text-sm font-semibold text-foreground">
+                Change your avatar
+              </p>
+              <p className="text-xs text-muted-foreground">
+                JPG, PNG. Max 2MB.
+              </p>
+              <div className="mt-3 flex gap-2">
+                <Button variant="outline" size="sm" asChild>
+                  <label htmlFor="avatar" className="cursor-pointer">
+                    Select file
+                  </label>
+                </Button>
+                <Button size="sm" onClick={uploadPic} disabled={!image}>
+                  Upload <Upload className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <form onSubmit={onSubmit}>
+          <section className="rounded-2xl border border-border bg-card p-6">
+            <h2 className="mb-5 text-lg font-semibold text-foreground">
+              Profile information
+            </h2>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              <div className="grid gap-2">
+                <Label htmlFor="firstName">First name</Label>
+                <Input
+                  id="firstName"
+                  name="firstName"
+                  placeholder={user?.firstName}
+                  onChange={onChange}
                 />
-                <button
-                  onClick={uploadPic}
-                  className="py-[3px] px-4 bg-[#5d5c5b] rounded font-semibold text-white/70 hover:bg-[#b8b2b2]"
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="lastName">Last name</Label>
+                <Input
+                  id="lastName"
+                  name="lastName"
+                  placeholder={user?.lastName}
+                  onChange={onChange}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="dob">Date of birth</Label>
+                <Input id="dob" name="dob" type="date" onChange={onChange} />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="gender">Gender</Label>
+                <select
+                  id="gender"
+                  name="gender"
+                  onChange={onChange}
+                  defaultValue={form.gender}
+                  className="h-10 w-full rounded-md border border-border bg-secondary/50 px-3 text-sm text-foreground focus:border-primary/50 focus:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-primary/20"
                 >
-                  Upload{" "}
-                  <FiUpload
-                    style={{ display: "inline", margin: "0 0 5px 5px" }}
-                  />
-                </button>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="contactNumber">Contact number</Label>
+                <Input
+                  id="contactNumber"
+                  name="contactNumber"
+                  type="tel"
+                  placeholder="Enter contact number"
+                  onChange={onChange}
+                />
+              </div>
+              <div className="grid gap-2 sm:col-span-2">
+                <Label htmlFor="about">About</Label>
+                <Textarea
+                  id="about"
+                  name="about"
+                  placeholder="Tell us a bit about yourself…"
+                  onChange={onChange}
+                />
               </div>
             </div>
-          </div>
-        </div>
-        <form onSubmit={formSubmitHandler}>
-          <div className="flex flex-col w-full justify-start items-start bg-black-bg px-[1rem] md:px-[1rem] lg:px-[3rem] xl:px-[3rem] py-[2rem] gap-[2vh] rounded-lg shadow border border-[#898989]">
-            <h1 className="text-white font-semibold text-lg">
-              Profile Information
-            </h1>
-            <div className="w-full flex flex-col md:flex-col lg:flex-row xl:flex-row justify-between items-center gap-4 ">
-              <div className="w-[100%] md:w-full lg:w-[45%] xl:w-[45%] flex flex-col gap-4">
-                <div className="flex flex-col text-white ">
-                  <label htmlFor="first">First name</label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    onChange={(e)=>onValueChange(e)}
-                    placeholder={user?.firstName}
-                    className="w-full bg-[#41454a] p-2 rounded-lg"
-                    style={{ borderBottom: "1.5px solid white" }}
-                  />
-                </div>
-                <div className="flex flex-col text-white">
-                  <label htmlFor="first">Date of Birth</label>
-                  <input
-                    type="date"
-                    name="dob"
-                    onChange={(e)=>onValueChange(e)}
-                    placeholder="dd-mm-yyyy"
-                    className="w-full bg-[#41454a] p-2 rounded-lg"
-                    style={{ borderBottom: "1.5px solid white" }}
-                  />
-                </div>
-                <div className="flex flex-col text-white">
-                  <label htmlFor="first">Conatct Number</label>
-                  <input
-                    type="number"
-                    name="contactNumber"
-                    onChange={(e)=>onValueChange(e)}
-                    placeholder="Enter Contact Number"
-                    className="w-full bg-[#41454a] p-2 rounded-lg"
-                    style={{ borderBottom: "1.5px solid white" }}
-                  />
-                </div>
-              </div>
-              <div className="w-[100%] md:w-full lg:w-[45%] xl:w-[45%] flex flex-col gap-4">
-                <div className="flex flex-col text-white ">
-                  <label htmlFor="first">Last name</label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    onChange={(e)=>onValueChange(e)}
-                    placeholder={user?.lastName}
-                    className="w-full bg-[#41454a] p-2 rounded-lg"
-                    style={{ borderBottom: "1.5px solid white" }}
-                  />
-                </div>
-                <div className="flex flex-col text-white">
-                  <label htmlFor="gender">Gender</label>
-                  <select
-                    id="gender"
-                    name="gender"
-                    onChange={(e)=>onValueChange(e)}
-                    className="w-full bg-[#41454a] p-2 rounded-lg"
-                  >
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-                <div className="flex flex-col text-white">
-                  <label htmlFor="about">About</label>
-                  <input
-                    type="text"
-                    name="about"
-                    onChange={(e)=>onValueChange(e)}
-                    placeholder="Enter Bio Details"
-                    className="w-full bg-[#41454a] p-2 rounded-lg"
-                    style={{ borderBottom: "1.5px solid white" }}
-                  />
-                </div>
-              </div>
+
+            <div className="mt-6 flex justify-end gap-2">
+              <Button variant="ghost" type="button">
+                Cancel
+              </Button>
+              <Button type="submit">Save changes</Button>
             </div>
-          <div className="w-full flex justify-end items-end mt-[5vh] gap-2">
-            <button className="py-[3px] px-4 bg-[#5d5c5b] rounded font-semibold text-white/70 hover:bg-[#b8b2b2]">
-              cancel
-            </button>
-            <button type ="submit" className="py-[3px] px-4 bg-glod-color rounded font-semibold text-white/70 hover:bg-[#b99b55]">
-              Save
-            </button>
-          </div>
-          </div>
+          </section>
         </form>
-        {/* <div className="flex flex-col w-full justify-start items-start bg-[#ff2a2a91] px-[3rem] py-[2rem] gap-[2vh] rounded-lg shadow border border-[#898989]">
-          <RiDeleteBin6Line
-            style={{
-              fontSize: "40px",
-              padding: "5px",
-              backgroundColor: "cb6b6b91",
-            }}
-          />
-        </div> */}
       </div>
     </div>
   );

@@ -42,10 +42,10 @@ export const createCourse = async (req, res) => {
     }
 
     //check for instructor
-    const userId = req.body.id;
+    const userId = req.user.id;
     const instructorDetails = await user.findById(userId);
 
-    if (!instructorDetails && instructorDetails.accountType !== "Instructor") {
+    if (!instructorDetails || instructorDetails.accountType !== "Instructor") {
       return res.status(404).json({
         status: false,
         message: "Instructor details not found",
@@ -356,7 +356,7 @@ export const deleteCourse = async (req, res) => {
 //get enrolled courses
 export const getEnrolledCourses = async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.user.id;
     const enrolledCourses = await user
       .findById(id)
       .populate({
