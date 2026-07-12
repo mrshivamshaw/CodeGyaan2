@@ -6,7 +6,6 @@ import { ShoppingBag, ArrowRight, Receipt } from "lucide-react";
 
 import CourseCardd from "./CourseCardd";
 import { order } from "../../servies/operations/paymentOperation";
-import { resetCart } from "../../slices/cartSlice";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
@@ -19,13 +18,8 @@ const YourCart = () => {
     if (!cart.length) return toast.error("Cart is empty.");
     const tId = toast.loading("Processing checkout…");
     const ids = cart.map((c) => c._id);
-    await order(ids, JSON.parse(localStorage.getItem("user")), navigate);
-    dispatch(resetCart());
-    localStorage.setItem("cart", JSON.stringify([]));
-    localStorage.setItem("totalPrice", 0);
-    localStorage.setItem("totalItem", 0);
+    await order(ids, JSON.parse(localStorage.getItem("user")), navigate, dispatch);
     toast.dismiss(tId);
-    toast.success("Order placed.");
   };
 
   return (

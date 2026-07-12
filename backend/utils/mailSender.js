@@ -2,6 +2,15 @@ import nodemailer from "nodemailer";
 import {config as configDotenv } from "dotenv";
 configDotenv()
 
+// Escape user-supplied values before interpolating into HTML email bodies
+export const escapeHtml = (value) =>
+    String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
 const mailSender = async (email,title,body) => {
     try {
         let transporter = nodemailer.createTransport({
@@ -18,7 +27,7 @@ const mailSender = async (email,title,body) => {
             from:"Skill safari",
             to:`${email}`,
             subject:`${title}`,
-            html:`Your OTP : ${body}`
+            html:`${body}`
         })
         return info
         

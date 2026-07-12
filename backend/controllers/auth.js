@@ -44,13 +44,12 @@ export const sendOtp = async (req,res) =>{
             result = await OTP.findOne({otp:otp})
         }
 
-        console.log("OTP generated successfully : ",otp);
-        const otpResult = await OTP.create({email,otp})
-        mailSender(email,"Verification code",otp)
+        await OTP.create({email,otp})
+        mailSender(email,"Verification code",`<p>Your OTP is: <strong>${otp}</strong></p><p>This OTP expires in 5 minutes.</p>`)
+        // never return the OTP in the response — it must only reach the user's inbox
         return res.status(200).json({
             success : true,
             message : "OTP sent successfully",
-            data : otpResult
         })
     } catch (error) {
         return res.status(400).json({
@@ -76,7 +75,6 @@ export const signup = async (req,res) =>{
             contactNumber,
             otp
         } = req.body;
-        console.log(req.body);
         //all fields must be filled
         if(!firstName || !lastName || !password || !confirmPassword || !email || !accountType  ){
             return res.status(401).json({
@@ -144,7 +142,8 @@ export const signup = async (req,res) =>{
             image:`https://api.dicebear.com/7.x/initials/svg?seed=${firstName} ${lastName}`
         })
 
-        //retur response
+        //return response without the password hash
+        user.password = undefined
         return res.status(200).json({
             success:true,
             message:"user registered successfully",
@@ -189,7 +188,7 @@ export const login = async (req,res) =>{
             const payload = {
                 email:user.email,
                 id:user._id,
-                role:user.role
+                accountType:user.accountType
             }
 
             //create jwt token
@@ -203,7 +202,9 @@ export const login = async (req,res) =>{
             //create cookie and then send response
             const options = {
                 expires : new Date(Date.now() + 3*24*60*60*1000),
-                httpOnly:true
+                httpOnly:true,
+                sameSite:"strict",
+                secure:process.env.NODE_ENV === "production"
             }
 
             //send cookie
@@ -215,7 +216,7 @@ export const login = async (req,res) =>{
             })
         }
         else{
-            res.status(500).json({
+            res.status(401).json({
                 success : false,
                 message:"password is incorrect",
             })
@@ -234,39 +235,57 @@ export const login = async (req,res) =>{
 export const changePassword = async (req,res) =>{
     try {
             //get oldpass, newpass, confirmpass
-            const {oldPass,newPass,confirmPass,email,user} = req.body
+            const {oldPass,newPass,confirmPass} = req.body
 
-
-            //check the validation
-
-            //check the last password
-            if(user.password !== oldPass){
-                return res.status(500).json({
+            if(!oldPass || !newPass || !confirmPass){
+                return res.status(400).json({
                     success : false,
-                    message:"Old password not matched",
+                    message:"Please fill all the feilds",
                 })
             }
 
-            
             //check the newPass and confirmpass
             if(newPass !== confirmPass){
-                return res.status(500).json({
+                return res.status(400).json({
                     success : false,
                     message:"Password not matched",
                 })
             }
 
-            //upadate pass in db
-            const updatedPass = await User.findByIdAndUpdate({_id})
+            //identify the user from the verified token, never from the request body
+            const user = await User.findById(req.user.id)
+            if(!user){
+                return res.status(404).json({
+                    success : false,
+                    message:"User not found",
+                })
+            }
+
+            //check the old password against the stored hash
+            const oldPassValid = await bcrypt.compare(oldPass, user.password)
+            if(!oldPassValid){
+                return res.status(401).json({
+                    success : false,
+                    message:"Old password not matched",
+                })
+            }
+
+            //hash and update the new password
+            const hashedPassword = await bcrypt.hash(newPass,10)
+            await User.findByIdAndUpdate(user._id,{password:hashedPassword})
 
             //send a confirmation mail
-            mailSender(email,"Skill Safari","OTP updated successfully")
-            //send res 
+            mailSender(user.email,"Skill Safari","Your password was changed successfully")
+            //send res
             res.status(200).json({
                 success : true,
                 message:"Password updated successfully",
             })
     } catch (error) {
-        
+        console.log(error);
+        res.status(500).json({
+            success : false,
+            message:"Error while changing password",
+        })
     }
 }

@@ -26,6 +26,7 @@ export const auth = async (req, res, next) => {
         // Verify the token
         try {
             const decode = jwt.verify(token, process.env.JWT_SECRET);
+            req.user = decode;
             next();
         } catch (error) {
             return res.status(403).json({
@@ -86,13 +87,11 @@ export const checkToken = async (req, res) => {
 
 export const isStudent = async (req,res,next) => {
     try {
-        const userId = req.body.id  || req.params.id;
-        
+        const userId = req.user.id;
+
         const userType = await user.findById(userId,'accountType');
-        // console.log(userType);
-            if(userType.accountType !== "Student"){
-            req["user"] = userId;
-            return res.status(400).json({
+        if(!userType || userType.accountType !== "Student"){
+            return res.status(403).json({
                 success:false,
                 message:"This is protected route for student"
             })
@@ -109,11 +108,11 @@ export const isStudent = async (req,res,next) => {
 
 
 
-export const isInstructor = async (req,res,next) => { 
+export const isInstructor = async (req,res,next) => {
     try {
-        const {id} = req.body;
-        const userType = await user.findById(id,'accountType');
-        if(userType.accountType !== "Instructor"){
+        const userId = req.user.id;
+        const userType = await user.findById(userId,'accountType');
+        if(!userType || userType.accountType !== "Instructor"){
             return res.status(400).json({
                 success:false,
                 message:"This is protected route for Instructor"
@@ -135,7 +134,7 @@ export const isAdmin = async (req,res,next) => {
     try {
         const userId = req.user.id;
         const userType = await user.findById(userId,'accountType');
-        if(userType !== "Admin"){
+        if(!userType || userType.accountType !== "Admin"){
             return res.status(400).json({
                 success:false,
                 message:"This is protected route for Admin"

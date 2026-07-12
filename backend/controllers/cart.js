@@ -3,8 +3,8 @@ import user from "../models/user.js";
 
 export const addToCart = async(req,res) => {
     try {
-        const {id, courseId} = req.body;
-        // console.log(id, courseId);
+        const {courseId} = req.body;
+        const id = req.user.id;
         if(!courseId || !id) {
             return res.status(400).json({message: "All fields are required",success:false})
         }
@@ -35,7 +35,8 @@ export const addToCart = async(req,res) => {
 
 export const removeFromCart = async(req,res) => {
     try {
-        const {id, courseId} = req.body;
+        const {courseId} = req.body;
+        const id = req.user.id;
         if(!courseId || !id) {
             return res.status(400).json({message: "All fields are required",success:false})
         }
@@ -66,7 +67,7 @@ export const removeFromCart = async(req,res) => {
 export const getCart = async(req,res) => {
     // console.log('kkk');
     try {
-        const {id} = req.params;
+        const id = req.user.id;
         if(!id) {
             return res.status(400).json({message: "All fields are required",success:false})
         }

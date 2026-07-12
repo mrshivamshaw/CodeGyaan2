@@ -56,7 +56,7 @@ const BuyCourseCard = ({ thumbnail, price, id, sectionId, subSectionId }) => {
       return;
     }
     const tId = toast.loading("Starting checkout…");
-    await order([id], user, navigate);
+    await order([id], user, navigate, dispatch);
     toast.dismiss(tId);
   };
 

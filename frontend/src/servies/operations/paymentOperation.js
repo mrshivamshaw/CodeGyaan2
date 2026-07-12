@@ -2,8 +2,9 @@ import axios from "axios";
 import { paymentEndpoints } from "../api";
 import { apiConneector } from "../apiConnector";
 import toast from "react-hot-toast";
+import { resetCart } from "../../slices/cartSlice";
 
-export const order = async (courses,userDetails, navigate) => {
+export const order = async (courses, userDetails, navigate, dispatch) => {
     
     try {
         
@@ -37,10 +38,8 @@ export const order = async (courses,userDetails, navigate) => {
                 email:userDetails.email,
             },
             handler: function(response) {
-                //send successful wala mail
-                sendPaymentSuccessEmail(response, orderResponse.data.payment.amount,localStorage.getItem("token") );
-                //verifyPayment
-                verifyPayment({...response, courses, id: userDetails._id}, localStorage.getItem("token"), navigate);
+                sendPaymentSuccessEmail(response, orderResponse.data.payment.amount, localStorage.getItem("token"));
+                verifyPayment({...response, courses, id: userDetails._id}, localStorage.getItem("token"), navigate, dispatch);
             }
         };
         // console.log(options.key);
@@ -76,8 +75,7 @@ async function sendPaymentSuccessEmail(response, amount, token) {
 
 
 //verify payment
-async function verifyPayment(bodyData, token, navigate) {
-    // console.log("bhqi", bodyData);
+async function verifyPayment(bodyData, token, navigate, dispatch) {
     const toastId = toast.loading("Verifying Payment....");
     try{
         const response  = await apiConneector("POST", paymentEndpoints.verifypayment, bodyData, {
@@ -87,18 +85,14 @@ async function verifyPayment(bodyData, token, navigate) {
         if(!response.data.success) {
             throw new Error(response?.data?.message);
         }
-        toast.success("payment Successful, you are addded to the course");
+        toast.success("Payment successful! You are now enrolled.");
         localStorage.setItem("user", JSON.stringify(response?.data?.user));
-        // console.log("res wala user",response?.data?.user);
-        // console.log("local wala user",response?.data?.user);
+        if (dispatch) dispatch(resetCart());
         navigate("/dashboard/enrolled-courses");
-
-        // dispatch(resetCart());
-    }   
+    }
     catch(error) {
         console.log("PAYMENT VERIFY ERROR....", error);
         toast.error("Could not verify Payment");
     }
     toast.dismiss(toastId);
-    // dispatch(setPaymentLoading(false));
 }

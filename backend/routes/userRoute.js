@@ -13,7 +13,8 @@ userRoute.get('/user',auth,(req,res)=>{
 })
 userRoute.get('/profile/:id',auth,async(req,res)=>{
     try {
-        const userId = req.params.id;
+        // only ever return the authenticated user's own profile
+        const userId = req.user.id;
         const userDetail = await user.findById(userId)
         if(!userDetail){
             return res.status(404).json({
@@ -22,6 +23,8 @@ userRoute.get('/profile/:id',auth,async(req,res)=>{
             })
         }
         userDetail.password = undefined
+        userDetail.token = undefined
+        userDetail.resetPasswordExpires = undefined
         return res.status(200).json({
             data : userDetail,
             message : "user profile",
@@ -39,10 +42,10 @@ userRoute.get('/profile/:id',auth,async(req,res)=>{
 
 userRoute.post('/updateProfile',auth,async(req,res)=>{
     try {
-        const {firstName,lastName,contactNumber,about,image,gender,id} = req.body
+        const {firstName,lastName,contactNumber,about,image,gender} = req.body
         let dob = req.body.dob
          dob = new Date(dob)
-        const userDetail = await user.findByIdAndUpdate(id,{firstName,lastName,contactNumber,about,image,dob,gender},{new:true})
+        const userDetail = await user.findByIdAndUpdate(req.user.id,{firstName,lastName,contactNumber,about,image,dob,gender},{new:true})
         if(!userDetail){
             return res.status(404).json({
                 message : "User not found",
@@ -66,7 +69,7 @@ userRoute.post('/updateProfile',auth,async(req,res)=>{
 userRoute.post('/updatePic',auth,async(req,res)=>{
     try {
         const {image} = req.files
-            const userId = req.body.id
+        const userId = req.user.id
         if(!image){
             return res.status(500).json({
                 message : "Please upload an image",
