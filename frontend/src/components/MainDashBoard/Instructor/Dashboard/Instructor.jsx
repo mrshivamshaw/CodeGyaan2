@@ -107,7 +107,7 @@ export default function Instructor() {
           <div className="rounded-xl w-full p-6 mt-6 bg-black-bg border border-richblack-700/50 shadow-lg shadow-black/20">
             {/* Render 3 courses */}
             <div className="flex items-center justify-between mb-6">
-              <p className="text-xl font-bold text-richblack-5">Your Courses</p>
+              <p className="text-xl font-bold text-white">Your Courses</p>
               <Link to="/dashboard/my-courses">
                 <p className="text-sm font-semibold text-yellow-50 hover:text-yellow-100 transition-colors">View All</p>
               </Link>
@@ -126,11 +126,11 @@ export default function Instructor() {
                     />
                   </div>
                   <div className="mt-4 w-full">
-                    <p className="text-md font-semibold text-richblack-5 truncate">
+                    <p className="text-md font-semibold text-white truncate">
                       {course.courseName}
                     </p>
                     <div className="mt-2 flex items-center space-x-2">
-                      <p className="text-sm font-medium text-richblack-300">
+                      <p className="text-sm font-medium text-white">
                         {course.studentsEnrolled.length} students
                       </p>
                       <p className="text-sm font-medium text-richblack-500">|</p>

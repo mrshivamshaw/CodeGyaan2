@@ -54,7 +54,7 @@ export default function EnrolledCourses() {
           {enrolledCourses.map((course, i) => {
             const progress = progressCount.find(prog => prog.courseId === course._id) || {};
             const totalVideos = getTotalVideos(course.courseContent);
-            const progressPercentage = totalVideos ? (progress.courseProgressCount / totalVideos) * 100 : 0;
+            const progressPercentage = totalVideos ? ((progress.courseProgressCount || 0) / totalVideos) * 100 : 0;
 
             return (
               <div
