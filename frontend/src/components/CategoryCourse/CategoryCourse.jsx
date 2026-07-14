@@ -74,7 +74,7 @@ const CategoryCourse = () => {
                 img={course.thumbnail}
                 title={course.courseName}
                 date={course.startDate}
-                instructor={`${course.instructor.firstName} ${course.instructor.lastName}`}
+                instructor={course?.instructor ? `${course.instructor.firstName} ${course.instructor.lastName}` : "Unknown Instructor"}
                 id={course._id}
                 features={course.courseDescription}
                 original_price={course.price}
@@ -93,7 +93,7 @@ const CategoryCourse = () => {
                 img={course.thumbnail}
                 title={course.courseName}
                 date={course.startDate}
-                instructor={`${course.instructor.firstName} ${course.instructor.lastName}`}
+                instructor={course?.instructor ? `${course.instructor.firstName} ${course.instructor.lastName}` : "Unknown Instructor"}
                 id={course._id}
                 features={course.courseDescription}
                 original_price={course.price}
@@ -112,7 +112,7 @@ const CategoryCourse = () => {
                 img={course.thumbnail}
                 title={course.courseName}
                 date={course.startDate}
-                instructor={`${course.instructor.firstName} ${course.instructor.lastName}`}
+                instructor={course?.instructor ? `${course.instructor.firstName} ${course.instructor.lastName}` : "Unknown Instructor"}
                 id={course._id}
                 features={course.courseDescription}
                 original_price={course.price}

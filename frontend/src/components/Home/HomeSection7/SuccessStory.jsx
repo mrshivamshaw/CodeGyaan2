@@ -43,6 +43,7 @@ const SuccessStory = () => {
           {review.map((item, index) => (
            
               <ReviewCard
+                key={index}
                 name={item.name}
                 increment={item.salary_increment}
                 short_name={item.short_name}

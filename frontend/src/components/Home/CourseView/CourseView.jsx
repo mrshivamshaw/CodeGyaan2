@@ -92,7 +92,7 @@ const CourseView = () => {
             return (
               card?.status === "Published" && <CourseCard
                 key={index}
-                instructor={card.instructor.firstName + " " + card.instructor.lastName}
+                instructor={card?.instructor ? `${card.instructor.firstName} ${card.instructor.lastName}` : "Unknown Instructor"}
                 date={card.startDate}
                 features={card.whatYouWillLearn}
                 title={card.courseName}
@@ -108,7 +108,7 @@ const CourseView = () => {
               card.mode === "Online" && (
                 card?.status === "Published" && <CourseCard
                 key={index}
-                instructor={card.instructor.firstName + " " + card.instructor.lastName}
+                instructor={card?.instructor ? `${card.instructor.firstName} ${card.instructor.lastName}` : "Unknown Instructor"}
                 date={card.startDate}
                 features={card.whatYouWillLearn}
                 title={card.courseName}
@@ -126,7 +126,7 @@ const CourseView = () => {
               card.mode === "Hybrid" && (
                 card?.status === "Published" && <CourseCard
                 key={index}
-                instructor={card.instructor.firstName + " " + card.instructor.lastName}
+                instructor={card?.instructor ? `${card.instructor.firstName} ${card.instructor.lastName}` : "Unknown Instructor"}
                 date={card.startDate}
                 features={card.whatYouWillLearn}
                 title={card.courseName}
