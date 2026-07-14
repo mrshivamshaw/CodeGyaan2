@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>🚀 CODEGYAAN2</h1>
+  <h1>🚀 CODEGYAAN</h1>
   <p><i>Empowering Innovation, Transforming Learning Experiences</i></p>
 
   <img src="https://img.shields.io/badge/Built%20With-React-blue?style=for-the-badge" />
