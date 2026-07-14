@@ -144,7 +144,7 @@ export const addCourseDetails = async (data, token) => {
     }
     toast.success("Course Details Added Successfully");
     result = response?.data?.data;
-    sessionStorage.setItem("allCourses",JSON.stringify(response?.data?.data));
+    sessionStorage.removeItem("getAllCourses");
   } catch (error) {
     if(error?.response?.data?.message === "Token is invalid"){
       useNavigateHelper("/login");
@@ -175,6 +175,7 @@ export const editCourseDetails = async (data, token) => {
     }
     toast.success("Course Details Updated Successfully");
     result = response?.data?.data;
+    sessionStorage.removeItem("getAllCourses");
   } catch (error) {
     if(error?.response?.data?.message === "Token is invalid"){
       useNavigateHelper("/login");
@@ -326,6 +327,7 @@ export const deleteCourse = async (data, token) => {
     }
     else{
       toast.success("Course Deleted");
+      sessionStorage.removeItem("getAllCourses");
     }
   } catch (error){
     toast.error("Could Not Delete Course");

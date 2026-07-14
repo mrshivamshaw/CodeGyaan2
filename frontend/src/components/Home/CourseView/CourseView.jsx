@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import "swiper/swiper-bundle.css";
 // import {coursesList} from '../../../data/courseListData.js'
 import CourseCard from "./CourseCard.jsx";
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 import { getAllCourses } from "../../../servies/operations/courseOpertaions.js";
 const CourseView = () => {
+  const { user } = useSelector((state) => state.profile);
   const [courseType, setCourseType] = useState("Trending");
   const [coursesList, setCoursesList] = useState();
   useEffect(() => {
@@ -90,7 +92,7 @@ const CourseView = () => {
         {coursesList?.map((card, index) => {
           if (courseType === "Trending") {
             return (
-              card?.status === "Published" && <CourseCard
+              (card?.status === "Published" || (user && user._id === card?.instructor?._id)) && <CourseCard
                 key={index}
                 instructor={card?.instructor ? `${card.instructor.firstName} ${card.instructor.lastName}` : "Unknown Instructor"}
                 date={card.startDate}
@@ -106,7 +108,7 @@ const CourseView = () => {
           } else if (courseType === "Live") {
             return (
               card.mode === "Online" && (
-                card?.status === "Published" && <CourseCard
+                (card?.status === "Published" || (user && user._id === card?.instructor?._id)) && <CourseCard
                 key={index}
                 instructor={card?.instructor ? `${card.instructor.firstName} ${card.instructor.lastName}` : "Unknown Instructor"}
                 date={card.startDate}
@@ -124,7 +126,7 @@ const CourseView = () => {
            else if (courseType === "Community") {
             return (
               card.mode === "Hybrid" && (
-                card?.status === "Published" && <CourseCard
+                (card?.status === "Published" || (user && user._id === card?.instructor?._id)) && <CourseCard
                 key={index}
                 instructor={card?.instructor ? `${card.instructor.firstName} ${card.instructor.lastName}` : "Unknown Instructor"}
                 date={card.startDate}

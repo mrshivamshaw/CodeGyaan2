@@ -61,42 +61,13 @@ const NavBar = () => {
   };
 
   const searchInputHandler = () => {
-    const toastId = toast.loading("Loading...");
-  
-    try {
-      if (!searchInput) {
-        toast.error("Search input cannot be empty.");
-        toast.dismiss(toastId);
-        return;
-      }
-      
-      const products = JSON.parse(sessionStorage.getItem("category")) || [];
-      
-      const productTitles = products.map((product) => 
-      {
-        return {
-          name: product.name.toLowerCase(),
-          _id: product._id
-        }
-      }
-      );
-      const searchLower = searchInput.toLowerCase();
-      const matchedProduct = productTitles.find(title => title.name.includes(searchLower));
-      if (matchedProduct) {
-        const category = JSON.parse(sessionStorage.getItem("getAllCourses"))
-        .find(course => course.category === matchedProduct._id).category;
-        navigate(`/courses/category/${category}`);
-        setSearchActive(false);
-        setSearchInput("");
-      } else {
-        toast.error("Product Not Found");
-      }
-    } catch (error) {
-      console.error("Error parsing products from session storage:", error);
-      toast.error("An error occurred while searching for the product.");
-    } finally {
-      toast.dismiss(toastId);
+    if (!searchInput.trim()) {
+      toast.error("Search input cannot be empty.");
+      return;
     }
+    navigate(`/search/${encodeURIComponent(searchInput.trim())}`);
+    setSearchActive(false);
+    setSearchInput("");
   };
 
   return (

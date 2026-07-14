@@ -28,6 +28,7 @@ import { useEffect, useState } from "react";
 import { checkToken, logout } from "./servies/operations/authOpertaion";
 import CategoryCourse from "./components/CategoryCourse/CategoryCourse";
 import JobPost from "./pages/JobPost/JobPortal";
+import SearchResults from "./pages/Search/SearchResults";
 
 function App() {
   const { loading } = useSelector((state) => state.ui);
@@ -81,6 +82,7 @@ function App() {
         />
         <Route path="/aboutus" element={<Abouts />} />
         <Route path="/courses/category/:category" element={<CategoryCourse />} />
+        <Route path="/search/:query" element={<SearchResults />} />
         <Route path="/contact-us" element={<Contacts />} />
 
         <Route path="/course/:courseName/:id" element={<CourseOverView />} />
