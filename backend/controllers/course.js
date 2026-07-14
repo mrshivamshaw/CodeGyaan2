@@ -21,7 +21,7 @@ export const createCourse = async (req, res) => {
       instruction,
       category,
     } = req.body;
-    const thumbnailrec = req.files.thumbnail;
+    const thumbnailrec = req.files?.thumbnail;
     //validate the datas
     if (
       !courseName ||

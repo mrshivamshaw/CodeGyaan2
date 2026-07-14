@@ -5,7 +5,7 @@ import { setLoading } from "../../slices/UIslice";
 import rootReducer from "../../reducer";
 import { logout } from "./authOpertaion";
 import store from "../../main";
-import useNavigateHelper from "../../utils/coustomHooks/useNavigateHelper";
+import navigateHelper from "../../utils/coustomHooks/navigateHelper";
 
 // fetching the available course categories
 export const fetchCourseCategories = async() => {
@@ -46,7 +46,7 @@ export const fetchInstructorCourses = async (token) => {
     return (result = response?.data?.data);
   } catch (error) {
     if(error?.response?.data?.message === "Token is invalid"){
-      useNavigateHelper("/login");
+      navigateHelper("/login");
       // store.dispatch(logout());
     }
   }
@@ -147,7 +147,7 @@ export const addCourseDetails = async (data, token) => {
     sessionStorage.removeItem("getAllCourses");
   } catch (error) {
     if(error?.response?.data?.message === "Token is invalid"){
-      useNavigateHelper("/login");
+      navigateHelper("/login");
       // store.dispatch(logout());
     }
   }
@@ -178,7 +178,7 @@ export const editCourseDetails = async (data, token) => {
     sessionStorage.removeItem("getAllCourses");
   } catch (error) {
     if(error?.response?.data?.message === "Token is invalid"){
-      useNavigateHelper("/login");
+      navigateHelper("/login");
       // store.dispatch(logout());
     }
   }
@@ -207,7 +207,7 @@ export const createSection = async (data, token) => {
     result = response?.data?.courseData;
   } catch (error) {
     if(error?.response?.data?.message === "Token is invalid"){
-      useNavigateHelper("/login");
+      navigateHelper("/login");
       // store.dispatch(logout());
     }
   }
@@ -236,7 +236,7 @@ export const createSubSection = async (data, token) => {
     result = response?.data?.data;
   } catch (error) {
     if(error?.response?.data?.message === "Token is invalid"){
-      useNavigateHelper("/login");
+      navigateHelper("/login");
       // store.dispatch(logout());
     }
   }
@@ -266,7 +266,7 @@ export const updateSection = async (data, token) => {
     // console.log("bhai", result);
   } catch (error) {
     if(error?.response?.data?.message === "Token is invalid"){
-      useNavigateHelper("/login");
+      navigateHelper("/login");
       // store.dispatch(logout());
     }
   }
@@ -297,7 +297,7 @@ export const updateSubSection = async (data, token) => {
     result = response?.data?.data;
   } catch (error) {
     if(error?.response?.data?.message === "Token is invalid"){
-      useNavigateHelper("/login");
+      navigateHelper("/login");
       // store.dispatch(logout());
     }
     else{
@@ -332,7 +332,7 @@ export const deleteCourse = async (data, token) => {
   } catch (error){
     toast.error("Could Not Delete Course");
     if(error?.response?.data?.message === "Token is invalid"){
-      useNavigateHelper("/login");
+      navigateHelper("/login");
       // store.dispatch(logout());
     }
   }
@@ -360,7 +360,7 @@ export const deleteSection = async (data, token) => {
     result = response?.data?.data;
   } catch (error) {
     if(error?.response?.data?.message === "Token is invalid"){
-      useNavigateHelper("/login");
+      navigateHelper("/login");
       // store.dispatch(logout());
     }
     toast.error(error?.response?.data?.message);
@@ -391,7 +391,7 @@ export const deleteSubSection = async (data, token) => {
     result = response?.data?.data;
   } catch (error) {
     // if(error?.response?.data?.message === "Token is invalid"){
-    //   useNavigateHelper("/login");
+    //   navigateHelper("/login");
     //   // store.dispatch(logout());
     // }
     toast.error(error?.response?.data?.message);
@@ -423,7 +423,7 @@ export const markLectureAsComplete = async (data) => {
     result = true
   } catch (error) {
     // if(error?.response?.data?.message === "Token is invalid"){
-    //   useNavigateHelper("/login");
+    //   navigateHelper("/login");
     //   // store.dispatch(logout());
     // }
     toast.error(error?.response?.data?.message || error.message)
@@ -452,7 +452,7 @@ export const createRating = async (data, token) => {
   } catch (error) {
     success = false
     if(error?.response?.data?.message === "Token is invalid"){
-      useNavigateHelper("/login");
+      navigateHelper("/login");
       // store.dispatch(logout());
     }
     toast.error(error?.response?.data?.message || error.message)

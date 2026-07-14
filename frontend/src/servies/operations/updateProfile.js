@@ -35,7 +35,7 @@ export const updatePic = (image) => {
             if(error.response?.data?.success === 'Token is invalid' || error.response?.data?.success === 'Token not found'){
                 toast.error(error?.response?.data?.message);
                 dispatch(setLoading(false));
-                logout();
+                dispatch(logout());
                 return false
             }
             toast.error(error?.response?.data?.message);
@@ -64,7 +64,7 @@ export const updateProfile = (uploading) => {
             if(error.response?.data?.success === 'Token is invalid' || error.response?.data?.success === 'Token not found'){
                 toast.error(error?.response?.data?.message);
                 dispatch(setLoading(false));
-                sidpatch(logout())
+                dispatch(logout());
                 return false
             }
             toast.error(error?.response?.data?.message)

@@ -80,59 +80,61 @@ export default function Instructor() {
               </div>
             )}
             {/* Total Statistics */}
-            <div className="flex min-w-[250px] flex-col rounded-md  p-6 bg-black-bg">
-              <p className="text-lg font-bold text-richblack-5">Statistics</p>
-              <div className="mt-4 space-y-4">
+            <div className="flex min-w-[250px] flex-col rounded-xl p-6 bg-black-bg border border-richblack-700/50 shadow-lg shadow-black/20">
+              <p className="text-xl font-bold text-richblack-5">Statistics</p>
+              <div className="mt-6 space-y-6">
                 <div>
-                  <p className="text-lg text-richblack-200">Total Courses</p>
-                  <p className="text-3xl font-semibold text-richblack-50">
+                  <p className="text-sm font-medium text-richblack-300">Total Courses</p>
+                  <p className="text-3xl font-bold text-richblack-50 mt-1">
                     {courses.length}
                   </p>
                 </div>
                 <div>
-                  <p className="text-lg text-richblack-200">Total Students</p>
-                  <p className="text-3xl font-semibold text-richblack-50">
+                  <p className="text-sm font-medium text-richblack-300">Total Students</p>
+                  <p className="text-3xl font-bold text-richblack-50 mt-1">
                     {totalStudents}
                   </p>
                 </div>
                 <div>
-                  <p className="text-lg text-richblack-200">Total Income</p>
-                  <p className="text-3xl font-semibold text-richblack-50">
+                  <p className="text-sm font-medium text-richblack-300">Total Income</p>
+                  <p className="text-3xl font-bold text-richblack-50 mt-1">
                     Rs. {totalAmount}
                   </p>
                 </div>
               </div>
             </div>
           </div>
-          <div className="rounded-md w-full p-0 md:p-0 lg:p-6 xl:p-6">
+          <div className="rounded-xl w-full p-6 mt-6 bg-black-bg border border-richblack-700/50 shadow-lg shadow-black/20">
             {/* Render 3 courses */}
-            <div className="flex items-center justify-between">
-              <p className="text-lg font-bold text-white">Your Courses</p>
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-xl font-bold text-richblack-5">Your Courses</p>
               <Link to="/dashboard/my-courses">
-                <p className="text-xs font-semibold text-yellow-50">View All</p>
+                <p className="text-sm font-semibold text-yellow-50 hover:text-yellow-100 transition-colors">View All</p>
               </Link>
             </div>
             <div className="my-4 flex flex-col md:flex-col lg:flex-row xl:flex-row w-full items-start gap-6">
               {courses.slice(0, 3)?.map((course) => (
                 <div
                   key={course._id}
-                  className="w-full md:w-full lg:w-1/3 xl:w-1/3 "
+                  className="w-full md:w-full lg:w-1/3 xl:w-1/3 rounded-lg overflow-hidden group cursor-pointer"
                 >
-                  <img
-                    src={course.thumbnail}
-                    alt={course.courseName}
-                    className="h-[161px] md:h-[301px] lg:h-[208px] xl:h-[208px] min-w-full rounded-md object-cover"
-                  />
-                  <div className="mt-3 w-full">
-                    <p className="text-sm font-medium text-white/90">
+                  <div className="overflow-hidden rounded-lg">
+                    <img
+                      src={course.thumbnail}
+                      alt={course.courseName}
+                      className="h-[161px] md:h-[301px] lg:h-[208px] xl:h-[208px] min-w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="mt-4 w-full">
+                    <p className="text-md font-semibold text-richblack-5 truncate">
                       {course.courseName}
                     </p>
-                    <div className="mt-1 flex items-center space-x-2">
-                      <p className="text-xs font-medium text-white/80">
+                    <div className="mt-2 flex items-center space-x-2">
+                      <p className="text-sm font-medium text-richblack-300">
                         {course.studentsEnrolled.length} students
                       </p>
-                      <p className="text-xs font-medium text-white/80">|</p>
-                      <p className="text-xs font-medium text-white/80">
+                      <p className="text-sm font-medium text-richblack-500">|</p>
+                      <p className="text-sm font-semibold text-yellow-50">
                         Rs. {course.price}
                       </p>
                     </div>
